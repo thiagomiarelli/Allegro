@@ -4,12 +4,16 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
-//#include <stdlib.h>
+#include <stdlib.h>
+
+//function prototypes
+void draw_space();
 
 const float FPS = 60;  
 
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
+const int GROUND_H = 90;
  
 int main(int argc, char **argv){
 	
@@ -100,26 +104,25 @@ int main(int argc, char **argv){
 	al_register_event_source(event_queue, al_get_mouse_event_source());  	
 
 
-	//inicia o temporizador
-	al_start_timer(timer);
 	
 	int playing = 1;
+	//inicia o temporizador
+	al_start_timer(timer);
+
 	while(playing) {
-		al_clear_to_color(al_map_rgb(000, 122, 232));
-		al_flip_display();
 		ALLEGRO_EVENT ev;
 		//espera por um evento e o armazena na variavel de evento ev
 		al_wait_for_event(event_queue, &ev);
 
 		//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
 		if(ev.type == ALLEGRO_EVENT_TIMER) {
-
 			//atualiza a tela (quando houver algo para mostrar)
+			draw_space();
 			al_flip_display();
-			
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 		}
+
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
 		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			playing = 0;
@@ -145,4 +148,11 @@ int main(int argc, char **argv){
    
  
 	return 0;
+}
+
+void draw_space(){
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+   void al_draw_filled_rectangle(0, SCREEN_H - GROUND_H, SCREEN_W, 0,
+   al_map_rgb(000, 133, 211));
+
 }
