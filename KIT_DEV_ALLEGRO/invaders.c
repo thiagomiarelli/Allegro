@@ -6,9 +6,6 @@
 #include <allegro5/allegro_image.h>
 #include <stdlib.h>
 
-//function prototypes
-void drawSpace();
-void criaNave(NAVE *nave);
 
 const float FPS = 60;  
 
@@ -24,6 +21,13 @@ typedef struct NAVE{
 	ALLEGRO_COLOR cor;
 	float ponta_x;
 } NAVE;
+
+
+//function protoypes
+//function prototypes
+void drawSpace();
+void criaNave(NAVE *nave);
+void drawNave(NAVE *nave);
  
 int main(int argc, char **argv){
 	
