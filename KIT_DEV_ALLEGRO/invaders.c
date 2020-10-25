@@ -12,8 +12,9 @@ const float FPS = 60;
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
 const int GROUND_H = 60;
-const int NAVE_H = 40;
-const int NAVE_W = 40;
+const int NAVE_H = 60;
+const int NAVE_W = 80;
+const int FLUTACAO_NAVE = 15;
 
 
 //type definitions
@@ -177,11 +178,11 @@ void drawSpace(){
 }
 
 void criaNave(NAVE *nave){
-	nave -> cor =  al_map_rgb(42, 194, 177);
+	nave -> cor =  al_map_rgb(241, 170, 25);
 	nave -> ponta_x = SCREEN_W/2;
 }
 
 void drawNave(NAVE *nave){
-	al_draw_filled_triangle( nave->ponta_x, SCREEN_H - (NAVE_H + 30), nave->ponta_x + NAVE_W/2, SCREEN_H - (30),
-   nave->ponta_x - NAVE_W/2, SCREEN_H - (30), nave -> cor);
+	al_draw_filled_triangle( nave->ponta_x, SCREEN_H - (NAVE_H + FLUTACAO_NAVE), nave->ponta_x + NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE),
+   nave->ponta_x - NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE), nave -> cor);
 }
