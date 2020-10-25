@@ -113,4 +113,5 @@ clean:
 	del allegro_base.exe
 	del enduro-0.o
 	del enduro-0.exe
+	del invaders.exe
 
