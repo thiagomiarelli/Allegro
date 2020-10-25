@@ -26,7 +26,12 @@ int main(void){
 	if(!display) {
 		fprintf(stderr, "failed to create display!\n");
 		al_destroy_timer(timer);
+		al_rest(4);
 		return -1;
 	}
+
+	al_clear_to_color(al_map_rgb(021,223,111));
+	al_flip_display();
+	return 0;
 }
 
