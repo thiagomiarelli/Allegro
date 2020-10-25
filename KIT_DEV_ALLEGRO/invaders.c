@@ -7,13 +7,23 @@
 #include <stdlib.h>
 
 //function prototypes
-void draw_space();
+void drawSpace();
+void criaNave(NAVE *nave);
 
 const float FPS = 60;  
 
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
-const int GROUND_H = 90;
+const int GROUND_H = 60;
+const int NAVE_H = 40;
+const int NAVE_W = 40;
+
+
+//type definitions
+typedef struct NAVE{
+	ALLEGRO_COLOR cor;
+	float ponta_x;
+} NAVE;
  
 int main(int argc, char **argv){
 	
@@ -108,6 +118,10 @@ int main(int argc, char **argv){
 	int playing = 1;
 	//inicia o temporizador
 	al_start_timer(timer);
+	
+	//cria a nave;
+	NAVE nave;
+	criaNave(&nave);
 
 	while(playing) {
 		ALLEGRO_EVENT ev;
@@ -117,7 +131,8 @@ int main(int argc, char **argv){
 		//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
 		if(ev.type == ALLEGRO_EVENT_TIMER) {
 			//atualiza a tela (quando houver algo para mostrar)
-			draw_space();
+			drawSpace();
+			drawNave(&nave);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -150,9 +165,19 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-void draw_space(){
+void drawSpace(){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_draw_filled_rectangle(0, SCREEN_H - GROUND_H, SCREEN_W, 0,
+    al_draw_filled_rectangle(0, SCREEN_H - GROUND_H, SCREEN_W, SCREEN_H,
    al_map_rgb(000, 133, 211));
 
+}
+
+void criaNave(NAVE *nave){
+	nave -> cor =  al_map_rgb(42, 194, 177);
+	nave -> ponta_x = SCREEN_W/2;
+}
+
+void drawNave(NAVE *nave){
+	al_draw_filled_triangle( nave->ponta_x, NAVE_H + 30, nave->ponta_x + NAVE_W/2, 30,
+   nave->ponta_x - NAVE_W/2, 30, nave -> cor);
 }
