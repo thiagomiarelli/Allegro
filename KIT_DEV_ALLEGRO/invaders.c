@@ -152,7 +152,7 @@ int main(int argc, char **argv){
 
 void draw_space(){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-   void al_draw_filled_rectangle(0, SCREEN_H - GROUND_H, SCREEN_W, 0,
+    al_draw_filled_rectangle(0, SCREEN_H - GROUND_H, SCREEN_W, 0,
    al_map_rgb(000, 133, 211));
 
 }
