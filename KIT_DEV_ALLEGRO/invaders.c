@@ -182,6 +182,6 @@ void criaNave(NAVE *nave){
 }
 
 void drawNave(NAVE *nave){
-	al_draw_filled_triangle( nave->ponta_x, NAVE_H + 30, nave->ponta_x + NAVE_W/2, 30,
-   nave->ponta_x - NAVE_W/2, 30, nave -> cor);
+	al_draw_filled_triangle( nave->ponta_x, SCREEN_H - (NAVE_H + 30), nave->ponta_x + NAVE_W/2, SCREEN_H - (30),
+   nave->ponta_x - NAVE_W/2, SCREEN_H - (30), nave -> cor);
 }
