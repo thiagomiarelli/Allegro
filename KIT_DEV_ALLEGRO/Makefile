@@ -7,7 +7,13 @@ PATH_ALLEGRO=$(FOLDER)$(FOLDER_NAME)
 LIB_ALLEGRO=\lib\liballegro-$(ALLEGRO_VERSION)-monolith-mt.a
 INCLUDE_ALLEGRO=\include
 
-all: bola.exe circles.exe passaro_andante.exe teclado.exe bouncer.exe louco.exe frogger.exe pong.exe passaro_raivoso.exe tela.exe allegro_base.exe enduro-0.exe
+all: bola.exe circles.exe passaro_andante.exe teclado.exe bouncer.exe louco.exe frogger.exe pong.exe passaro_raivoso.exe tela.exe allegro_base.exe enduro-0.exe invaders.exe
+
+invaders.exe: invaders.o
+	gcc -o invaders.exe invaders.o $(PATH_ALLEGRO)$(LIB_ALLEGRO)
+
+invaders.o: invaders.c
+	gcc -I $(PATH_ALLEGRO)$(INCLUDE_ALLEGRO) -c invaders.c	
 
 bola.exe: bola.o
 	gcc -o bola.exe bola.o $(PATH_ALLEGRO)$(LIB_ALLEGRO)
