@@ -156,6 +156,19 @@ int main(int argc, char **argv){
 			//imprime qual tecla foi
 			printf("\ncodigo tecla: %d", ev.keyboard.keycode);
 		}
+		//
+		else if(ev.keyboard.keycode == 83){
+			if(nave.ponta_x +10 <= (SCREEN_W - NAVE_W/2)){
+				nave.ponta_x += 10;
+			}
+			
+		}
+		else if(ev.keyboard.keycode == 82){
+			if(nave.ponta_x - 10 <= (NAVE_W/2)){
+				nave.ponta_x -= 10;
+			}
+			
+		}
 
 	} //fim do while
      
