@@ -170,7 +170,7 @@ int main(int argc, char **argv){
 			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/5));
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0){
-				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS);
+				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
 		}
 
