@@ -45,7 +45,7 @@ void criaNave(NAVE *nave);
 void drawNave(NAVE *nave);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas])
  
 int main(int argc, char **argv){
 	
@@ -235,7 +235,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 		for(int j = 0; j < colunas; j++){
 			alien[i][j].canto_x = MARGIN_W + (i * (ALIEN_W + DIST_NAVES_W));
 			alien[i][j].canto_y = MARGIN_H + (j * (ALIEN_H + DIST_NAVES_H));
-			drawAlien(alien[i][j]);
+			drawAlien(&alien[i][j]);
 		}
 	}
 }
