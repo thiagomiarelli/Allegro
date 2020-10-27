@@ -46,7 +46,7 @@ void drawNave(NAVE *nave);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-void decideCor(int linhas, int colunas, ALIEN *alien[linhas][colunas]);
+void decideCor(int linhas, int colunas, ALIEN alien[linhas][colunas]);
  
 int main(int argc, char **argv){
 	
