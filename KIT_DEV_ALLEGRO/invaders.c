@@ -167,7 +167,7 @@ int main(int argc, char **argv){
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
-			BuildAlienGrid(linhas, colunas, aliens, al_get_timer_count);
+			BuildAlienGrid(linhas, colunas, aliens, (int)al_get_timer_count);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -249,6 +249,7 @@ void drawAlien(ALIEN *alien){
 
 // cria grade com aliens
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds){
+	renderizadas++;
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
 			alien[i][j].canto_x = (MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W))) + orientation * seconds;
@@ -258,7 +259,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 	}
 
 	//flip horizontal and down position
-	if(alien[0][0].canto_x == MARGIN_W + ALIEN_W + DIST_NAVES_W || alien[0][colunas] == SCREEN_W - MARGIN_W){
+	if(alien[0][0].canto_x == MARGIN_W|| alien[0][colunas].canto_x + ALIEN_W == SCREEN_W - MARGIN_W){
 		orientation *= -1;
 		altura += DIST_NAVES_H + ALIEN_H;
 	}
