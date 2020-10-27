@@ -17,29 +17,21 @@ const int NAVE_W = 80;
 const int FLUTACAO_NAVE = 15;
 
 
-
 //type definitions
 typedef struct NAVE{
 	ALLEGRO_COLOR cor;
 	float ponta_x;
 } NAVE;
 
-typedef struct ALIEN{
-	ALLEGRO_COLOR cor;
-	float canto_x;
-	float canto_y;
-	int exist;
 
-} ALIEN;
-
-
+//function protoypes
 //function prototypes
 void drawSpace();
 void criaNave(NAVE *nave);
 void drawNave(NAVE *nave);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas])
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
  
 int main(int argc, char **argv){
 	
@@ -140,9 +132,7 @@ int main(int argc, char **argv){
 	criaNave(&nave);
 
 	//cria aliens
-	int linhas = 3;
-	int colunas = 5;
-	ALIEN aliens[linhas][colunas];
+	
 
 	while(playing) {
 		ALLEGRO_EVENT ev;
@@ -154,7 +144,6 @@ int main(int argc, char **argv){
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
-			BuildAlienGrid(linhas, colunas, aliens);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -173,17 +162,15 @@ int main(int argc, char **argv){
 			//imprime qual tecla foi
 			printf("\ncodigo tecla: %d", ev.keyboard.keycode);
 		}
-		// faz nave andar para direita
+		//
 		else if(ev.keyboard.keycode == 83){
 			if(nave.ponta_x +10 <= (SCREEN_W - NAVE_W/2)){
 				nave.ponta_x += 10;
 			}
 			
 		}
-
-		// faz nave andar para esquerda
 		else if(ev.keyboard.keycode == 82){
-			if(nave.ponta_x - 10 >= (NAVE_W/2)){
+			if(nave.ponta_x - 10 <= (NAVE_W/2)){
 				nave.ponta_x -= 10;
 			}
 			
