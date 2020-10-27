@@ -15,6 +15,13 @@ const int GROUND_H = 60;
 const int NAVE_H = 60;
 const int NAVE_W = 80;
 const int FLUTACAO_NAVE = 15;
+const int DIST_NAVES_H = 30;
+const int DIST_NAVES_W = 30;
+const int ALIEN_W = 60;
+const int ALIEN_H = 30;
+const int MARGIN_W = 120;
+const int MARGIN_H = 40;
+
 
 
 //type definitions
@@ -23,12 +30,22 @@ typedef struct NAVE{
 	float ponta_x;
 } NAVE;
 
+typedef struct ALIEN{
+	ALLEGRO_COLOR cor;
+	float canto_x;
+	float canto_y;
+	int exist;
 
-//function protoypes
+} ALIEN;
+
+
 //function prototypes
 void drawSpace();
 void criaNave(NAVE *nave);
 void drawNave(NAVE *nave);
+int randInt(int min, int max);
+void drawAlien(ALIEN *alien);
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
  
 int main(int argc, char **argv){
 	
@@ -128,12 +145,11 @@ int main(int argc, char **argv){
 	NAVE nave;
 	criaNave(&nave);
 
-<<<<<<< HEAD
 	//cria aliens
-	
+	int linhas = 3;
+	int colunas = 5;
+	ALIEN aliens[linhas][colunas];
 
-=======
->>>>>>> parent of 13e06a4... array of naves
 	while(playing) {
 		ALLEGRO_EVENT ev;
 		//espera por um evento e o armazena na variavel de evento ev
@@ -144,6 +160,7 @@ int main(int argc, char **argv){
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
+			BuildAlienGrid(linhas, colunas, aliens);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -162,15 +179,17 @@ int main(int argc, char **argv){
 			//imprime qual tecla foi
 			printf("\ncodigo tecla: %d", ev.keyboard.keycode);
 		}
-		//
+		// faz nave andar para direita
 		else if(ev.keyboard.keycode == 83){
 			if(nave.ponta_x +10 <= (SCREEN_W - NAVE_W/2)){
 				nave.ponta_x += 10;
 			}
 			
 		}
+
+		// faz nave andar para esquerda
 		else if(ev.keyboard.keycode == 82){
-			if(nave.ponta_x - 10 <= (NAVE_W/2)){
+			if(nave.ponta_x - 10 >= (NAVE_W/2)){
 				nave.ponta_x -= 10;
 			}
 			
@@ -204,7 +223,6 @@ void criaNave(NAVE *nave){
 void drawNave(NAVE *nave){
 	al_draw_filled_triangle( nave->ponta_x, SCREEN_H - (NAVE_H + FLUTACAO_NAVE), nave->ponta_x + NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE),
    nave->ponta_x - NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE), nave -> cor);
-<<<<<<< HEAD
 }
 
 void drawAlien(ALIEN *alien){
@@ -224,6 +242,3 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 int randInt(int min, int max){
 	return min + rand()%(max+1-min);
-=======
->>>>>>> parent of 13e06a4... array of naves
-}
