@@ -150,7 +150,7 @@ int main(int argc, char **argv){
 	int linhas = 3;
 	int colunas = 5;
 	ALIEN aliens[linhas][colunas];
-	decideCor(linhas, colunas, &aliens);
+	decideCor(linhas, colunas, aliens);
 
 
 	while(playing) {
@@ -228,7 +228,7 @@ void drawNave(NAVE *nave){
    nave->ponta_x - NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE), nave -> cor);
 }
 
-void decideCor(int linhas, int colunas, ALIEN *alien[linhas][colunas]){
+void decideCor(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	for (int i = 0; i < linhas; i++)
 	{
 		for (int h = 0; h < colunas; h++)
