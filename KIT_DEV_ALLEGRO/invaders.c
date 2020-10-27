@@ -29,9 +29,6 @@ typedef struct NAVE{
 void drawSpace();
 void criaNave(NAVE *nave);
 void drawNave(NAVE *nave);
-int randInt(int min, int max);
-void drawAlien(ALIEN *alien);
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
  
 int main(int argc, char **argv){
 	
@@ -131,9 +128,12 @@ int main(int argc, char **argv){
 	NAVE nave;
 	criaNave(&nave);
 
+<<<<<<< HEAD
 	//cria aliens
 	
 
+=======
+>>>>>>> parent of 13e06a4... array of naves
 	while(playing) {
 		ALLEGRO_EVENT ev;
 		//espera por um evento e o armazena na variavel de evento ev
@@ -204,6 +204,7 @@ void criaNave(NAVE *nave){
 void drawNave(NAVE *nave){
 	al_draw_filled_triangle( nave->ponta_x, SCREEN_H - (NAVE_H + FLUTACAO_NAVE), nave->ponta_x + NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE),
    nave->ponta_x - NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE), nave -> cor);
+<<<<<<< HEAD
 }
 
 void drawAlien(ALIEN *alien){
@@ -223,4 +224,6 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 int randInt(int min, int max){
 	return min + rand()%(max+1-min);
+=======
+>>>>>>> parent of 13e06a4... array of naves
 }
