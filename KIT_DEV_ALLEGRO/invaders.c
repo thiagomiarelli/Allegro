@@ -150,7 +150,7 @@ int main(int argc, char **argv){
 	int linhas = 3;
 	int colunas = 5;
 	ALIEN aliens[colunas][linhas];
-	decideCor(linhas, colunas, aliens);
+	decideCor(linhas, colunas, &aliens);
 
 
 	while(playing) {
