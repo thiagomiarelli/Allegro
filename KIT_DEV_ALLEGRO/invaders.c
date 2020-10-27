@@ -149,8 +149,8 @@ int main(int argc, char **argv){
 	//cria aliens
 	int linhas = 3;
 	int colunas = 5;
-	ALIEN aliens[colunas][linhas];
-	decideCor(linhas, colunas, &aliens);
+	ALIEN aliens[linhas][colunas];
+	decideCor(linhas, colunas, aliens);
 
 
 	while(playing) {
