@@ -261,7 +261,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 		orientation *= -1;
 		altura += DIST_NAVES_H + ALIEN_H;
 	}
-	printf("\n altura is %d, orientation is %d, right alien is %d up to %d ", altura, orientation, alien[0][j].canto_x + ALIEN_W, SCREEN_W - MARGIN_W);
+	printf("\n altura is %d, orientation is %d, right alien is %d up to %d ", altura, orientation, alien[0][colunas].canto_x + ALIEN_W, SCREEN_W - MARGIN_W);
 
 }
 
