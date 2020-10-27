@@ -249,7 +249,6 @@ void drawAlien(ALIEN *alien){
 
 // cria grade com aliens
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds){
-	renderizadas++;
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
 			alien[i][j].canto_x = (MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W))) + orientation * seconds;
