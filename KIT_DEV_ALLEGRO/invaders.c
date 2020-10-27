@@ -46,6 +46,7 @@ void drawNave(NAVE *nave);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void decideCor(int linhas, int colunas, ALIEN *alien[linhas][colunas]);
  
 int main(int argc, char **argv){
 	
@@ -148,7 +149,9 @@ int main(int argc, char **argv){
 	//cria aliens
 	int linhas = 3;
 	int colunas = 5;
-	ALIEN aliens[linhas][colunas];
+	ALIEN aliens[colunas][linhas];
+	void decideCor(linhas, colunas, alien);
+
 
 	while(playing) {
 		ALLEGRO_EVENT ev;
@@ -225,8 +228,19 @@ void drawNave(NAVE *nave){
    nave->ponta_x - NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE), nave -> cor);
 }
 
+void decideCor(int linhas, int colunas, ALIEN *alien[linhas][colunas]){
+	for (int i = 0; i < linhas; i++)
+	{
+		for (int h = 0; h < colunas; h++)
+		{
+			alien[i][h] -> cor = al_map_rgb(randInt(0, 255), randInt(0, 255), randInt(0,255));
+		}
+		
+	}
+	
+}
 void drawAlien(ALIEN *alien){
-	al_draw_filled_rectangle(alien->canto_x, alien->canto_y, alien ->canto_x + ALIEN_W, alien->canto_y - ALIEN_H, al_map_rgb(randInt(0, 255), randInt(0, 255), randInt(0,255)));
+	al_draw_filled_rectangle(alien->canto_x, alien->canto_y, alien ->canto_x + ALIEN_W, alien->canto_y - ALIEN_H, alien->cor );
 }
 
 // cria grade com aliens
