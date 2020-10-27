@@ -233,7 +233,7 @@ void decideCor(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	{
 		for (int h = 0; h < colunas; h++)
 		{
-			alien[i][h] -> cor = al_map_rgb(randInt(0, 255), randInt(0, 255), randInt(0,255));
+			alien[i][h].cor = al_map_rgb(randInt(0, 255), randInt(0, 255), randInt(0,255));
 		}
 		
 	}
