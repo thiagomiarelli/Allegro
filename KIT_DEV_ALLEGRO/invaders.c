@@ -17,8 +17,8 @@ const int NAVE_W = 80;
 const int FLUTACAO_NAVE = 15;
 const int DIST_NAVES_H = 30;
 const int DIST_NAVES_W = 30;
-const int ALIEN_W = 80;
-const int ALIEN_H = 50;
+const int ALIEN_W = 60;
+const int ALIEN_H = 30;
 const int MARGIN_W = 120;
 const int MARGIN_H = 40;
 
@@ -147,8 +147,8 @@ int main(int argc, char **argv){
 	criaNave(&nave);
 
 	//cria aliens
-	int colunas = 7;
-	int linhas = 4;
+	int colunas = 4;
+	int linhas = 7;
 	ALIEN aliens[colunas][linhas];
 	decideCor(colunas, linhas, aliens);
 
