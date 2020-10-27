@@ -261,6 +261,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 	if(alien[0][0].canto_x == MARGIN_W -1 || (alien[0][4].canto_x + ALIEN_W) >= (SCREEN_W - MARGIN_W)){
 		orientation *= -1;
 		altura += QUEDA;
+		prinf("bateu \n")
 	}
 
 }
