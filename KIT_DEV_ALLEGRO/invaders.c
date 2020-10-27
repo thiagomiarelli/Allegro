@@ -22,6 +22,10 @@ const int ALIEN_H = 30;
 const int MARGIN_W = 120;
 const int MARGIN_H = 40;
 
+//Global variables
+int altura = 0;
+int orientation = 1;
+
 
 
 //type definitions
@@ -45,7 +49,7 @@ void criaNave(NAVE *nave);
 void drawNave(NAVE *nave);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds);
 void decideCor(int linhas, int colunas, ALIEN alien[linhas][colunas]);
  
 int main(int argc, char **argv){
@@ -147,10 +151,10 @@ int main(int argc, char **argv){
 	criaNave(&nave);
 
 	//cria aliens
-	int colunas = 4;
-	int linhas = 7;
-	ALIEN aliens[colunas][linhas];
-	decideCor(colunas, linhas, aliens);
+	int linhas = 4;
+	int colunas = 7;
+	ALIEN aliens[linhas][colunas];
+	decideCor(linhas, colunas, aliens);
 
 
 	while(playing) {
@@ -163,7 +167,7 @@ int main(int argc, char **argv){
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
-			BuildAlienGrid(linhas, colunas, aliens);
+			BuildAlienGrid(linhas, colunas, aliens, al_get_timer_count);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -244,13 +248,19 @@ void drawAlien(ALIEN *alien){
 }
 
 // cria grade com aliens
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds){
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
-			alien[i][j].canto_x = MARGIN_W + (i * (ALIEN_W + DIST_NAVES_W));
-			alien[i][j].canto_y = MARGIN_H + (j * (ALIEN_H + DIST_NAVES_H));
+			alien[i][j].canto_x = (MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W))) + orientation * seconds;
+			alien[i][j].canto_y = MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)) + altura;
 			drawAlien(&alien[i][j]);
 		}
+	}
+
+	//flip horizontal and down position
+	if(alien[0][0].canto_x == MARGIN_W + ALIEN_W + DIST_NAVES_W || alien[0][colunas] == SCREEN_W - MARGIN_W){
+		orientation *= -1;
+		altura += DIST_NAVES_H + ALIEN_H;
 	}
 }
 
