@@ -242,3 +242,4 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 int randInt(int min, int max){
 	return min + rand()%(max+1-min);
+}
