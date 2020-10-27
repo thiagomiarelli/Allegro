@@ -15,12 +15,6 @@ const int GROUND_H = 60;
 const int NAVE_H = 60;
 const int NAVE_W = 80;
 const int FLUTACAO_NAVE = 15;
-const int DIST_NAVES_H = 30;
-const int DIST_NAVES_W = 30;
-const int ALIEN_W = 60;
-const int ALIEN_H = 30;
-const int MARGIN_W = 120;
-const int MARGIN_H = 40;
 
 
 
