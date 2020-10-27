@@ -257,11 +257,10 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 		}
 	}
 	//flip horizontal and down position
-	if(alien[0][0].canto_x == MARGIN_W - 1|| alien[0][colunas].canto_x + ALIEN_W == SCREEN_W - MARGIN_W){
+	if(alien[0][0].canto_x == MARGIN_W - 1|| (alien[0][7].canto_x + ALIEN_W) == (SCREEN_W - MARGIN_W)){
 		orientation *= -1;
 		altura += DIST_NAVES_H + ALIEN_H;
 	}
-	printf("\n altura is %d, orientation is %d, right alien is %d up to %d ", altura, orientation, alien[0][colunas].canto_x + ALIEN_W, SCREEN_W - MARGIN_W);
 
 }
 
