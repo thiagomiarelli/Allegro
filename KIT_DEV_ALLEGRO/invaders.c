@@ -19,8 +19,9 @@ const int DIST_NAVES_H = 30;
 const int DIST_NAVES_W = 30;
 const int ALIEN_W = 60;
 const int ALIEN_H = 30;
-const int MARGIN_W = 120;
+const int MARGIN_W = 60;
 const int MARGIN_H = 40;
+const int QUEDA = 50;
 
 
 
@@ -40,7 +41,7 @@ typedef struct ALIEN{
 
 //Global variables
 int altura = 0;
-int orientation = 1;
+int orientation = -1;
 
 
 //function prototypes
@@ -167,7 +168,7 @@ int main(int argc, char **argv){
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
-			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/5));
+			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -257,9 +258,9 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 		}
 	}
 	//flip horizontal and down position
-	if(alien[0][0].canto_x == MARGIN_W - 1|| (alien[0][7].canto_x + ALIEN_W) == (SCREEN_W - MARGIN_W)){
+	if(alien[0][0].canto_x == MARGIN_W -1 || (alien[0][colunas].canto_x + ALIEN_W) >= (SCREEN_W - MARGIN_W)){
 		orientation *= -1;
-		altura += DIST_NAVES_H + ALIEN_H;
+		altura += QUEDA;
 	}
 
 }
