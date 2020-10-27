@@ -169,9 +169,8 @@ int main(int argc, char **argv){
 			drawNave(&nave);
 			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/5));
 			al_flip_display();
-			if(al_get_timer_count(timer)%(int)FPS == 0){
+			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
-			}
 		}
 
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
