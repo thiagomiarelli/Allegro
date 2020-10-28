@@ -241,8 +241,8 @@ void drawNave(NAVE *nave){
 void criaAlien(ALIEN *alien, float x, float y){
 	alien -> canto_x = x;
 	alien -> canto_y = y;
-	alien -> cor(al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255)));
-	alien -> existe = 1;
+	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
+	alien -> exist = 1;
 }
 //cria uma matriz de aliens
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
@@ -250,7 +250,7 @@ void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
 	{
 		for (int j = 0; j < colunas; j++)
 		{
-			criaAlien(aliens[i][j], MARGIN_W + (j * ALIEN_W), MARGIN_H + (i * ALIEN_H));
+			criaAlien(&aliens[i][j], MARGIN_W + (j * ALIEN_W), MARGIN_H + (i * ALIEN_H));
 		}
 		
 	}
@@ -273,7 +273,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
 			updateAlien(&alien[i][j]);
-			alien[i][j] -> canto_y = MARGIN_H + (i * ALIEN_H) + altura;
+			alien[i][j].canto_y = MARGIN_H + (i * ALIEN_H) + altura;
 			testaCanto(&alien[i][j]);
 			drawAlien(&alien[i][j]);
 		}
