@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 
-const float FPS = 60/60;  
+const float FPS = 60;  
 
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
@@ -198,10 +198,10 @@ int main(int argc, char **argv){
 			drawSpace();
 			drawNave(&nave);
 			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
+			updateTiro(&tiro);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
-			updateTiro(&tiro);
 		}
 
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
@@ -326,14 +326,17 @@ int testaCanto(ALIEN *alien){
 
 void drawTiro(TIRO *tiro){
 	al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, al_map_rgb(255, 255, 255));
+	printf("\n desenhou inner function");
 }
 
 void atirar(TIRO *tiro, NAVE *nave){
 	//se houver outro tiro no ar, nao atire
 	if(tiro -> exist == 1){
+		printf("\n tiro bloqueado");
 		return;
 	}
 	// coloca o tiro na ponta da nave
+	printf("\n atirou");
 	tiro -> exist = 1;
 	tiro -> x = nave -> ponta_x;
 	tiro -> y = (SCREEN_H - (NAVE_H + FLUTACAO_NAVE));
@@ -341,6 +344,8 @@ void atirar(TIRO *tiro, NAVE *nave){
 }
 
 void updateTiro(TIRO *tiro){
+	printf("\n subiu");
 	tiro -> y -= velocidade;
+	printf("\n desenhou");
 	drawTiro(tiro);
 }
