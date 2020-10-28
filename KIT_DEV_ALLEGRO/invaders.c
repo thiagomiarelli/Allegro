@@ -274,7 +274,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 				altura += QUEDA;
 				//quebra nested loops
 				i = j = linhas + colunas;
-				printf("\nDeu como verdade o testa canto")
+				printf("\nDeu como verdade o testa canto");
 			}
 		}
 	}
