@@ -60,7 +60,11 @@ typedef struct TIRO
 	int raio_tiro = 6;
 	//pontos
 	int points = 0;
+	//velociadde de deslocamento nave
+	int velocidadeNave = 18;
 
+	//perdeu?
+	int perdeu = 0;
 
 
 //function prototypes
@@ -79,6 +83,8 @@ void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
 int bateu(ALIEN *alien, TIRO *tiro);
+int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+int lostScreen();
 
  
 int main(int argc, char **argv){
@@ -198,7 +204,10 @@ int main(int argc, char **argv){
 		al_wait_for_event(event_queue, &ev);
 
 		//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
-		if(ev.type == ALLEGRO_EVENT_TIMER) {
+		if(perdeu == 1){
+			lostScreen();
+		}
+		else if(ev.type == ALLEGRO_EVENT_TIMER) {
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
@@ -206,6 +215,8 @@ int main(int argc, char **argv){
 			updateTiro(&tiro);
 			colisao(&tiro, linhas, colunas, aliens);
 			al_flip_display();
+			perdeu = perdeu(linhas, colunas, aliens);
+
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 		}
@@ -225,16 +236,16 @@ int main(int argc, char **argv){
 		}
 		// faz nave andar para direita
 		else if(ev.keyboard.keycode == 83){
-			if(nave.ponta_x +10 <= (SCREEN_W - NAVE_W/2)){
-				nave.ponta_x += 10;
+			if(nave.ponta_x + velocidadeNave <= (SCREEN_W - NAVE_W/2)){
+				nave.ponta_x += velocidadeNave;
 			}
 			
 		}
 
 		// faz nave andar para esquerda
 		else if(ev.keyboard.keycode == 82){
-			if(nave.ponta_x - 10 >= (NAVE_W/2)){
-				nave.ponta_x -= 10;
+			if(nave.ponta_x - velocidadeNave >= (NAVE_W/2)){
+				nave.ponta_x -= velocidadeNave;
 			}
 			
 		}
@@ -407,5 +418,31 @@ int bateu(ALIEN *alien, TIRO *tiro){
 		return 1; 
 	}
 	return 0;
+
+}
+
+int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+	//se bater na base
+	int i, j;
+	for (i = 0; i < linhas; i++)
+	{
+		for (j = 0; j < colunas; j++)
+		{
+			if(alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H){
+				return 1;
+			}
+		}
+		
+	}
+	return 0;
+	
+}
+
+int lostScreen(){
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+
+	//carega a fonte
+	ALLEGRO_FONT *lost = al_load_font("batmfa__.ttf", 13, 1);	
+	al_draw_text(lost, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Seu planeta foi invadido!");
 
 }
