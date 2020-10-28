@@ -249,7 +249,7 @@ void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
 	{
 		for (int j = 0; j < colunas; j++)
 		{
-			criaAlien(&aliens[i][j], MARGIN_W + (j * ALIEN_W), MARGIN_H + (i * ALIEN_H));
+			criaAlien(&aliens[i][j], MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W)), MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)));
 		}
 		
 	}
@@ -265,7 +265,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 	int i, j;
 	for(i = 0; i < linhas; i++){
 		for(j = 0; j < colunas; j++){
-			//alien[i][j].canto_x += MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W)) + (velocidade * seconds);
+			alien[i][j].canto_x += velocidade
 			alien[i][j].canto_y = MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)) + altura;
 			drawAlien(&alien[i][j]);
 
