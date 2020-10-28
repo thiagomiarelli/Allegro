@@ -39,9 +39,26 @@ typedef struct ALIEN{
 
 } ALIEN;
 
+typedef struct TIRO
+{
+	float x;
+	float y;
+	ALLEGRO_COLOR cor;
+	int exist;
+	int raio;
+
+}
+
 //Global variables
-int altura = 0;
-int velocidade = 1;
+	// a altura da array de aliens;
+	int altura = 0;
+	// velocidade aliens
+	int velocidade = 1;
+	// velocidade do tiro
+	int vel_tiro = 5;
+	//raio tiro
+	int raio_tiro = 5;
+
 
 
 //function prototypes
@@ -160,6 +177,10 @@ int main(int argc, char **argv){
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
 
+	//cria tiro
+	TIRO tiro;
+
+
 
 
 	while(playing) {
@@ -176,6 +197,7 @@ int main(int argc, char **argv){
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
+			updateTiro(&tiro);
 		}
 
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
@@ -204,6 +226,12 @@ int main(int argc, char **argv){
 			if(nave.ponta_x - 10 >= (NAVE_W/2)){
 				nave.ponta_x -= 10;
 			}
+			
+		}
+ 
+		// atira espaco
+		else if(ev.keyboard.keycode == 75){
+			atirar(&tiro, &nave);
 			
 		}
 
@@ -290,4 +318,25 @@ int testaCanto(ALIEN *alien){
 		return 1;
 	}
 	return 0;
+}
+
+void drawTiro(TIRO *tiro){
+	void al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, al_map_rgb(255, 255, 255));
+}
+
+void atirar(TIRO *tiro, NAVE *nave){
+	//se houver outro tiro no ar, nao atire
+	if(tiro -> exist == 1){
+		return
+	}
+	// coloca o tiro na ponta da nave
+	tiro -> exist = 1;
+	tiro -> x = nave -> ponta_x;
+	tiro -> y = (SCREEN_H - (NAVE_H + FLUTACAO_NAVE));
+	tiro -> raio = raio_tiro; 
+}
+
+void updateTiro(Tiro *tiro){
+	tiro -> y += velocidade;
+	drawTiro(tiro);
 }
