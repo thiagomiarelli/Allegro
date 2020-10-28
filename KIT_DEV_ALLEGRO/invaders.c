@@ -21,6 +21,7 @@ const int ALIEN_W = 60;
 const int ALIEN_H = 30;
 const int MARGIN_W = 60;
 const int MARGIN_H = 40;
+const int QUEDA = 30;
 
 
 
@@ -35,14 +36,12 @@ typedef struct ALIEN{
 	float canto_x;
 	float canto_y;
 	int exist;
-	int velocidade;
-	int queda;
 
 } ALIEN;
 
 //Global variables
 int altura = 0;
-int orientation = -1;
+int velocidade = 2;
 
 
 //function prototypes
@@ -51,8 +50,14 @@ void criaNave(NAVE *nave);
 void drawNave(NAVE *nave);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds);
-void decideCor(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void criaAlien(ALIEN *alien, float x, float y);
+void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
+void updateAlien(ALIEN *alien);
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void testaCanto(ALIEN *alien);
+
+
  
 int main(int argc, char **argv){
 	
@@ -156,8 +161,7 @@ int main(int argc, char **argv){
 	int colunas = 7;
 	int linhas = 4;
 	ALIEN aliens[linhas][colunas];
-	decideCor(linhas, colunas, aliens);
-
+	criaMatrizAliens(linhas, colunas, aliens);
 
 	while(playing) {
 		ALLEGRO_EVENT ev;
@@ -169,7 +173,7 @@ int main(int argc, char **argv){
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
-			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
+			BuildAlienGrid(linhas, colunas, aliens);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -255,40 +259,32 @@ void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
 }
 
 void updateAlien(ALIEN *alien){
-	alien -> canto_x += alien -> velocidade;
-	if(alien->canto_x + ALIEN_W > SCREEN_W || alien ->canto_x < 0){
-		
-	}
+	alien -> canto_x += velocidade;
 }
-
-
-
-
-
-
-
-
-
 
 void drawAlien(ALIEN *alien){
 	al_draw_filled_rectangle(alien->canto_x, alien->canto_y, alien ->canto_x + ALIEN_W, alien->canto_y - ALIEN_H, alien->cor );
 }
 
 // cria grade com aliens
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds){
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+
+	//faca ele ir pro lado e desca qndo necessario
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
-			alien[i][j].canto_x = MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W)) + (orientation * seconds);
-			alien[i][j].canto_y = MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)) + altura;
+			updateAlien(&alien[i][j]);
+			alien[i][j] -> canto_y = MARGIN_H + (i * ALIEN_H) + altura;
+			testaCanto(&alien[i][j]);
 			drawAlien(&alien[i][j]);
 		}
 	}
-	//flip horizontal and down position
-	if((alien[0][0].canto_x < 0 || alien[0][colunas].canto_x + ALIEN_W > SCREEN_W ){
-		orientation *= -1;
+}
+
+void testaCanto(ALIEN *alien){
+	if(alien -> canto_x + ALIEN_W > 0 || alien -> canto_x < 0){
+		velocidade *= -1;
 		altura += QUEDA;
 	}
-
 }
 
 int randInt(int min, int max){
