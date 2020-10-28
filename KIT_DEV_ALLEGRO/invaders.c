@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 
-const float FPS = 2;  
+const float FPS = 60;  
 
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
@@ -271,21 +271,24 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	//faca ele ir pro lado e desca qndo necessario
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
-			drawAlien(&alien[i][j]);
 			printf("\npassou por aqui\n");
 			updateAlien(&alien[i][j]);
 			alien[i][j].canto_y = MARGIN_H + (i * ALIEN_H) + altura;
-			testaCanto(&alien[i][j]);
 			drawAlien(&alien[i][j]);
+			if(testaCanto(&alien[i][j])){
+				break;
+			}
 		}
 	}
 }
 
-void testaCanto(ALIEN *alien){
+int testaCanto(ALIEN *alien){
 	if(alien -> canto_x + ALIEN_W > 0 || alien -> canto_x < 0){
 		velocidade *= -1;
 		altura += QUEDA;
+		return 1;
 	}
+	return 0;
 }
 
 int randInt(int min, int max){
