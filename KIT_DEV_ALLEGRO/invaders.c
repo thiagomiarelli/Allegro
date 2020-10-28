@@ -149,7 +149,7 @@ int main(int argc, char **argv){
 	}
 	
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
-    ALLEGRO_FONT *end = al_load_font("batmfa__.ttf", 32, 1);   
+    ALLEGRO_FONT *end = al_load_font("Times New Roman.ttf", 32, 1);   
 	if(end == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
@@ -207,6 +207,11 @@ int main(int argc, char **argv){
 			
 			if(lost_status == 1){
 			printf("\n we are lost; \n");
+			al_draw_text(end, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Houston, we had a problem...");
+			al_map_rgb(000, 133, 211));
+
+
+			continue;
 			}
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
