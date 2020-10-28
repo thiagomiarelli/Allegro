@@ -71,7 +71,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 int testaCanto(ALIEN *alien);
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
 void criaAlien(ALIEN *alien, float x, float y);
-void updateTiro(Tiro *tiro);
+void updateTiro(TIRO *tiro);
 void atirar(TIRO *tiro, NAVE *nave);
 void drawTiro(TIRO *tiro);
 
@@ -330,7 +330,7 @@ void drawTiro(TIRO *tiro){
 void atirar(TIRO *tiro, NAVE *nave){
 	//se houver outro tiro no ar, nao atire
 	if(tiro -> exist == 1){
-		return
+		return;
 	}
 	// coloca o tiro na ponta da nave
 	tiro -> exist = 1;
@@ -339,7 +339,7 @@ void atirar(TIRO *tiro, NAVE *nave){
 	tiro -> raio = raio_tiro; 
 }
 
-void updateTiro(Tiro *tiro){
+void updateTiro(TIRO *tiro){
 	tiro -> y += velocidade;
 	drawTiro(tiro);
 }
