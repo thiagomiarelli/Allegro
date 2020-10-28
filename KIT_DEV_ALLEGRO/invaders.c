@@ -206,7 +206,7 @@ int main(int argc, char **argv){
 		if(ev.type == ALLEGRO_EVENT_TIMER) {
 			
 			if(lost_status == 1){
-			printf("\n we are lost; \n")
+			printf("\n we are lost; \n");
 			}
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
