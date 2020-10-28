@@ -55,7 +55,7 @@ void criaAlien(ALIEN *alien, float x, float y);
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
 void updateAlien(ALIEN *alien);
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-void testaCanto(ALIEN *alien);
+int testaCanto(ALIEN *alien);
 
 
  
