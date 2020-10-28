@@ -64,7 +64,7 @@ typedef struct TIRO
 	int velocidadeNave = 18;
 
 	//perdeu?
-	int perdeu = 0;
+	int lost_status = 0;
 
 
 //function prototypes
@@ -204,7 +204,7 @@ int main(int argc, char **argv){
 		al_wait_for_event(event_queue, &ev);
 
 		//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
-		if(perdeu == 1){
+		if(lost_status == 1){
 			lostScreen();
 		}
 		else if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -215,7 +215,7 @@ int main(int argc, char **argv){
 			updateTiro(&tiro);
 			colisao(&tiro, linhas, colunas, aliens);
 			al_flip_display();
-			perdeu = perdeu(linhas, colunas, aliens);
+			lost_status = perdeu(linhas, colunas, aliens);
 
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
