@@ -272,7 +272,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
 			drawAlien(&alien[i][j]);
-			printf("\npassou por aqui\n")
+			printf("\npassou por aqui\n");
 			updateAlien(&alien[i][j]);
 			alien[i][j].canto_y = MARGIN_H + (i * ALIEN_H) + altura;
 			testaCanto(&alien[i][j]);
