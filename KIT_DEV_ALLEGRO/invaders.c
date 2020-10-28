@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 
-const float FPS = 60;  
+const float FPS = 2;  
 
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
