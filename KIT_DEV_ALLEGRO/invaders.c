@@ -389,7 +389,8 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 int bateu(ALIEN *alien, TIRO *tiro){
 
-	if((alien -> canto_y + ALIEN_H == tiro -> y + tiro -> raio) && (tiro -> x + tiro -> raio > alien -> canto_x && tiro -> x - tiro -> raio > alien -> canto_x + ALIEN_W) && alien -> exist == 1){
+	if(alien -> canto_y + ALIEN_H <= tiro -> y + tiro -> raio && alien -> exist == 1){
+		//|| (tiro -> x + tiro -> raio > alien -> canto_x && tiro -> x - tiro -> raio > alien -> canto_x + ALIEN_W) && alien -> exist == 1
 		return 1;
 	}
 	return 0;
