@@ -74,6 +74,7 @@ void criaAlien(ALIEN *alien, float x, float y);
 void updateTiro(TIRO *tiro);
 void atirar(TIRO *tiro, NAVE *nave);
 void drawTiro(TIRO *tiro);
+void criaTiro(TIRO *tiro);
 
  
 int main(int argc, char **argv){
@@ -182,9 +183,7 @@ int main(int argc, char **argv){
 
 	//cria tiro
 	TIRO tiro;
-	tiro.exist = 0;
-	tiro.x = -2;
-	tiro.y = 0;
+	criaTiro(&tiro);
 
 
 
@@ -237,7 +236,7 @@ int main(int argc, char **argv){
  
 		// atira espaco
 		else if(ev.keyboard.keycode == 75){
-			atirar(&tiro, &nave);
+			//atirar(&tiro, &nave);
 			
 		}
 
@@ -327,7 +326,7 @@ int testaCanto(ALIEN *alien){
 }
 
 void drawTiro(TIRO *tiro){
-	al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, al_map_rgb(255, 255, 255));
+	al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, tiro->cor);
 }
 
 void atirar(TIRO *tiro, NAVE *nave){
@@ -346,5 +345,14 @@ void atirar(TIRO *tiro, NAVE *nave){
 
 void updateTiro(TIRO *tiro){
 	tiro -> y -= vel_tiro;
-	drawTiro(tiro);
+	if(tiro -> exist == 1){
+		drawTiro(tiro);
+	}
+}
+
+void criaTiro(TIRO *tiro){
+	tiro -> x = 0;
+	tiro -> y = 0;
+	tiro -> cor = al_map_rgb(255, 255, 255;)
+	tiro -> exist = 0;
 }
