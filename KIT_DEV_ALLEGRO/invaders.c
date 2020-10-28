@@ -58,6 +58,8 @@ typedef struct TIRO
 	int vel_tiro = 5;
 	//raio tiro
 	int raio_tiro = 6;
+	//pontos
+	int points = 0;
 
 
 
@@ -75,6 +77,8 @@ void updateTiro(TIRO *tiro);
 void atirar(TIRO *tiro, NAVE *nave);
 void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
+void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
+int bateu(ALIEN *alien, TIRO *tiro);
 
  
 int main(int argc, char **argv){
@@ -236,7 +240,7 @@ int main(int argc, char **argv){
  
 		// atira espaco
 		else if(ev.keyboard.keycode == 75){
-			//atirar(&tiro, &nave);
+			atirar(&tiro, &nave);
 			
 		}
 
@@ -300,7 +304,9 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 		for(j = 0; j < colunas; j++){
 			alien[i][j].canto_x += velocidade;
 			alien[i][j].canto_y = MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)) + altura;
-			drawAlien(&alien[i][j]);
+			if(alien[i][j].exist == 1){
+				drawAlien(&alien[i][j]);
+			}
 
 			if(testaCanto(&alien[i][j])){
 				velocidade *= -1;
@@ -353,6 +359,38 @@ void updateTiro(TIRO *tiro){
 void criaTiro(TIRO *tiro){
 	tiro -> x = 0;
 	tiro -> y = 0;
-	tiro -> cor = al_map_rgb(255, 255, 255;)
+	tiro -> cor = al_map_rgb(255, 255, 255);
 	tiro -> exist = 0;
+}
+
+void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
+	//se bater no topo da tela
+	if(tiro -> y > SCREEN_H){
+		tiro -> exist = 0;
+	}
+	int i, j;
+	for (i = 0; i < linhas; i++)
+	{
+		for (j = 0; j < colunas; j++)
+		{
+			if(bateu(&alien[i][j], tiro)){
+				alien[i][j].exist = 0;
+				tiro -> exist = 0;
+				//quebra o loop
+				i = j = i + j;
+				
+			}
+		}
+		
+	}
+	
+}
+
+int bateu(ALIEN *alien, TIRO *tiro){
+
+	if((alien -> canto_y + ALIEN_H == tiro -> y + tiro -> raio) && (tiro -> x + raio > alien -> canto_x && tiro -> x - tiro -> raio > alien -> canto_x + ALIEN_W) && alien -> exist == 1){
+		return 1;
+	}
+	return 0;
+
 }
