@@ -365,7 +365,7 @@ void criaTiro(TIRO *tiro){
 
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	//se bater no topo da tela
-	if(tiro -> y > SCREEN_H){
+	if(tiro -> y < 0){
 		tiro -> exist = 0;
 	}
 	int i, j;
@@ -388,7 +388,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 int bateu(ALIEN *alien, TIRO *tiro){
 
-	if((alien -> canto_y + ALIEN_H == tiro -> y + tiro -> raio) && (tiro -> x + tiro -> raio > alien -> canto_x && tiro -> x - tiro -> raio > alien -> canto_x + ALIEN_W) && alien -> exist == 1){
+	if((alien -> canto_y + ALIEN_H == tiro -> y + tiro -> raio) || (tiro -> x + tiro -> raio > alien -> canto_x && tiro -> x - tiro -> raio > alien -> canto_x + ALIEN_W) && alien -> exist == 1){
 		return 1;
 	}
 	return 0;
