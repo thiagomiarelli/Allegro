@@ -47,7 +47,7 @@ typedef struct TIRO
 	int exist;
 	int raio;
 
-}
+} TIRO;
 
 //Global variables
 	// a altura da array de aliens
