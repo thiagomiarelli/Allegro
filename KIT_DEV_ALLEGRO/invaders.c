@@ -158,7 +158,7 @@ int main(int argc, char **argv){
 	int colunas = 7;
 	int linhas = 4;
 	ALIEN aliens[linhas][colunas];
-	criaMatrizAliens(linhas, colunas, aliens[linhas][colunas]);
+	criaMatrizAliens(linhas, colunas, aliens);
 
 
 
@@ -268,7 +268,8 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 			alien[i][j].canto_x = MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W)) + (velocidade * seconds);
 			alien[i][j].canto_y = MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)) + altura;
 			drawAlien(&alien[i][j]);
-			if(testaCanto(&alien[i][j]){
+
+			if(testaCanto(&alien[i][j])){
 				velocidade *= -1;
 				altura += QUEDA;
 				//quebra nested loops
