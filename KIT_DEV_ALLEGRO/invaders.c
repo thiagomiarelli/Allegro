@@ -57,7 +57,7 @@ typedef struct TIRO
 	// velocidade do tiro
 	int vel_tiro = 5;
 	//raio tiro
-	int raio_tiro = 30;
+	int raio_tiro = 6;
 
 
 
@@ -183,6 +183,8 @@ int main(int argc, char **argv){
 	//cria tiro
 	TIRO tiro;
 	tiro.exist = 0;
+	tiro.x = -2;
+	tiro.y = 0;
 
 
 
@@ -326,7 +328,6 @@ int testaCanto(ALIEN *alien){
 
 void drawTiro(TIRO *tiro){
 	al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, al_map_rgb(255, 255, 255));
-	printf("\n desenhou inner function");
 }
 
 void atirar(TIRO *tiro, NAVE *nave){
@@ -344,8 +345,6 @@ void atirar(TIRO *tiro, NAVE *nave){
 }
 
 void updateTiro(TIRO *tiro){
-	printf("\n subiu");
-	tiro -> y -= velocidade;
-	printf("\n desenhou");
+	tiro -> y -= vel_tiro;
 	drawTiro(tiro);
 }
