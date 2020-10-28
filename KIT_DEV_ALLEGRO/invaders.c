@@ -265,13 +265,13 @@ void updateAlien(ALIEN *alien){
 void drawAlien(ALIEN *alien){
 	al_draw_filled_rectangle(alien->canto_x, alien->canto_y, alien ->canto_x + ALIEN_W, alien->canto_y - ALIEN_H, alien->cor );
 }
-
 // cria grade com aliens
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 	//faca ele ir pro lado e desca qndo necessario
 	for(int i = 0; i < linhas; i++){
 		for(int j = 0; j < colunas; j++){
+			drawAlien(&alien[i][j]);
 			updateAlien(&alien[i][j]);
 			alien[i][j].canto_y = MARGIN_H + (i * ALIEN_H) + altura;
 			testaCanto(&alien[i][j]);
