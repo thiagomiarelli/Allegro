@@ -208,7 +208,8 @@ int main(int argc, char **argv){
 			if(lost_status == 1){
 			printf("\n we are lost; \n");
 			al_draw_text(end, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Houston, we had a problem...");
-			al_map_rgb(000, 133, 211));
+			al_map_rgb(000, 133, 211);
+			al_flip_display();
 
 
 			continue;
