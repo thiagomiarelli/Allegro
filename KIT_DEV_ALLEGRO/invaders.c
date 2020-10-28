@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 
-const float FPS = 60;  
+const float FPS = 60/60;  
 
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
@@ -57,7 +57,7 @@ typedef struct TIRO
 	// velocidade do tiro
 	int vel_tiro = 5;
 	//raio tiro
-	int raio_tiro = 5;
+	int raio_tiro = 30;
 
 
 
@@ -182,6 +182,7 @@ int main(int argc, char **argv){
 
 	//cria tiro
 	TIRO tiro;
+	tiro.exist = 0;
 
 
 
@@ -340,6 +341,6 @@ void atirar(TIRO *tiro, NAVE *nave){
 }
 
 void updateTiro(TIRO *tiro){
-	tiro -> y += velocidade;
+	tiro -> y -= velocidade;
 	drawTiro(tiro);
 }
