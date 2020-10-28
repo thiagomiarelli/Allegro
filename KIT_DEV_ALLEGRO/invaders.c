@@ -204,6 +204,7 @@ int main(int argc, char **argv){
 			drawNave(&nave);
 			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 			updateTiro(&tiro);
+			colisao(&tiro, linhas, colunas, aliens);
 			al_flip_display();
 			if(al_get_timer_count(timer)%(int)FPS == 0)
 				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -388,7 +389,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 int bateu(ALIEN *alien, TIRO *tiro){
 
-	if((alien -> canto_y + ALIEN_H == tiro -> y + tiro -> raio) || (tiro -> x + tiro -> raio > alien -> canto_x && tiro -> x - tiro -> raio > alien -> canto_x + ALIEN_W) && alien -> exist == 1){
+	if((alien -> canto_y + ALIEN_H == tiro -> y + tiro -> raio) && (tiro -> x + tiro -> raio > alien -> canto_x && tiro -> x - tiro -> raio > alien -> canto_x + ALIEN_W) && alien -> exist == 1){
 		return 1;
 	}
 	return 0;
