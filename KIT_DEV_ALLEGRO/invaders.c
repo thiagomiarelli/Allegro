@@ -84,7 +84,6 @@ void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
 int bateu(ALIEN *alien, TIRO *tiro);
 int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-void lostScreen();
 
  
 int main(int argc, char **argv){
@@ -207,10 +206,7 @@ int main(int argc, char **argv){
 		if(ev.type == ALLEGRO_EVENT_TIMER) {
 			
 			if(lost_status == 1){
-			al_clear_to_color(al_map_rgb(0, 0, 0));
-			//carega a fonte
-			al_draw_text(end, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Seu planeta foi invadido!");
-			continue;
+			printf("\n we are lost; \n")
 			}
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
@@ -440,11 +436,4 @@ int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	}
 	return 0;
 	
-}
-
-void lostScreen(){
-	al_clear_to_color(al_map_rgb(0, 0, 0));
-	//carega a fonte
-	//al_draw_text(end, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Seu planeta foi invadido!");
-
 }
