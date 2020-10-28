@@ -286,7 +286,7 @@ int randInt(int min, int max){
 }
 
 int testaCanto(ALIEN *alien){
-	if(alien -> canto_x + ALIEN_W > 0 || alien -> canto_x < 0){
+	if(alien -> canto_x + ALIEN_W > 0 && alien -> canto_x < 0){
 		return 1;
 	}
 	return 0;
