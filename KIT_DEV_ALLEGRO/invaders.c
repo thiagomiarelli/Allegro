@@ -21,7 +21,6 @@ const int ALIEN_W = 60;
 const int ALIEN_H = 30;
 const int MARGIN_W = 60;
 const int MARGIN_H = 40;
-const int QUEDA = 50;
 
 
 
@@ -36,6 +35,8 @@ typedef struct ALIEN{
 	float canto_x;
 	float canto_y;
 	int exist;
+	int velocidade;
+	int queda;
 
 } ALIEN;
 
@@ -232,18 +233,43 @@ void drawNave(NAVE *nave){
 	al_draw_filled_triangle( nave->ponta_x, SCREEN_H - (NAVE_H + FLUTACAO_NAVE), nave->ponta_x + NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE),
    nave->ponta_x - NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE), nave -> cor);
 }
-
-void decideCor(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+// inicia o Alien
+void criaAlien(ALIEN *alien, float x, float y){
+	alien -> canto_x = x;
+	alien -> canto_y = y;
+	alien -> cor(al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255)));
+	alien -> existe = 1;
+}
+//cria uma matriz de aliens
+void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
 	for (int i = 0; i < linhas; i++)
 	{
-		for (int h = 0; h < colunas; h++)
+		for (int j = 0; j < colunas; j++)
 		{
-			alien[i][h].cor = al_map_rgb(randInt(0, 255), randInt(0, 255), randInt(0,255));
+			criaAlien(aliens[i][j], MARGIN_W + (j * ALIEN_W), MARGIN_H + (i * ALIEN_H));
 		}
 		
 	}
 	
+
 }
+
+void updateAlien(ALIEN *alien){
+	alien -> canto_x += alien -> velocidade;
+	if(alien->canto_x + ALIEN_W > SCREEN_W || alien ->canto_x < 0){
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
 void drawAlien(ALIEN *alien){
 	al_draw_filled_rectangle(alien->canto_x, alien->canto_y, alien ->canto_x + ALIEN_W, alien->canto_y - ALIEN_H, alien->cor );
 }
@@ -268,3 +294,4 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 int randInt(int min, int max){
 	return min + rand()%(max+1-min);
 }
+
