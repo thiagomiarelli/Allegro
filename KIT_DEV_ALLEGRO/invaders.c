@@ -21,7 +21,7 @@ const int ALIEN_W = 60;
 const int ALIEN_H = 30;
 const int MARGIN_W = 60;
 const int MARGIN_H = 40;
-const int QUEDA = 50;
+const int QUEDA = 60;
 
 
 
@@ -53,7 +53,7 @@ typedef struct TIRO
 	// a altura da array de aliens
 	int altura = 0;
 	// velocidade aliens
-	int velocidade = 1;
+	int velocidade = 4;
 	// velocidade do tiro
 	int vel_tiro = 5;
 	//raio tiro
@@ -84,7 +84,7 @@ void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
 int bateu(ALIEN *alien, TIRO *tiro);
 int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-int lostScreen();
+void lostScreen();
 
  
 int main(int argc, char **argv){
@@ -150,8 +150,8 @@ int main(int argc, char **argv){
 	}
 	
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
-    ALLEGRO_FONT *size_32 = al_load_font("arial.ttf", 32, 1);   
-	if(size_32 == NULL) {
+    ALLEGRO_FONT *end = al_load_font("batmfa__.ttf", 32, 1);   
+	if(end == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
 
@@ -204,10 +204,12 @@ int main(int argc, char **argv){
 		al_wait_for_event(event_queue, &ev);
 
 		//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
-		if(lost_status == 1){
+		if(ev.type == ALLEGRO_EVENT_TIMER) {
+			
+			if(lost_status == 1){
 			lostScreen();
-		}
-		else if(ev.type == ALLEGRO_EVENT_TIMER) {
+			continue;
+			}
 			//atualiza a tela (quando houver algo para mostrar)
 			drawSpace();
 			drawNave(&nave);
@@ -438,11 +440,9 @@ int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	
 }
 
-int lostScreen(){
+void lostScreen(){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-
 	//carega a fonte
-	ALLEGRO_FONT *lost = al_load_font("batmfa__.ttf", 13, 1);	
-	al_draw_text(lost, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Seu planeta foi invadido!");
+	al_draw_text(end, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Seu planeta foi invadido!");
 
 }
