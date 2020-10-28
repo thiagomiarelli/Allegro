@@ -324,7 +324,7 @@ int testaCanto(ALIEN *alien){
 }
 
 void drawTiro(TIRO *tiro){
-	void al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, al_map_rgb(255, 255, 255));
+	al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, al_map_rgb(255, 255, 255));
 }
 
 void atirar(TIRO *tiro, NAVE *nave){
