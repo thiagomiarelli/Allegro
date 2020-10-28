@@ -25,7 +25,7 @@ const int QUEDA = 50;
 
 
 
-//type definitions
+//type definitionsa
 typedef struct NAVE{
 	ALLEGRO_COLOR cor;
 	float ponta_x;
