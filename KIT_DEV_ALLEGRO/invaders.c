@@ -50,7 +50,7 @@ typedef struct TIRO
 }
 
 //Global variables
-	// a altura da array de aliens;
+	// a altura da array de aliens
 	int altura = 0;
 	// velocidade aliens
 	int velocidade = 1;
@@ -71,6 +71,9 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 int testaCanto(ALIEN *alien);
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
 void criaAlien(ALIEN *alien, float x, float y);
+void updateTiro(Tiro *tiro);
+void atirar(TIRO *tiro, NAVE *nave);
+void drawTiro(TIRO *tiro);
 
  
 int main(int argc, char **argv){
