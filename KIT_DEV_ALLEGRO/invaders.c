@@ -66,6 +66,11 @@ typedef struct TIRO
 	//perdeu?
 	int lost_status = 0;
 
+	//game screen
+	int splashScreen = 1;
+	int gameScreen = 0;
+	int endScreen = 0;
+
 
 //function prototypes
 void drawSpace();
@@ -149,8 +154,8 @@ int main(int argc, char **argv){
 	}
 	
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
-    ALLEGRO_FONT *end = al_load_font("Times New Roman.ttf", 32, 1);   
-	if(end == NULL) {
+    ALLEGRO_FONT *splashFont = al_load_font("fonts/ethnocentricrg.ttf", 32, 1);   
+	if(splashFont == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
 
@@ -199,68 +204,90 @@ int main(int argc, char **argv){
 
 	while(playing) {
 		ALLEGRO_EVENT ev;
-		//espera por um evento e o armazena na variavel de evento ev
-		al_wait_for_event(event_queue, &ev);
 
-		//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
-		if(ev.type == ALLEGRO_EVENT_TIMER) {
-			
-			if(lost_status == 1){
-			printf("\n we are lost; \n");
-			al_draw_text(end, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Houston, we had a problem...");
-			al_map_rgb(000, 133, 211);
-			al_flip_display();
+		if(splashScreen){
 
+			al_wait_for_event(event_queue, &ev);
+			if(ev.type == ALLEGRO_EVENT_TIMER) {
+				
+				al_clear_to_color(al_map_rgb(0,0,0));
+				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Data Invaders");
+				al_flip_display();
+				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, "Press any key to start");
 
-			continue;
+				if(al_get_timer_count(timer)%(int)FPS == 0)
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
-			//atualiza a tela (quando houver algo para mostrar)
-			drawSpace();
-			drawNave(&nave);
-			BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
-			updateTiro(&tiro);
-			colisao(&tiro, linhas, colunas, aliens);
-			al_flip_display();
-			lost_status = perdeu(linhas, colunas, aliens);
 
-			if(al_get_timer_count(timer)%(int)FPS == 0)
-				printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
-		}
-
-		//se o tipo de evento for o fechamento da tela (clique no x da janela)
-		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-			playing = 0;
-		}
-		//se o tipo de evento for um clique de mouse
-		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
-			printf("\nmouse clicado em: %d, %d", ev.mouse.x, ev.mouse.y);
-		}
-		//se o tipo de evento for um pressionar de uma tecla
-		else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
-			//imprime qual tecla foi
-			printf("\ncodigo tecla: %d", ev.keyboard.keycode);
-		}
-		// faz nave andar para direita
-		else if(ev.keyboard.keycode == 83){
-			if(nave.ponta_x + velocidadeNave <= (SCREEN_W - NAVE_W/2)){
-				nave.ponta_x += velocidadeNave;
+			else if(ev.keyboard.keycode == 75){
+				splashScreen = 0;
+				gameScreen = 1;
+				
 			}
-			
-		}
 
-		// faz nave andar para esquerda
-		else if(ev.keyboard.keycode == 82){
-			if(nave.ponta_x - velocidadeNave >= (NAVE_W/2)){
-				nave.ponta_x -= velocidadeNave;
+		
+		}
+		// modo de jogo "jogando"
+		else if(gameScreen)
+		{
+			//espera por um evento e o armazena na variavel de evento ev
+			al_wait_for_event(event_queue, &ev);
+
+			//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
+			if(ev.type == ALLEGRO_EVENT_TIMER) {
+				
+				drawSpace();
+				drawNave(&nave);
+				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
+				updateTiro(&tiro);
+				colisao(&tiro, linhas, colunas, aliens);
+				al_flip_display();
+				lost_status = perdeu(linhas, colunas, aliens);
+
+				if(al_get_timer_count(timer)%(int)FPS == 0)
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
-			
+
+			//se o tipo de evento for o fechamento da tela (clique no x da janela)
+			else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+				playing = 0;
+			}
+			//se o tipo de evento for um clique de mouse
+			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+				printf("\nmouse clicado em: %d, %d", ev.mouse.x, ev.mouse.y);
+			}
+			//se o tipo de evento for um pressionar de uma tecla
+			else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+				//imprime qual tecla foi
+				printf("\ncodigo tecla: %d", ev.keyboard.keycode);
+			}
+			// faz nave andar para direita
+			else if(ev.keyboard.keycode == 83){
+				if(nave.ponta_x + velocidadeNave <= (SCREEN_W - NAVE_W/2)){
+					nave.ponta_x += velocidadeNave;
+				}
+				
+			}
+
+			// faz nave andar para esquerda
+			else if(ev.keyboard.keycode == 82){
+				if(nave.ponta_x - velocidadeNave >= (NAVE_W/2)){
+					nave.ponta_x -= velocidadeNave;
+				}
+				
+			}
+	
+			// atira espaco
+			else if(ev.keyboard.keycode == 75){
+				atirar(&tiro, &nave);
+				
+			}
+
+		} else if(endScreen)
+		{
+
 		}
- 
-		// atira espaco
-		else if(ev.keyboard.keycode == 75){
-			atirar(&tiro, &nave);
-			
-		}
+		
 
 	} //fim do while
      
