@@ -210,10 +210,9 @@ int main(int argc, char **argv){
 
 	while(playing) {
 		ALLEGRO_EVENT ev;
+		al_wait_for_event(event_queue, &ev);
 
 		if(splashScreen){
-
-			al_wait_for_event(event_queue, &ev);
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 
 
@@ -236,8 +235,6 @@ int main(int argc, char **argv){
 		// modo de jogo "jogando"
 		else if(gameScreen)
 		{
-			//espera por um evento e o armazena na variavel de evento ev
-			al_wait_for_event(event_queue, &ev);
 
 			//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -254,10 +251,6 @@ int main(int argc, char **argv){
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
 
-			//se o tipo de evento for o fechamento da tela (clique no x da janela)
-			else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-				playing = 0;
-			}
 			//se o tipo de evento for um clique de mouse
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 				printf("\nmouse clicado em: %d, %d", ev.mouse.x, ev.mouse.y);
@@ -289,11 +282,15 @@ int main(int argc, char **argv){
 				
 			}
 
-		} else if(endScreen)
+		} 
+		else if(endScreen)
 		{
 
 		}
-		
+		//se o tipo de evento for o fechamento da tela (clique no x da janela)
+		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			playing = 0;
+		}
 
 	} //fim do while
      
