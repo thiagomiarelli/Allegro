@@ -89,7 +89,6 @@ void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
 int bateu(ALIEN *alien, TIRO *tiro);
 int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-
  
 int main(int argc, char **argv){
 	
@@ -159,6 +158,9 @@ int main(int argc, char **argv){
 	if(splashFont == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
+	if(comunication == NULL) {
+		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
+	}
 
  	//cria a fila de eventos
 	event_queue = al_create_event_queue();
@@ -212,7 +214,12 @@ int main(int argc, char **argv){
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 
-		if(splashScreen){
+
+		//se o tipo de evento for o fechamento da tela (clique no x da janela)
+		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			playing = 0;
+		}
+		else if(splashScreen){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 
 
@@ -224,7 +231,7 @@ int main(int argc, char **argv){
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
 
-			else if(ev.keyboard.keycode == 75){
+			else if(ev.keyboard.keycode == 19){
 				splashScreen = 0;
 				gameScreen = 1;
 				
@@ -240,6 +247,7 @@ int main(int argc, char **argv){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				drawSpace();
+				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, 20, 0, "Perdeu :(");
 				drawNave(&nave);
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
@@ -286,10 +294,6 @@ int main(int argc, char **argv){
 		else if(endScreen)
 		{
 
-		}
-		//se o tipo de evento for o fechamento da tela (clique no x da janela)
-		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-			playing = 0;
 		}
 
 	} //fim do while
