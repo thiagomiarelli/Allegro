@@ -55,13 +55,14 @@ typedef struct TIRO
 	// velocidade aliens
 	int velocidade = 4;
 	// velocidade do tiro
-	int vel_tiro = 5;
+	int vel_tiro = 15;
 	//raio tiro
 	int raio_tiro = 6;
 	//pontos
 	int points = 0;
+	char pontos[4] = itoa(points);
 	//velociadde de deslocamento nave
-	int velocidadeNave = 18;
+	int velocidadeNave = 25;
 
 	//perdeu?
 	int lost_status = 0;
@@ -247,7 +248,7 @@ int main(int argc, char **argv){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				drawSpace();
-				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, 20, 0, "Perdeu :(");
+				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 20, 0, pontos);
 				drawNave(&nave);
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
@@ -360,7 +361,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 				drawAlien(&alien[i][j]);
 			}
 
-			if(testaCanto(&alien[i][j])){
+			if(testaCanto(&alien[i][j] && alien[i][j].exist)){
 				velocidade *= -1;
 				altura += QUEDA;
 				//quebra nested loops
@@ -428,6 +429,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
 			if(bateu(&alien[i][j], tiro)){
 				alien[i][j].exist = 0;
 				tiro -> exist = 0;
+				points++;
 				//quebra o loop
 				i = j = i + j;
 				
