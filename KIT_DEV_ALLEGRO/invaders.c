@@ -361,7 +361,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 				drawAlien(&alien[i][j]);
 			}
 
-			if(testaCanto(&alien[i][j] && (alien[i][j].exist))){
+			if(testaCanto(&alien[i][j])){
 				velocidade *= -1;
 				altura += QUEDA;
 				//quebra nested loops
@@ -378,7 +378,7 @@ int randInt(int min, int max){
 }
 
 int testaCanto(ALIEN *alien){
-	if(alien -> canto_x + ALIEN_W > SCREEN_W || alien -> canto_x < 0){
+	if(alien -> canto_x + ALIEN_W > SCREEN_W || alien -> canto_x < 0 && alien -> exist){
 		return 1;
 	}
 	return 0;
