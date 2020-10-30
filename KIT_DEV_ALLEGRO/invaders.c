@@ -212,8 +212,9 @@ int main(int argc, char **argv){
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
 				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Data Invaders");
-				al_flip_display();
 				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, "Press any key to start");
+
+				al_flip_display();
 
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
