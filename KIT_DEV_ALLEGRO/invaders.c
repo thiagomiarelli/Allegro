@@ -60,8 +60,7 @@ typedef struct TIRO
 	int raio_tiro = 6;
 	//pontos
 	int points = 0;
-	char pontos[4];
-	itoa(points, pontos, 10);
+	char pontos[10];
 	//velociadde de deslocamento nave
 	int velocidadeNave = 25;
 
@@ -247,7 +246,7 @@ int main(int argc, char **argv){
 
 			//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
-				
+				itoa(points, pontos, 10);
 				drawSpace();
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 20, 0, pontos);
 				drawNave(&nave);
@@ -362,7 +361,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 				drawAlien(&alien[i][j]);
 			}
 
-			if(testaCanto(&alien[i][j] && alien[i][j].exist)){
+			if(testaCanto(&alien[i][j] && (alien[i][j].exist))){
 				velocidade *= -1;
 				altura += QUEDA;
 				//quebra nested loops
