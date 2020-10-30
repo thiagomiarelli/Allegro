@@ -154,7 +154,8 @@ int main(int argc, char **argv){
 	}
 	
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
-    ALLEGRO_FONT *splashFont = al_load_font("fonts/ethnocentricrg.ttf", 32, 1);   
+    ALLEGRO_FONT *splashFont = al_load_font("fonts/ethnocentricrg.ttf", 32, 1);
+	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 18, 1);
 	if(splashFont == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
@@ -199,6 +200,11 @@ int main(int argc, char **argv){
 	TIRO tiro;
 	criaTiro(&tiro);
 
+	//imagens
+	ALLEGRO_BITMAP *splashImage = NULL;
+	splashImage = al_load_bitmap("images/splashscreen.jpg");
+
+
 
 
 
@@ -209,10 +215,9 @@ int main(int argc, char **argv){
 
 			al_wait_for_event(event_queue, &ev);
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
-				
-				al_clear_to_color(al_map_rgb(0,0,0));
-				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Data Invaders");
-				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, "Press any key to start");
+
+
+				al_draw_bitmap(splashImage, 0, 0, 0);
 
 				al_flip_display();
 
