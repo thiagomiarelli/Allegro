@@ -155,7 +155,7 @@ int main(int argc, char **argv){
 	
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
     ALLEGRO_FONT *splashFont = al_load_font("fonts/ethnocentricrg.ttf", 32, 1);
-	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 18, 1);
+	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 25, 1);
 	if(splashFont == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
@@ -248,7 +248,7 @@ int main(int argc, char **argv){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				itoa(points, pontos, 10);
 				drawSpace();
-				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 20, 0, pontos);
+				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
 				drawNave(&nave);
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
