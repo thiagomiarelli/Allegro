@@ -60,7 +60,8 @@ typedef struct TIRO
 	int raio_tiro = 6;
 	//pontos
 	int points = 0;
-	char pontos[4] = itoa(points);
+	char pontos[4];
+	itoa(points, pontos, 10);
 	//velociadde de deslocamento nave
 	int velocidadeNave = 25;
 
