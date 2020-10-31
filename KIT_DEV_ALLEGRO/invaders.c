@@ -253,6 +253,7 @@ int main(int argc, char **argv){
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens);
+				perdeu(linhas, colunas, aliens);
 				al_flip_display();
 				lost_status = perdeu(linhas, colunas, aliens);
 
@@ -294,7 +295,23 @@ int main(int argc, char **argv){
 		} 
 		else if(endScreen)
 		{
+			if(ev.type == ALLEGRO_EVENT_TIMER) {
+				
+				al_clear_to_color(al_map_rgb(0,0,0));
+				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Looser");
+				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, "Press any key to start");
 
+				al_flip_display();
+
+				if(al_get_timer_count(timer)%(int)FPS == 0)
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
+			}
+
+			else if(ev.keyboard.keycode == 75){
+				endScreen = 0;
+				gameScreen = 1;
+				
+			}
 		}
 
 	} //fim do while
@@ -378,7 +395,7 @@ int randInt(int min, int max){
 }
 
 int testaCanto(ALIEN *alien){
-	if((alien -> canto_x + ALIEN_W > SCREEN_W || alien -> canto_x < 0) && (alien -> exist == 1)){
+	if((alien -> canto_x + ALIEN_W > SCREEN_W || alien -> canto_x < 0) && (alien -> exist)){
 		return 1;
 	}
 	return 0;
@@ -463,7 +480,7 @@ int bateu(ALIEN *alien, TIRO *tiro){
 
 }
 
-int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	//se bater na base
 	int i, j;
 	for (i = 0; i < linhas; i++)
@@ -471,11 +488,10 @@ int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 		for (j = 0; j < colunas; j++)
 		{
 			if(alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H){
-				return 1;
+				gameScreen = 0;
+				endScreen = 1;
 			}
 		}
 		
-	}
-	return 0;
-	
+	}	
 }
