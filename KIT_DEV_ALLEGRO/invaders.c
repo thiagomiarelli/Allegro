@@ -483,7 +483,7 @@ int bateu(ALIEN *alien, TIRO *tiro){
 int perdeu_nave(ALIEN *alien, NAVE *nave){
 	int lado = 0;
 	int topo = 0;
-	if (abs(alien -> canto_x - nave -> ponta_x) < 3 || abs((alien -> canto_x + ALIEN_W) - nave -> ponta_x))
+	if (abs(alien -> canto_x - nave -> ponta_x) < 3 || abs((alien -> canto_x + ALIEN_W) - nave -> ponta_x) < 3)
 		lado = 1;
 	if((alien -> canto_y + ALIEN_H) - (SCREEN_H - (NAVE_H + FLUTACAO_NAVE)) < 2)
 		topo = 1;
@@ -501,7 +501,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 	{
 		for (j = 0; j < colunas; j++)
 		{
-			if((alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
+			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H) && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
 				gameScreen = 0;
 				endScreen = 1;
 				return;
