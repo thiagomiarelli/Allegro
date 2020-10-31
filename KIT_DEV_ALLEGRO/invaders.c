@@ -255,7 +255,7 @@ int main(int argc, char **argv){
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens);
-				perdeu(linhas, colunas, aliens);
+				perdeu(linhas, colunas, aliens, &nave);
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -501,7 +501,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 	{
 		for (j = 0; j < colunas; j++)
 		{
-			if((alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], &nave){
+			if((alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
 				gameScreen = 0;
 				endScreen = 1;
 				return;
