@@ -485,7 +485,7 @@ int perdeu_nave(ALIEN *alien, NAVE *nave){
 	int topo = 0;
 	if (abs(alien -> canto_x - nave -> ponta_x) < 3 || abs((alien -> canto_x + ALIEN_W) - nave -> ponta_x) < 3)
 		lado = 1;
-	if((alien -> canto_y + ALIEN_H) - (SCREEN_H - (NAVE_H + FLUTACAO_NAVE)) < 2)
+	if((SCREEN_H - (NAVE_H + FLUTACAO_NAVE)) - (alien -> canto_y + ALIEN_H) < 2)
 		topo = 1;
 	if(topo && lado && alien ->exist){
 		return 1;
