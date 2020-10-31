@@ -378,7 +378,7 @@ int randInt(int min, int max){
 }
 
 int testaCanto(ALIEN *alien){
-	if(alien -> canto_x + ALIEN_W > SCREEN_W || alien -> canto_x < 0 && (alien -> exist == 1)){
+	if((alien -> canto_x + ALIEN_W > SCREEN_W || alien -> canto_x < 0) && (alien -> exist == 1)){
 		return 1;
 	}
 	return 0;
