@@ -5,6 +5,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include <stdlib.h>
+#include <math.h>
 
 
 const float FPS = 60;  
@@ -89,7 +90,8 @@ void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
 int bateu(ALIEN *alien, TIRO *tiro);
-int perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave);
+int perdeu_nave(ALIEN *alien, NAVE *nave);
  
 int main(int argc, char **argv){
 	
@@ -255,8 +257,6 @@ int main(int argc, char **argv){
 				colisao(&tiro, linhas, colunas, aliens);
 				perdeu(linhas, colunas, aliens);
 				al_flip_display();
-				lost_status = perdeu(linhas, colunas, aliens);
-
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
@@ -480,16 +480,31 @@ int bateu(ALIEN *alien, TIRO *tiro){
 
 }
 
-void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+int perdeu_nave(ALIEN *alien, NAVE *nave){
+	int lado = 0;
+	int topo = 0;
+	if (abs(alien -> canto_x - nave -> ponta_x) < 3 || abs((alien -> canto_x + ALIEN_W) - nave -> ponta_x))
+		lado = 1;
+	if((alien -> canto_y + ALIEN_H) - (SCREEN_H - (NAVE_H + FLUTACAO_NAVE)) < 2)
+		topo = 1;
+	if(topo && lado && alien ->exist){
+		return 1;
+	}
+		return 0;
+	
+	
+}
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 	//se bater na base
 	int i, j;
 	for (i = 0; i < linhas; i++)
 	{
 		for (j = 0; j < colunas; j++)
 		{
-			if(alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H){
+			if((alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], &nave){
 				gameScreen = 0;
 				endScreen = 1;
+				return;
 			}
 		}
 		
