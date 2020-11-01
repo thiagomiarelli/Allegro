@@ -415,7 +415,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 			alien[i][j].canto_x += velocidade;
 			alien[i][j].canto_y = MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)) + altura;
 			if(alien[i][j].exist == 1){
-				drawAlien(&alien[i][j], );
+				drawAlien(&alien[i][j]);
 			}
 
 			if(testaCanto(&alien[i][j])){
