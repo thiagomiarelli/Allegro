@@ -387,7 +387,16 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> canto_y = y;
 	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
 	alien -> exist = 1;
-	alien -> skin = al_load_bitmap("images/fb_ship.png");
+	const char *names[7];
+	names[0] = "images/fb_ship.png";
+	names[1] = "images/am_ship.png";
+	names[2] = "images/gg_ship.png";
+	names[3] = "images/ig_ship.png";
+	names[4] = "images/ms_ship.png";
+	names[5] = "images/tk_ship.png";
+	names[6] = "images/tt_ship.png";
+	int skin_number = randInt(0, 6);
+	alien -> skin = al_load_bitmap(names[skin_number]);
 
 }
 //cria uma matriz de aliens
