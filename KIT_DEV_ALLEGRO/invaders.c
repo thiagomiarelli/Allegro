@@ -306,9 +306,9 @@ int main(int argc, char **argv){
 		} 
 		else if(endScreen)
 		{
-			void testRecord(update_record, recorde, pontos);
+			testRecord(update_record, recorde, pontos);
 			fclose(update_record);
-			char *pontos_char, recorde_char;
+			char *pontos_char, *recorde_char;
 			itoa(pontos, pontos_char, 10);
 			itoa(recorde, recorde_char, 10);
 
