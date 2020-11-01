@@ -18,9 +18,9 @@ const int NAVE_W = 80;
 const int FLUTACAO_NAVE = 15;
 const int DIST_NAVES_H = 30;
 const int DIST_NAVES_W = 30;
-const int ALIEN_W = 60;
-const int ALIEN_H = 30;
-const int MARGIN_W = 60;
+const int ALIEN_W = 90;
+const int ALIEN_H = 54;
+const int MARGIN_W = 30;
 const int MARGIN_H = 40;
 const int QUEDA = 60;
 
@@ -75,6 +75,10 @@ typedef struct TIRO
 	int splashScreen = 1;
 	int gameScreen = 0;
 	int endScreen = 0;
+
+	//global images
+		ALLEGRO_BITMAP *fbShip = NULL;
+		splashImage = al_load_bitmap("images/fb_ship.png");
 
 
 //function prototypes
@@ -208,7 +212,7 @@ int main(int argc, char **argv){
 	criaNave(&nave);
 
 	//cria aliens
-	int colunas = 7;
+	int colunas = 5;
 	int linhas = 4;
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
@@ -398,7 +402,7 @@ void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
 }
 
 void drawAlien(ALIEN *alien){
-	al_draw_filled_rectangle(alien->canto_x, alien->canto_y, alien ->canto_x + ALIEN_W, alien->canto_y - ALIEN_H, alien->cor );
+	al_draw_bitmap(fbShip, alien->canto_x, alien->canto_y, 0);
 }
 // cria grade com aliens
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds){
