@@ -63,6 +63,8 @@ typedef struct TIRO
 	//pontos
 	int points = 0;
 	char pontos[10];
+	int recorde = 0;
+
 	//velociadde de deslocamento nave
 	int velocidadeNave = 25;
 
@@ -228,7 +230,6 @@ int main(int argc, char **argv){
 
 		FILE *recorde_file;
     	recorde_file = fopen("recorde.txt", "r");
-		int recorde = 0;
 		fscanf(recorde_file, "%d", &recorde);
 		fclose(recorde_file);
 
