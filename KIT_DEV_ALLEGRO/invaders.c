@@ -54,8 +54,8 @@ typedef struct TIRO
 	// a altura da array de aliens
 	int altura = 0;
 	// velocidade aliens
-	int velocidade_inicial = 4;
-	int velocidade = 4;
+	float velocidade_inicial = 4;
+	float velocidade = 4;
 	// velocidade do tiro
 	int vel_tiro = 15;
 	//raio tiro
@@ -337,6 +337,7 @@ int main(int argc, char **argv){
 			else if(ev.keyboard.keycode == 75){
 				endScreen = 0;
 				gameScreen = 1;
+				points = 0;
 				reinicia(linhas, colunas, aliens);
 
 
@@ -552,6 +553,28 @@ void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 void testRecord(FILE *file, int recorde, int pontos){
 	if(pontos > recorde){
 		fprintf(file, "%d", pontos);
+	}
+
+}
+
+void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+	int sobrou = 0;
+	for (int i = 0; i < linhas; i++)
+	{
+		for (int j = 0; j < colunas; j++)
+		{
+			if(alien[i][j].exist){
+				sobrou = 1;
+				i = j = i+j;
+			}
+		}
+		
+	}
+	
+	if(!sobrou){
+	velocidade *= 1.2;
+	altura = 0;
+	criaMatrizAliens(linhas, colunas, alien);
 	}
 
 }
