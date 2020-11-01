@@ -189,6 +189,12 @@ int main(int argc, char **argv){
 	al_register_event_source(event_queue, al_get_mouse_event_source());  	
 
 	//abre o arquivo de recordes
+	FILE *recorde_file;
+    recorde_file = fopen("recorde.txt", "r");
+	int recorde = 0;
+	fscanf(recorde_file, "%d", &recorde);
+	fclose(recorde_file);
+
 	
 	int playing = 1;
 	//inicia o temporizador
@@ -219,6 +225,20 @@ int main(int argc, char **argv){
 	while(playing) {
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
+
+		FILE *recorde_file;
+    	recorde_file = fopen("recorde.txt", "r");
+		int recorde = 0;
+		fscanf(recorde_file, "%d", &recorde);
+		fclose(recorde_file);
+
+		FILE *update_record;
+		update_record = fopen("recorde.txt", "w");
+		testRecord(update_record, recorde, points);
+		fclose(update_record);
+		char recorde_char[10];
+		itoa(recorde, recorde_char, 10);
+
 
 
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
@@ -298,20 +318,6 @@ int main(int argc, char **argv){
 		} 
 		else if(endScreen)
 		{
-			// abre o arquivo para ler o recorde anterior
-			FILE *recorde_file;
-    		recorde_file = fopen("recorde.txt", "r");
-			int recorde = 0;
-			fscanf(recorde_file, "%d", &recorde);
-			fclose(recorde_file);
-
-			// abre o arquivo para atualizar o recorde
-			FILE *update_record;
-			update_record = fopen("recorde.txt", "w");
-			testRecord(update_record, recorde, points);
-			fclose(update_record);
-			char recorde_char[10];
-			itoa(recorde, recorde_char, 10);
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
@@ -330,8 +336,10 @@ int main(int argc, char **argv){
 			else if(ev.keyboard.keycode == 75){
 				endScreen = 0;
 				gameScreen = 1;
-				points = 0;
 				reinicia(linhas, colunas, aliens);
+
+
+				
 			}
 		}
 
