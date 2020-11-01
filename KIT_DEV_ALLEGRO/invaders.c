@@ -54,6 +54,7 @@ typedef struct TIRO
 	// a altura da array de aliens
 	int altura = 0;
 	// velocidade aliens
+	int velocidade_inicial = 4;
 	int velocidade = 4;
 	// velocidade do tiro
 	int vel_tiro = 15;
@@ -92,6 +93,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
 int bateu(ALIEN *alien, TIRO *tiro);
 void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave);
 int perdeu_nave(ALIEN *alien, NAVE *nave);
+void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
  
 int main(int argc, char **argv){
 	
@@ -185,7 +187,11 @@ int main(int argc, char **argv){
 	//registra na fila os eventos de mouse (ex: clicar em um botao do mouse)
 	al_register_event_source(event_queue, al_get_mouse_event_source());  	
 
-
+	//abre o arquivo de recordes
+	FILE *recorde_file;
+    recorde = fopen("recorde.txt", "r");
+	int recorde = 0;
+	fscanf(recorde_file, "%d", &recorde);
 	
 	int playing = 1;
 	//inicia o temporizador
@@ -310,6 +316,9 @@ int main(int argc, char **argv){
 			else if(ev.keyboard.keycode == 75){
 				endScreen = 0;
 				gameScreen = 1;
+				reinicia(linhas, colunas, aliens);
+
+
 				
 			}
 		}
@@ -494,6 +503,7 @@ int perdeu_nave(ALIEN *alien, NAVE *nave){
 	
 	
 }
+
 void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 	//se bater na base
 	int i, j;
@@ -501,7 +511,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 	{
 		for (j = 0; j < colunas; j++)
 		{
-			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H - GROUND_H) && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
+			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H - (float)(GROUND_H-4)) && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
 				gameScreen = 0;
 				endScreen = 1;
 				return;
@@ -509,4 +519,11 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 		}
 		
 	}	
+}
+
+void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]){
+	velocidade = velocidade_inicial;
+	altura = 0;
+	criaMatrizAliens(linhas, colunas, alien);
+
 }
