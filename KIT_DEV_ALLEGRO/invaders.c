@@ -189,7 +189,7 @@ int main(int argc, char **argv){
 
 	//abre o arquivo de recordes
 	FILE *recorde_file;
-    recorde = fopen("recorde.txt", "r");
+    recorde_file = fopen("recorde.txt", "r");
 	int recorde = 0;
 	fscanf(recorde_file, "%d", &recorde);
 	
