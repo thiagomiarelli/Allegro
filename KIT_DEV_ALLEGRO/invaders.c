@@ -37,6 +37,7 @@ typedef struct ALIEN{
 	float canto_x;
 	float canto_y;
 	int exist;
+	ALLEGRO_BITMAP *skin;
 
 } ALIEN;
 
@@ -76,9 +77,6 @@ typedef struct TIRO
 	int gameScreen = 0;
 	int endScreen = 0;
 
-	//global images
-		ALLEGRO_BITMAP *fbShip = NULL;
-		splashImage = al_load_bitmap("images/fb_ship.png");
 
 
 //function prototypes
@@ -224,6 +222,9 @@ int main(int argc, char **argv){
 	//imagens
 	ALLEGRO_BITMAP *splashImage = NULL;
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
+
+	ALLEGRO_BITMAP *fbShip = NULL;
+	fbShip = al_load_bitmap("images/fb_ship.png");
 
 
 
@@ -386,6 +387,8 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> canto_y = y;
 	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
 	alien -> exist = 1;
+	alien -> skin = al_load_bitmap("images/fb_ship.png");
+
 }
 //cria uma matriz de aliens
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
@@ -402,7 +405,7 @@ void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
 }
 
 void drawAlien(ALIEN *alien){
-	al_draw_bitmap(fbShip, alien->canto_x, alien->canto_y, 0);
+	al_draw_bitmap(alien -> skin, alien->canto_x, alien->canto_y, 0);
 }
 // cria grade com aliens
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds){
@@ -412,7 +415,7 @@ void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int s
 			alien[i][j].canto_x += velocidade;
 			alien[i][j].canto_y = MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)) + altura;
 			if(alien[i][j].exist == 1){
-				drawAlien(&alien[i][j]);
+				drawAlien(&alien[i][j], );
 			}
 
 			if(testaCanto(&alien[i][j])){
