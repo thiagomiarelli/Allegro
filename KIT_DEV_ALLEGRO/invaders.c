@@ -570,7 +570,7 @@ void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 void testRecord(FILE *file, int recorde, int pontos){
 	if(pontos > recorde){
-		fprintf(file, "%d", pontos);
+		fprintf(file, "vagabunda");
 	}
 
 }
