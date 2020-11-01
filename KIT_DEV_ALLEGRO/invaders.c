@@ -308,7 +308,7 @@ int main(int argc, char **argv){
 		{
 			testRecord(update_record, recorde, points);
 			fclose(update_record);
-			char *pontos_char, *recorde_char;
+			char recorde_char[10];
 			itoa(recorde, recorde_char, 10);
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
