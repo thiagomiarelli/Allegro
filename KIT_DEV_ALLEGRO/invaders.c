@@ -97,6 +97,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave);
 int perdeu_nave(ALIEN *alien, NAVE *nave);
 void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
+void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
  
 int main(int argc, char **argv){
 	
@@ -279,6 +280,7 @@ int main(int argc, char **argv){
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens);
+				repopulate(linhas, colunas, aliens);
 				perdeu(linhas, colunas, aliens, &nave);
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
