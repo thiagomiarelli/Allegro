@@ -306,17 +306,16 @@ int main(int argc, char **argv){
 		} 
 		else if(endScreen)
 		{
-			testRecord(update_record, recorde, pontos);
+			testRecord(update_record, recorde, points);
 			fclose(update_record);
 			char *pontos_char, *recorde_char;
-			itoa(pontos, pontos_char, 10);
 			itoa(recorde, recorde_char, 10);
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
 				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Looser");
-				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, pontos_char);
+				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, pontos);
 				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 120, 0, recorde_char);
 				
 
