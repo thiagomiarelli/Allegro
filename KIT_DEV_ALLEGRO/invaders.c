@@ -94,6 +94,7 @@ int bateu(ALIEN *alien, TIRO *tiro);
 void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave);
 int perdeu_nave(ALIEN *alien, NAVE *nave);
 void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void testRecord(FILE *file, int recorde, int pontos);
  
 int main(int argc, char **argv){
 	
@@ -192,6 +193,10 @@ int main(int argc, char **argv){
     recorde_file = fopen("recorde.txt", "r");
 	int recorde = 0;
 	fscanf(recorde_file, "%d", &recorde);
+	fclose(recorde_file);
+
+	FILE *update_record;
+	update_record = fopen("recorde.txt", "w");
 	
 	int playing = 1;
 	//inicia o temporizador
@@ -301,11 +306,19 @@ int main(int argc, char **argv){
 		} 
 		else if(endScreen)
 		{
+			void testRecord(update_record, recorde, pontos);
+			fclose(update_record);
+			char *pontos_char, recorde_char;
+			itoa(pontos, pontos_char, 10);
+			itoa(recorde, recorde_char, 10);
+
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
 				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Looser");
-				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, "Press any key to start");
+				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, pontos_char);
+				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 120, 0, recorde_char);
+				
 
 				al_flip_display();
 
@@ -525,5 +538,12 @@ void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	velocidade = velocidade_inicial;
 	altura = 0;
 	criaMatrizAliens(linhas, colunas, alien);
+
+}
+
+void testRecord(FILE *file, int recorde, int pontos){
+	if(pontos > recorde){
+		fprintf(file, "%d", pontos);
+	}
 
 }
