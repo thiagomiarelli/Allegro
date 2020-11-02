@@ -77,7 +77,25 @@ typedef struct TIRO
 	int gameScreen = 0;
 	int endScreen = 0;
 
+	//image variables background
+	ALLEGRO_BITMAP *background;
+	background = al_load_bitmap("images/background1.jpg");
 
+	//nave
+	const char *naves[3];
+	naves[0] = "images/nave1_1.png";
+	naves[1] = "images/nave1_2.png";
+	naves[2] = "images/nave1_3.png";
+
+	//aliens
+	const char *names[7];
+	names[0] = "images/fb_ship.png";
+	names[1] = "images/am_ship.png";
+	names[2] = "images/gg_ship.png";
+	names[3] = "images/ig_ship.png";
+	names[4] = "images/ms_ship.png";
+	names[5] = "images/tk_ship.png";
+	names[6] = "images/tt_ship.png";
 
 //function prototypes
 void drawSpace();
@@ -367,8 +385,6 @@ int main(int argc, char **argv){
 
 void drawSpace(){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	ALLEGRO_BITMAP *background;
-	background = al_load_bitmap("images/background1.jpg");
 	al_draw_bitmap(background, 0, 0, 0);
 
 
@@ -382,11 +398,6 @@ void criaNave(NAVE *nave){
 }
 
 void drawNave(NAVE *nave, int frame){
-
-   const char *naves[3];
-	naves[0] = "images/nave1_1.png";
-	naves[1] = "images/nave1_2.png";
-	naves[2] = "images/nave1_3.png";
 	nave -> skin = al_load_bitmap(naves[(int)((frame % (int)FPS)/20)]);
 	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
 
@@ -398,14 +409,6 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> canto_y = y;
 	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
 	alien -> exist = 1;
-	const char *names[7];
-	names[0] = "images/fb_ship.png";
-	names[1] = "images/am_ship.png";
-	names[2] = "images/gg_ship.png";
-	names[3] = "images/ig_ship.png";
-	names[4] = "images/ms_ship.png";
-	names[5] = "images/tk_ship.png";
-	names[6] = "images/tt_ship.png";
 	int skin_number = randInt(0, 6);
 	alien -> skin = al_load_bitmap(names[skin_number]);
 
