@@ -78,6 +78,15 @@ typedef struct TIRO
 	//game screen
 	char gameMode = 's';
 
+//audios declaration
+  ALLEGRO_SAMPLE_INSTANCE *tiro = NULL;
+  ALLEGRO_SAMPLE_INSTANCE *hit = NULL;
+  ALLEGRO_SAMPLE_INSTANCE *lost = NULL;
+  ALLEGRO_SAMPLE_INSTANCE *record = NULL;
+  ALLEGRO_SAMPLE *tiro_sound = NULL;
+  ALLEGRO_SAMPLE *hit_sound = NULL;
+  ALLEGRO_SAMPLE *lost_sound = NULL;
+  ALLEGRO_SAMPLE *record_sound = NULL;
 
 
 
@@ -104,12 +113,7 @@ void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
 
-//debug function
-void imageDebug (ALLEGRO_BITMAP *image){
-	if(image == NULL){
-		printf("\n image couldnt be load");
-	}
-}
+
 int main(int argc, char **argv){
 	
 	ALLEGRO_DISPLAY *display = NULL;
@@ -193,8 +197,6 @@ int main(int argc, char **argv){
    
    		printf("\n allegro was inicialized");
 
-
-
 	//registra na fila os eventos de tela (ex: clicar no X na janela)
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	//registra na fila os eventos de tempo: quando o tempo altera de t para t+1
@@ -250,6 +252,10 @@ int main(int argc, char **argv){
 	printf("\n static images were uploaded");
 
 	
+	//audios
+	ALLEGRO_SAMPLE *theme = NULL;
+    theme = al_load_sample("soundtrack/themesong.mp3"); 
+	al_play_sample(theme, 0.8, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
 
 	while(playing) {
@@ -267,22 +273,18 @@ int main(int argc, char **argv){
 		fclose(update_record);
 		char recorde_char[10];
 		itoa(recorde, recorde_char, 10);
-		printf("\n record files uploaded");
 
 
 
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
-		printf("\n trying to run game mode");
 
 		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			playing = 0;
 		}
 		else if(gameMode == 's'){
-			printf("\n set splash screen");
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				al_draw_bitmap(splashImage, 0, 0, 0);
-				printf("\n bitmap drawed");
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -366,6 +368,7 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 75){
 				gameMode = 'g';
+				points = 0;
 				reinicia(linhas, colunas, aliens);
 
 
