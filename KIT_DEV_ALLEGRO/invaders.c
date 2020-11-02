@@ -361,7 +361,7 @@ void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background){
 	// background jogo
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
-)
+}
 
 void drawSpace(ALLEGRO_BITMAP *background){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
