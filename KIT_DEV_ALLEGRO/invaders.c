@@ -282,7 +282,7 @@ int main(int argc, char **argv){
 				itoa(points, pontos, 10);
 				drawSpace();
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
-				drawNave(&nave, (int)(al_get_timer_count(timer));
+				drawNave(&nave, (int)(al_get_timer_count(timer)));
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens);
@@ -384,7 +384,7 @@ void drawNave(NAVE *nave, int frame){
 	naves[0] = "images/nave1_1.png";
 	naves[1] = "images/nave1_2.png";
 	naves[2] = "images/nave1_3.png";
-	nave -> skin = al_load_bitmap(names[(int)frame/(FPS/3)]);
+	nave -> skin = al_load_bitmap(naves[(int)frame/(FPS/3)]);
 	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
 
 
