@@ -219,15 +219,8 @@ int main(int argc, char **argv){
 	TIRO tiro;
 	criaTiro(&tiro);
 
-	//imagens
+	//cria variavel de imagem
 	ALLEGRO_BITMAP *splashImage = NULL;
-	splashImage = al_load_bitmap("images/splashscreen.jpg");
-
-	ALLEGRO_BITMAP *fbShip = NULL;
-	fbShip = al_load_bitmap("images/fb_ship.png");
-
-
-
 
 
 	while(playing) {
@@ -245,6 +238,7 @@ int main(int argc, char **argv){
 		fclose(update_record);
 		char recorde_char[10];
 		itoa(recorde, recorde_char, 10);
+		
 
 
 
@@ -254,10 +248,9 @@ int main(int argc, char **argv){
 		}
 		else if(splashScreen){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
-
-
+				splashImage = al_load_bitmap("images/splashscreen.jpg");
 				al_draw_bitmap(splashImage, 0, 0, 0);
-
+				al_destroy_bitmap(splashImage);
 				al_flip_display();
 
 				if(al_get_timer_count(timer)%(int)FPS == 0)
