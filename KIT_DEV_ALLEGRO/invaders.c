@@ -30,6 +30,7 @@ const int QUEDA = 60;
 typedef struct NAVE{
 	ALLEGRO_COLOR cor;
 	float ponta_x;
+	ALLEGRO_BITMAP *skin;
 } NAVE;
 
 typedef struct ALIEN{
@@ -82,7 +83,7 @@ typedef struct TIRO
 //function prototypes
 void drawSpace();
 void criaNave(NAVE *nave);
-void drawNave(NAVE *nave);
+void drawNave(NAVE *nave, int frame);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds);
@@ -281,7 +282,7 @@ int main(int argc, char **argv){
 				itoa(points, pontos, 10);
 				drawSpace();
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
-				drawNave(&nave);
+				drawNave(&nave, (int)(al_get_timer_count(timer));
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens);
@@ -377,9 +378,16 @@ void criaNave(NAVE *nave){
 	nave -> ponta_x = SCREEN_W/2;
 }
 
-void drawNave(NAVE *nave){
-	al_draw_filled_triangle( nave->ponta_x, SCREEN_H - (NAVE_H + FLUTACAO_NAVE), nave->ponta_x + NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE),
-   nave->ponta_x - NAVE_W/2, SCREEN_H - (FLUTACAO_NAVE), nave -> cor);
+void drawNave(NAVE *nave, int frame){
+
+   const char *naves[3];
+	naves[0] = "images/nave1_1.png";
+	naves[1] = "images/nave1_2.png";
+	naves[2] = "images/nave1_3.png";
+	nave -> skin = al_load_bitmap(names[(int)frame/(FPS/3)]);
+	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
+
+
 }
 // inicia o Alien
 void criaAlien(ALIEN *alien, float x, float y){
