@@ -191,6 +191,8 @@ int main(int argc, char **argv){
 		return -1;
 	}
    
+   		printf("\n allegro was inicialized");
+
 
 
 	//registra na fila os eventos de tela (ex: clicar no X na janela)
@@ -214,25 +216,36 @@ int main(int argc, char **argv){
 	//inicia o temporizador
 	al_start_timer(timer);
 	
+	printf("\n trying to create images in NAVE...");
+
 	//cria a nave;
 	NAVE nave;
 	criaNave(&nave);
+
+	printf("\n SUCESS");
+	printf("\n trying to create images in ALIENS...");
+
 
 	//cria aliens
 	int colunas = 5;
 	int linhas = 4;
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
+	printf("\n trying to create images in SUCESS...");
+
 
 	//cria tiro
 	TIRO tiro;
 	criaTiro(&tiro);
 
+
 	//imagens
 	ALLEGRO_BITMAP *splashImage, *background;
 	abreImagens(splashImage, background);
-	imageDebug (splashImage);
-	imageDebug (background);
+
+	printf("\n static images were uploaded");
+
+	
 
 
 	while(playing) {
