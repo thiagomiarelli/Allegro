@@ -30,6 +30,7 @@ typedef struct NAVE{
 	ALLEGRO_COLOR cor;
 	float ponta_x;
 	ALLEGRO_BITMAP *skin;
+	ALLEGRO_BITMAP nave_animation[5];
 } NAVE;
 
 typedef struct ALIEN{
@@ -38,6 +39,7 @@ typedef struct ALIEN{
 	float canto_y;
 	int exist;
 	ALLEGRO_BITMAP *skin;
+	ALLEGRO_BITMAP alien_options[20];
 
 } ALIEN;
 
@@ -82,13 +84,13 @@ typedef struct TIRO
 //function prototypes
 void drawSpace(ALLEGRO_BITMAP *background);
 void criaNave(NAVE *nave);
-void drawNave(NAVE *nave, int frame, ALLEGRO_BITMAP naves[3]);
+void drawNave(NAVE *nave, int frame);
 int randInt(int min, int max);
 void drawAlien(ALIEN *alien);
 void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds);
 int testaCanto(ALIEN *alien);
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
-void criaAlien(ALIEN *alien, float x, float y, ALLEGRO_BITMAP alien_options[7]);
+void criaAlien(ALIEN *alien, float x, float y);
 void updateTiro(TIRO *tiro);
 void atirar(TIRO *tiro, NAVE *nave);
 void drawTiro(TIRO *tiro);
@@ -100,9 +102,7 @@ int perdeu_nave(ALIEN *alien, NAVE *nave);
 void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background, ALLEGRO_BITMAP naves[3], ALLEGRO_BITMAP alien_options[7]);
-void closeImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background, ALLEGRO_BITMAP naves[3], ALLEGRO_BITMAP alien_options[7]);
- 
+void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
 int main(int argc, char **argv){
 	
 	ALLEGRO_DISPLAY *display = NULL;
@@ -221,19 +221,9 @@ int main(int argc, char **argv){
 	TIRO tiro;
 	criaTiro(&tiro);
 
-	//declaracao variaveis de imagem
-	ALLEGRO_BITMAP *splashImage, *background = NULL;
-	ALLEGRO_BITMAP naves[3];
-	ALLEGRO_BITMAP alien_options[7];
-
-	//atribuicao imagens
-	abreImagens(splashImage, background, naves, alien_options);
-
-
-
-
-
-
+	//imagens
+	ALLEGRO_BITMAP *splashImage, *background;
+	abreImagens(splashImage, background);
 
 
 	while(playing) {
@@ -260,12 +250,8 @@ int main(int argc, char **argv){
 		}
 		else if(splashScreen){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
-
-
 				al_draw_bitmap(splashImage, 0, 0, 0);
-
 				al_flip_display();
-
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
@@ -285,9 +271,9 @@ int main(int argc, char **argv){
 			//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				itoa(points, pontos, 10);
-				drawSpace(background);
+				drawSpace();
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
-				drawNave(&nave, (int)(al_get_timer_count(timer)), naves);
+				drawNave(&nave, (int)(al_get_timer_count(timer)));
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens);
@@ -362,7 +348,7 @@ int main(int argc, char **argv){
      
 	//procedimentos de fim de jogo (fecha a tela, limpa a memoria, etc)
 	
-	closeImagens(splashImage, background, naves, alien_options);
+ 
 	al_destroy_timer(timer);
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
@@ -371,79 +357,61 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background, ALLEGRO_BITMAP naves[3], ALLEGRO_BITMAP alien_options[7]){
+void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background){
 	// background jogo
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
 
-	//animacao nave
-	naves[0] = al_load_bitmap("images/nave1_1.png");
-	naves[1] = al_load_bitmap("images/nave1_2.png");
-	naves[2] = al_load_bitmap("images/nave1_3.png");
-
-	//aliens
-	alien_options[0] = al_load_bitmap("images/fb_ship.png");
-	alien_options[1] = al_load_bitmap("images/am_ship.png");
-	alien_options[2] = al_load_bitmap("images/gg_ship.png");
-	alien_options[3] = al_load_bitmap("images/ig_ship.png");
-	alien_options[4] = al_load_bitmap("images/ms_ship.png");
-	alien_options[5] = al_load_bitmap("images/tk_ship.png");
-	alien_options[6] = al_load_bitmap("images/tt_ship.png");
-
-}
-
-void closeImages(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background, ALLEGRO_BITMAP naves[3], ALLEGRO_BITMAP alien_options[7]){
-	// background jogo
-	al_destroy_bitmap(splashImage);
-	al_destroy_bitmap(background);
-
-	//animacao nave
-	for (int i = 0; i < 3; i++)
-	{
-		al_destroy_bitmap(naves[i]);
-	}
-	//aliens
-	for (int i = 0; i < 7; i++)
-	{
-		al_destroy_bitmap(alien_options[i]);
-	}
-
-}
 
 void drawSpace(ALLEGRO_BITMAP *background){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_draw_bitmap(background, 0, 0, 0);
+
+
+    
+
 }
 
 void criaNave(NAVE *nave){
 	nave -> cor =  al_map_rgb(241, 170, 25);
-	nave -> ponta_x = SCREEN_W/2;
+	nave -> ponta_x = SCREEN_W/2; 
+	nave -> nave_animation[0] = al_load_bitmap("images/nave1_1.png");
+	nave -> nave_animation[1] = al_load_bitmap("images/nave1_2.png");
+	nave -> nave_animation[2] = al_load_bitmap("images/nave1_3.png");
 }
 
-void drawNave(NAVE *nave, int frame, ALLEGRO_BITMAP naves[3]){
+void drawNave(NAVE *nave, int frame){
 
-	nave -> skin = naves[(int)((frame % (int)FPS)/20)];
+   
+	nave -> skin = al_load_bitmap(nave -> nave_animation[(int)((frame % (int)FPS)/20)]);
 	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
 
 
 }
 // inicia o Alien
-void criaAlien(ALIEN *alien, float x, float y, ALLEGRO_BITMAP alien_options[7]){
+void criaAlien(ALIEN *alien, float x, float y){
 	alien -> canto_x = x;
 	alien -> canto_y = y;
 	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
 	alien -> exist = 1;
+	alien -> alien_options[0] = al_load_bitmap("images/fb_ship.png");
+	alien -> alien_options[1] = al_load_bitmap("images/am_ship.png");
+	alien -> alien_options[2] = al_load_bitmap("images/gg_ship.png");
+	alien -> alien_options[3] = al_load_bitmap("images/ig_ship.png");
+	alien -> alien_options[4] = al_load_bitmap("images/ms_ship.png");
+	alien -> alien_options[5] = al_load_bitmap("images/tk_ship.png");
+	alien -> alien_options[6] = al_load_bitmap("images/tt_ship.png");
 	int skin_number = randInt(0, 6);
 	alien -> skin = alien_options[skin_number];
 
 }
 //cria uma matriz de aliens
-void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas], ALLEGRO_BITMAP alien_options[7]){
+void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
 	for (int i = 0; i < linhas; i++)
 	{
 		for (int j = 0; j < colunas; j++)
 		{
-			criaAlien(&aliens[i][j], MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W)), MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)), alien_options);
+			criaAlien(&aliens[i][j], MARGIN_W + (j * (ALIEN_W + DIST_NAVES_W)), MARGIN_H + (i * (ALIEN_H + DIST_NAVES_H)));
 		}
 		
 	}
