@@ -30,7 +30,7 @@ typedef struct NAVE{
 	ALLEGRO_COLOR cor;
 	float ponta_x;
 	ALLEGRO_BITMAP *skin;
-	ALLEGRO_BITMAP nave_animation[5];
+	ALLEGRO_BITMAP nave_animation[3];
 } NAVE;
 
 typedef struct ALIEN{
@@ -39,7 +39,7 @@ typedef struct ALIEN{
 	float canto_y;
 	int exist;
 	ALLEGRO_BITMAP *skin;
-	ALLEGRO_BITMAP alien_options[20];
+	ALLEGRO_BITMAP alien_options[7];
 
 } ALIEN;
 
