@@ -370,7 +370,6 @@ void drawSpace(){
 	ALLEGRO_BITMAP *background;
 	background = al_load_bitmap("images/background1.jpg");
 	al_draw_bitmap(background, 0, 0, 0);
-	al_destroy_bitmap(background);
 
 
     
@@ -390,14 +389,11 @@ void drawNave(NAVE *nave, int frame){
 	naves[2] = "images/nave1_3.png";
 	nave -> skin = al_load_bitmap(naves[(int)((frame % (int)FPS)/20)]);
 	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
-	al_destroy_bitmap(nave -> skin);
-
 
 
 }
 // inicia o Alien
 void criaAlien(ALIEN *alien, float x, float y){
-	al_destroy_bitmap(alien->skin);
 	alien -> canto_x = x;
 	alien -> canto_y = y;
 	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
@@ -412,7 +408,6 @@ void criaAlien(ALIEN *alien, float x, float y){
 	names[6] = "images/tt_ship.png";
 	int skin_number = randInt(0, 6);
 	alien -> skin = al_load_bitmap(names[skin_number]);
-
 
 }
 //cria uma matriz de aliens
