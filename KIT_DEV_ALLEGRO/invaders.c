@@ -25,12 +25,12 @@ const int QUEDA = 60;
 
 
 
-//type definitionsa
+//type definitions
 typedef struct NAVE{
 	ALLEGRO_COLOR cor;
 	float ponta_x;
 	ALLEGRO_BITMAP *skin;
-	ALLEGRO_BITMAP nave_animation[3];
+	ALLEGRO_BITMAP *nave_animation[3];
 } NAVE;
 
 typedef struct ALIEN{
@@ -39,7 +39,7 @@ typedef struct ALIEN{
 	float canto_y;
 	int exist;
 	ALLEGRO_BITMAP *skin;
-	ALLEGRO_BITMAP alien_options[7];
+	ALLEGRO_BITMAP *alien_options[7];
 
 } ALIEN;
 
