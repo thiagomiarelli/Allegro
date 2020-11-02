@@ -347,7 +347,7 @@ int main(int argc, char **argv){
 			}
 
 		} 
-		else if(endScreen)
+		else if(gameMode = 'e ')
 		{
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -589,7 +589,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 		for (j = 0; j < colunas; j++)
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H - (float)(GROUND_H-4)) && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
-				gameMode = 'g';
+				gameMode = 'e';
 				return;
 			}
 		}
@@ -634,5 +634,3 @@ void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	}
 
 }
-
-void alienAtira()
