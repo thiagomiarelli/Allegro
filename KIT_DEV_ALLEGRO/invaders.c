@@ -271,7 +271,7 @@ int main(int argc, char **argv){
 			//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				itoa(points, pontos, 10);
-				drawSpace();
+				drawSpace(background);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
 				drawNave(&nave, (int)(al_get_timer_count(timer)));
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
@@ -361,7 +361,7 @@ void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background){
 	// background jogo
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
-
+)
 
 void drawSpace(ALLEGRO_BITMAP *background){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
