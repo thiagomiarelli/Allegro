@@ -234,7 +234,7 @@ int main(int argc, char **argv){
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
 	imageDebug (aliens[1][2].alien_options[6]);
-	printf("\n trying to create images in SUCESS...");
+	printf("\n SUCESSO");
 
 
 	//cria tiro
@@ -244,7 +244,8 @@ int main(int argc, char **argv){
 
 	//imagens
 	ALLEGRO_BITMAP *splashImage, *background;
-	abreImagens(splashImage, background);
+	splashImage = al_load_bitmap("images/splashscreen.jpg");
+	background = al_load_bitmap("images/background1.jpg");
 
 	printf("\n static images were uploaded");
 
