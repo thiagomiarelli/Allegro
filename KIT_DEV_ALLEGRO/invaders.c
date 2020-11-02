@@ -103,6 +103,13 @@ void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
+
+//debug function
+void imageDebug (ALLEGRO_BITMAP *image){
+	if(image == NULL){
+		printf("\n image couldnt be load");
+	}
+}
 int main(int argc, char **argv){
 	
 	ALLEGRO_DISPLAY *display = NULL;
@@ -224,6 +231,8 @@ int main(int argc, char **argv){
 	//imagens
 	ALLEGRO_BITMAP *splashImage, *background;
 	abreImagens(splashImage, background);
+	imageDebug (splashImage);
+	imageDebug (background);
 
 
 	while(playing) {
