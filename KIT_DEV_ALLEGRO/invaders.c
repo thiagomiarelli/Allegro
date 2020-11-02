@@ -40,6 +40,7 @@ typedef struct ALIEN{
 	int exist;
 	ALLEGRO_BITMAP *skin;
 	ALLEGRO_BITMAP *alien_options[7];
+	int velocidadeTiro;
 
 } ALIEN;
 
@@ -75,9 +76,8 @@ typedef struct TIRO
 	int lost_status = 0;
 
 	//game screen
-	int splashScreen = 1;
-	int gameScreen = 0;
-	int endScreen = 0;
+	char gameMode = 's';
+
 
 
 
@@ -277,7 +277,7 @@ int main(int argc, char **argv){
 		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			playing = 0;
 		}
-		else if(splashScreen){
+		else if(gameMode == 's'){
 			printf("\n set splash screen");
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -289,15 +289,14 @@ int main(int argc, char **argv){
 			}
 
 			else if(ev.keyboard.keycode == 19){
-				splashScreen = 0;
-				gameScreen = 1;
+				gameMode = 'g';
 				
 			}
 
 		
 		}
 		// modo de jogo "jogando"
-		else if(gameScreen)
+		else if(gameMode == 'g')
 		{
 
 			//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
@@ -590,8 +589,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 		for (j = 0; j < colunas; j++)
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H - (float)(GROUND_H-4)) && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
-				gameScreen = 0;
-				endScreen = 1;
+				gameMode = 'g';
 				return;
 			}
 		}
@@ -636,3 +634,5 @@ void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	}
 
 }
+
+void alienAtira()
