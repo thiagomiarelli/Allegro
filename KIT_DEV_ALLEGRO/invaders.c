@@ -221,7 +221,7 @@ int main(int argc, char **argv){
 	//cria a nave;
 	NAVE nave;
 	criaNave(&nave);
-	void imageDebug (nave.(nave_animation[2]));
+	imageDebug (nave.nave_animation[2]);
 
 
 	printf("\n SUCESS");
@@ -233,7 +233,7 @@ int main(int argc, char **argv){
 	int linhas = 4;
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
-	void imageDebug ((aliens[1][2]).alien_options[6]);
+	imageDebug (aliens[1][2].alien_options[6]);
 	printf("\n trying to create images in SUCESS...");
 
 
