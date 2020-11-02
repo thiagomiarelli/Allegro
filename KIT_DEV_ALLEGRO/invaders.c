@@ -383,7 +383,7 @@ void criaNave(NAVE *nave){
 void drawNave(NAVE *nave, int frame){
 
    
-	nave -> skin = al_load_bitmap(nave -> nave_animation[(int)((frame % (int)FPS)/20)]);
+	nave -> skin = nave -> nave_animation[(int)((frame % (int)FPS)/20)];
 	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
 
 
@@ -402,7 +402,7 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> alien_options[5] = al_load_bitmap("images/tk_ship.png");
 	alien -> alien_options[6] = al_load_bitmap("images/tt_ship.png");
 	int skin_number = randInt(0, 6);
-	alien -> skin = alien_options[skin_number];
+	alien -> skin = alien -> alien_options[skin_number];
 
 }
 //cria uma matriz de aliens
