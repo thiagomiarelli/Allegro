@@ -367,7 +367,11 @@ int main(int argc, char **argv){
 
 void drawSpace(){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_draw_bitmap("images/background1.jpg", 0, 0, 0);
+	ALLEGRO_BITMAP *background;
+	background = al_load_bitmap("images/background1.jpg");
+	al_draw_bitmap(background, 0, 0, 0);
+
+
     
 
 }
