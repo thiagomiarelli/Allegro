@@ -13,9 +13,8 @@ const float FPS = 60;
 const int SCREEN_W = 1280;
 const int SCREEN_H = 720;
 const int GROUND_H = 60;
-const int NAVE_H = 60;
 const int NAVE_W = 80;
-const int FLUTACAO_NAVE = 15;
+const int FLUTACAO_NAVE = 110;
 const int DIST_NAVES_H = 30;
 const int DIST_NAVES_W = 30;
 const int ALIEN_W = 90;
@@ -368,8 +367,13 @@ int main(int argc, char **argv){
 
 void drawSpace(){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_draw_filled_rectangle(0, SCREEN_H - GROUND_H, SCREEN_W, SCREEN_H,
-   al_map_rgb(000, 133, 211));
+	ALLEGRO_BITMAP *background;
+	background = al_load_bitmap("images/background1.jpg");
+	al_draw_bitmap(background, 0, 0, 0);
+	al_destroy_bitmap(background);
+
+
+    
 
 }
 
@@ -386,11 +390,14 @@ void drawNave(NAVE *nave, int frame){
 	naves[2] = "images/nave1_3.png";
 	nave -> skin = al_load_bitmap(naves[(int)((frame % (int)FPS)/20)]);
 	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
+	al_destroy_bitmap(nave -> skin);
+
 
 
 }
 // inicia o Alien
 void criaAlien(ALIEN *alien, float x, float y){
+	al_destroy_bitmap(alien->skin);
 	alien -> canto_x = x;
 	alien -> canto_y = y;
 	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
@@ -405,6 +412,7 @@ void criaAlien(ALIEN *alien, float x, float y){
 	names[6] = "images/tt_ship.png";
 	int skin_number = randInt(0, 6);
 	alien -> skin = al_load_bitmap(names[skin_number]);
+
 
 }
 //cria uma matriz de aliens
@@ -472,7 +480,7 @@ void atirar(TIRO *tiro, NAVE *nave){
 	printf("\n atirou");
 	tiro -> exist = 1;
 	tiro -> x = nave -> ponta_x;
-	tiro -> y = (SCREEN_H - (NAVE_H + FLUTACAO_NAVE));
+	tiro -> y = (SCREEN_H - FLUTACAO_NAVE);
 	tiro -> raio = raio_tiro; 
 }
 
@@ -542,7 +550,7 @@ int perdeu_nave(ALIEN *alien, NAVE *nave){
 	int topo = 0;
 	if (abs(alien -> canto_x - nave -> ponta_x) < 3 || abs((alien -> canto_x + ALIEN_W) - nave -> ponta_x) < 3)
 		lado = 1;
-	if((SCREEN_H - (NAVE_H + FLUTACAO_NAVE)) - (alien -> canto_y + ALIEN_H) < 2)
+	if((SCREEN_H - (FLUTACAO_NAVE)) - (alien -> canto_y + ALIEN_H) < 2)
 		topo = 1;
 	if(topo && lado && alien ->exist){
 		return 1;
