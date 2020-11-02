@@ -347,7 +347,7 @@ int main(int argc, char **argv){
 			}
 
 		} 
-		else if(gameMode = 'e ')
+		else if(gameMode == 'e')
 		{
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -365,9 +365,7 @@ int main(int argc, char **argv){
 			}
 
 			else if(ev.keyboard.keycode == 75){
-				endScreen = 0;
-				gameScreen = 1;
-				points = 0;
+				gameMode = 'g';
 				reinicia(linhas, colunas, aliens);
 
 
