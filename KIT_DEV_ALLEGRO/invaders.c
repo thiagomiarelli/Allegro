@@ -363,6 +363,7 @@ void drawSpace(){
 	ALLEGRO_BITMAP *background;
 	background = al_load_bitmap("images/background1.jpg");
 	al_draw_bitmap(background, 0, 0, 0);
+	al_destroy_bitmap(background);
 
 
     
@@ -382,6 +383,7 @@ void drawNave(NAVE *nave, int frame){
 	naves[2] = "images/nave1_3.png";
 	nave -> skin = al_load_bitmap(naves[(int)((frame % (int)FPS)/20)]);
 	al_draw_bitmap(nave -> skin, nave -> ponta_x - NAVE_W/2, SCREEN_H - FLUTACAO_NAVE, 0);
+	al_destroy_bitmap(nave -> skin);
 
 
 }
@@ -401,7 +403,6 @@ void criaAlien(ALIEN *alien, float x, float y){
 	names[6] = "images/tt_ship.png";
 	int skin_number = randInt(0, 6);
 	alien -> skin = al_load_bitmap(names[skin_number]);
-
 }
 //cria uma matriz de aliens
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]){
@@ -498,6 +499,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
 		{
 			if(bateu(&alien[i][j], tiro)){
 				alien[i][j].exist = 0;
+				al_destroy_bitmap(alien[i][j].skin);
 				tiro -> exist = 0;
 				points++;
 				//quebra o loop
