@@ -266,16 +266,22 @@ int main(int argc, char **argv){
 		fclose(update_record);
 		char recorde_char[10];
 		itoa(recorde, recorde_char, 10);
+		printf("\n record files uploaded");
 
 
 
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
+		printf("\n trying to run game mode");
+
 		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			playing = 0;
 		}
 		else if(splashScreen){
+			printf("\n set splash screen");
+
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				al_draw_bitmap(splashImage, 0, 0, 0);
+				printf("\n bitmap drawed");
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
