@@ -833,8 +833,7 @@ int compraPowerup(FILE *powerups, char tipo){
 }
 
 int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
-	int mouse_x = clique.mouse.x;
-	int mouse_y = clique.mouse.y;
+
 	if(mouse_x > x1 && mouse_x > x4 && mouse_x < x2 && mouse_x < x3 && mouse_y > y1 && mouse_y > y2 && mouse_y < y3 &&mouse_y < y4){
 		return 1;
 	}
