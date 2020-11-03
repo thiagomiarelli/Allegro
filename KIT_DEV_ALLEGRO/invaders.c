@@ -291,7 +291,9 @@ int main(int argc, char **argv){
 		char recorde_char[10];
 		itoa(recorde, recorde_char, 10);
 
-
+		if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+				printf("\nmouse clicado em: %d, %d", ev.mouse.x, ev.mouse.y);
+			}
 
 		//se o tipo de evento for o fechamento da tela (clique no x da janela)
 
@@ -337,9 +339,7 @@ int main(int argc, char **argv){
 			}
 
 			//se o tipo de evento for um clique de mouse
-			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
-				printf("\nmouse clicado em: %d, %d", ev.mouse.x, ev.mouse.y);
-			}
+			
 			//se o tipo de evento for um pressionar de uma tecla
 			else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 				//imprime qual tecla foi
