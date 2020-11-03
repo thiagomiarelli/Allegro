@@ -283,6 +283,7 @@ int main(int argc, char **argv){
 		FILE *recorde_file;
     	recorde_file = fopen("recorde.txt", "r");
 		fscanf(recorde_file, "%d", &recorde);
+		printf("\n recorde: %d", recorde);
 		fclose(recorde_file);
 
 		FILE *update_record;
@@ -378,7 +379,7 @@ int main(int argc, char **argv){
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
 				al_draw_bitmap(end_game, 0, 0, 0);
-				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 642, 194, ALLEGRO_ALIGN_CENTER, pontos);
+				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
 				al_draw_text(comunication, al_map_rgb(15, 15, 15), 730, 435, 0, pontos);
 				al_draw_text(comunication, al_map_rgb(15, 15, 15), 558, 435, 0, recorde_char);
 				
@@ -660,7 +661,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				if(points >= recorde){
-					printf("pontos %d, record %d", pontos, recorde);
+					printf("pontos %d, record %d", points, recorde);
 					gameMode = 'r';
 					return;
 				} else {
