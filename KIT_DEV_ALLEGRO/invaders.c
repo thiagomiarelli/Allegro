@@ -253,7 +253,7 @@ int main(int argc, char **argv){
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
 	new_record = al_load_bitmap("images/endscreen.jpg");
-	end_game = al_load_bitmap("images/endscreen_nr.jpg.jpg");
+	end_game = al_load_bitmap("images/endscreen_nr.jpg");
 
 	printf("\n static images were uploaded");
 
