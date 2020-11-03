@@ -374,8 +374,8 @@ int main(int argc, char **argv){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
-				al_draw_bitmap(splashImage, 0, 0, 0);
-				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/2, 300, 0, pontos);
+				al_draw_bitmap(new_record, 0, 0, 0);
+				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/2 - 50, 200, 0, pontos);
 				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, pontos);
 				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 120, 0, recorde_char);
 				
