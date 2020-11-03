@@ -115,6 +115,8 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo);
 void drawLoja(ALLEGRO_BITMAP *background);
 void getPowerupData(FILE *powerups);
 int compraPowerup(FILE *powerups, char tipo);
+int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+void preenchePowerUp();
 
 
 
@@ -482,6 +484,7 @@ int main(int argc, char **argv){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				drawLoja(fundo_loja);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 1074, 122, 0, moedas_char);
+				preenchePowerUp();
 				if(moedas >= POWERUP_PRICE){
 					al_draw_bitmap(purchase_button, 986, 329, 0);
 					al_draw_bitmap(purchase_button, 986, 543, 0);
@@ -819,4 +822,27 @@ int compraPowerup(FILE *powerups, char tipo){
 	return 0;
 	}
 	return 1;
+}
+
+int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
+	int mouse_x = clique.mouse.x;
+	int mouse_y = clique.mouse.y;
+	if(mouse_x > x1 && mouse_x > x4 && mouse_x < x2 && mouse_x < x3 && mouse_y > y1 && mouse_y > y2 && mouse_y < y3 &&mouse_y < y4){
+		return 1;
+	}
+	return 0;
+}
+
+void preenchePowerUp(){
+	for (int i = 1; i < horizontal_powerup; i++)
+	{
+		al_draw_filled_rectangle(608 + (50*i), 325, 608 + (45*i), 258,
+		al_map_rgb(255, 255, 255));
+	}
+
+	for (int i = 1; i < horizontal_powerup; i++)
+	{
+		al_draw_filled_rectangle(608 + (50*i), 546, 608 + (45*i), 580,
+		al_map_rgb(255, 255, 255));
+	}
 }
