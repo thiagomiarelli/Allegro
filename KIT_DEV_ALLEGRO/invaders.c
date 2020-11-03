@@ -834,15 +834,15 @@ int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, in
 }
 
 void preenchePowerUp(){
-	for (int i = 1; i < horizontal_powerup - 1; i++)
+	for (int i = 0; i < horizontal_powerup - 1; i++)
 	{
-		al_draw_filled_rectangle(618 + (80*i), 323, 618 + (150*i), 360,
+		al_draw_filled_rectangle(618 + (75*i), 323, 678 + (150*i), 360,
 		al_map_rgb(255, 255, 255));
 	}
 
-	for (int i = 1; i < horizontal_powerup; i++)
+	for (int i = 0; i < horizontal_powerup; i++)
 	{
-		al_draw_filled_rectangle(618 + (80*i), 546, 618 + (150*i), 580,
+		al_draw_filled_rectangle(618 + (75*i), 546, 678 + (150*i), 580,
 		al_map_rgb(255, 255, 255));
 	}
 }
