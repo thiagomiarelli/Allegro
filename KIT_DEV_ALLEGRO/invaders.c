@@ -249,7 +249,7 @@ int main(int argc, char **argv){
 
 
 	//imagens
-	ALLEGRO_BITMAP *splashImage, *background, *new_record;
+	ALLEGRO_BITMAP *splashImage, *background, *new_record, *end_game;
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
 	new_record = al_load_bitmap("images/endscreen.jpg");
