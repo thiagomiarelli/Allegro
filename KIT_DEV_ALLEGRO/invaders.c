@@ -416,7 +416,7 @@ int main(int argc, char **argv){
    al_destroy_sample(hit_sound);
    al_destroy_sample(tiro_sound);
    al_destroy_sample(record_sound);
-   al_destroy_sample(theme);
+   al_destroy_sample(theme_song);
  
 	return 0;
 }
