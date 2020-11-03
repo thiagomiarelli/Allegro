@@ -265,7 +265,7 @@ int main(int argc, char **argv){
  	 ALLEGRO_SAMPLE *record_sound = al_load_sample("soundtrack/tiro.mp3");
 	
 	//background music
-	 ALLEGRO_SAMPLES *theme_song = al_load_sample("soundtrack/game_theme.mp3")
+	 ALLEGRO_SAMPLES *theme_song = al_load_sample("soundtrack/game_theme.mp3");
 	 ALLEGRO_SAMPLE_INSTANCE *theme_instance = al_create_sample_instance(theme_song);
 	 al_set_sample_instance_playmode(theme_instance, ALLEGRO_PLAYMODE_LOOP);
 	 al_set_sample_instance_gain(theme_instance, 0.4);
