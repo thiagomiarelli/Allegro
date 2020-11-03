@@ -264,7 +264,7 @@ int main(int argc, char **argv){
  	 ALLEGRO_SAMPLE *record_sound = al_load_sample("soundtrack/tiro.mp3");
 	 ALLEGRO_SAMPLE *theme = NULL;
 
-	 al_reserve_samples(1);
+	 al_reserve_samples(5);
 	
 
 	while(playing) {
@@ -375,7 +375,7 @@ int main(int argc, char **argv){
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
 
-			else if(ev.keyboard.keycode == 75){
+			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
 				points = 0;
 				reinicia(linhas, colunas, aliens);
