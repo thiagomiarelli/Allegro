@@ -375,14 +375,18 @@ int main(int argc, char **argv){
 		//modo de jogo final
 		else if(gameMode == 'e')
 		{
-
+			printf("\n inicio do else");
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
-				
+				printf("\n times iniciado");
 				al_clear_to_color(al_map_rgb(0,0,0));
+				printf("\n imprimir imagem");
 				al_draw_bitmap(end_game, 0, 0, 0);
+				printf("\n sucesso");
+				printf("\n imprimindo texto...");
 				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
 				al_draw_text(comunication, al_map_rgb(15, 15, 15), 730, 435, 0, pontos);
 				al_draw_text(comunication, al_map_rgb(15, 15, 15), 558, 435, 0, recorde_char);
+				printf("\nsucesso");
 				
 
 				al_flip_display();
@@ -663,6 +667,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				if(points >= recorde){
 					gameMode = 'r';
+					printf("\n declaracao de derrota");
 					return;
 				} else {
 					gameMode = 'e';
