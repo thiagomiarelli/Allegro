@@ -83,6 +83,8 @@ typedef struct TIRO
 	int moedas = 0;
 	FILE *moedas_file = NULL;
 	char moedas_char[7];
+	int horizontal_powerup = 0;
+	int tiro_powerup = 0;
 
 
 //function prototypes
@@ -108,6 +110,10 @@ void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
 void atualizaMoedas(FILE *moedas_file, int valor, char modo);
+void drawLoja(ALLEGRO_BITMAP *background);
+void getPowerupData(FILE *powerups);
+int compraPowerup(FILE *powerups, char tipo);
+
 
 
 int main(int argc, char **argv){
@@ -253,11 +259,12 @@ int main(int argc, char **argv){
 	//----------------------- IMAGENS ---------------------------------------
 
 	//imagens
-	ALLEGRO_BITMAP *splashImage, *background, *new_record, *end_game;
+	ALLEGRO_BITMAP *splashImage, *background, *new_record, *end_game, *fundo_loja;
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
 	new_record = al_load_bitmap("images/endscreen.jpg");
 	end_game = al_load_bitmap("images/endscreen_nr.jpg");
+	fundo_loja = al_load_bitmap("images/LOJA.jpg");
 
 	printf("\n static images were uploaded");
 
@@ -474,6 +481,7 @@ int main(int argc, char **argv){
 	al_destroy_bitmap(background);
 	al_destroy_bitmap(new_record);
 	al_destroy_bitmap(end_game);
+	al_destroy_bitmap(fundo_loja);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -485,6 +493,7 @@ int main(int argc, char **argv){
    al_destroy_sample(tiro_sound);
    al_destroy_sample(record_sound);
    al_destroy_sample(theme_song);
+   al_destroy_sample_instance(theme_instance);
  
 	return 0;
 }
@@ -694,7 +703,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				atualizaMoedas(moedas_file, points, 'e');
 
-				if(points > recorde){
+				if(points >= recorde){
 					gameMode = 'r';
 					printf("\n declaracao de derrota");
 					return;
@@ -760,4 +769,32 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo){
 		fclose(moedas_file);
 	}
 
+}
+
+void drawLoja(ALLEGRO_BITMAP *background){
+	atualizaMoedas(moedas_file, 0, 'e');
+	al_draw_bitmap(background, 0, 0, 0);
+	IF
+}
+
+void getPowerupData(FILE *powerups){
+	powerups = fopen("powerups.txt", "r");
+	//quantidade de powerup de velocidade horizontal comprada
+	fscanf(powerups, "%d", horizontal_powerup);
+	//quantidade de velocidade de tiro vertical comprado 
+	fscanf(powerups, "%d", tiro_powerup);
+}
+
+int compraPowerup(FILE *powerups, char tipo){
+	if(moedas >= 250){
+	powerups = fopen("powerups.txt", "w");
+	atualizaMoedas(moedas_file, 250, 's');
+	if(tipo == 'h')
+		fprintf(powerups, "%d %d", horizontal_powerup + 1, tiro_powerup);
+	else if(tipo == 't')
+		fprintf(powerups, "%d", horizontal_powerup, tiro_powerup + 1);
+	
+	return 0;
+	}
+	return 1;
 }
