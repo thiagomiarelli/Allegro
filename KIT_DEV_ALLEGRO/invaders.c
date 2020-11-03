@@ -663,7 +663,8 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				atualizaMoedas(moedas_file, points);
-				if(points >= recorde){
+
+				if(points > recorde){
 					gameMode = 'r';
 					printf("\n declaracao de derrota");
 					return;
@@ -721,5 +722,6 @@ void atualizaMoedas(FILE *moedas_file, int pontos){
 	fclose(moedas_file);
 	moedas_file = fopen("moedas.txt", "w");
 	fprintf(moedas_file, "%d", moedas + pontos);
+	fclose(moedas_file);
 
 }
