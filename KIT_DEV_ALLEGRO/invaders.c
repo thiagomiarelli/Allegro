@@ -483,14 +483,22 @@ int main(int argc, char **argv){
 		else if(gameMode == 'p')
 		{	
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
+				printf("\n trying to get powerup file");
 				getPowerupData(powerup_file);
+				printf("\n sucess");
 				drawLoja(fundo_loja);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 1074, 122, 0, moedas_char);
+				printf("\n trying to drawpowerups");
 				preenchePowerUp();
+				printf("\n sucess");
 				if(moedas >= POWERUP_PRICE){
 					al_draw_bitmap(purchase_button, 986, 329, 0);
+					printf("trying button click");
 					if(buttonClick(ev.mouse.x,  ev.mouse.y, 984, 327, 1098, 327, 1098, 378, 984, 378)){
+						printf("\n click detected");
 						compraPowerup(powerup_file, 'h');
+						printf("\n powerupfile top");
+
 					}
 					al_draw_bitmap(purchase_button, 986, 543, 0);
 				} else {
