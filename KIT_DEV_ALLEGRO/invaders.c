@@ -183,7 +183,7 @@ int main(int argc, char **argv){
   }
 
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
-    ALLEGRO_FONT *splashFont = al_load_font("fonts/8bit", 40, 1);
+    ALLEGRO_FONT *splashFont = al_load_font("fonts/8bit.ttf", 40, 1);
 	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 28, 1);
 	if(splashFont == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
