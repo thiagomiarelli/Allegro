@@ -185,6 +185,8 @@ int main(int argc, char **argv){
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
     ALLEGRO_FONT *splashFont = al_load_font("fonts/8bit.ttf", 40, 1);
 	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 28, 1);
+	ALLEGRO_FONT *message = al_load_font("fonts/mensager.ttf", 16, 1);
+
 	if(splashFont == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
@@ -377,16 +379,11 @@ int main(int argc, char **argv){
 		{
 			printf("\n inicio do else");
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
-				printf("\n times iniciado");
 				al_clear_to_color(al_map_rgb(0,0,0));
-				printf("\n imprimir imagem");
 				al_draw_bitmap(end_game, 0, 0, 0);
-				printf("\n sucesso");
-				printf("\n imprimindo texto...");
 				al_draw_text(splashFont, al_map_rgb(255, 022, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
-				al_draw_text(comunication, al_map_rgb(255, 255, 255), 642, 230, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 642, 255, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 570, 435, 0, recorde_char);
-				printf("\nsucesso");
 				
 
 				al_flip_display();
