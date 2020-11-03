@@ -753,7 +753,7 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo){
 	if(modo == 'e'){
 		moedas_file = fopen("moedas.txt", "w");
 		fprintf(moedas_file, "%d", moedas + valor);
-		close(moedas_file);
+		fclose(moedas_file);
 	} else {
 		moedas_file = fopen("moedas.txt", "w");
 		fprintf(moedas_file, "%d", moedas - valor);
