@@ -79,6 +79,10 @@ typedef struct TIRO
 	//game screen
 	char gameMode = 's';
 
+	//loja
+	int moedas = 0;
+	FILE *moedas_file = NULL;
+
 
 //function prototypes
 void drawSpace(ALLEGRO_BITMAP *background);
@@ -102,6 +106,7 @@ void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
+void atualizaMoedas(FILE *moedas_file, int pontos);
 
 
 int main(int argc, char **argv){
@@ -213,14 +218,6 @@ int main(int argc, char **argv){
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	//registra na fila os eventos de mouse (ex: clicar em um botao do mouse)
 	al_register_event_source(event_queue, al_get_mouse_event_source());  	
-
-	//abre o arquivo de recordes
-	FILE *recorde_file;
-    recorde_file = fopen("recorde.txt", "r");
-	int recorde = 0;
-	fscanf(recorde_file, "%d", &recorde);
-	fclose(recorde_file);
-
 	
 	int playing = 1;
 	//inicia o temporizador
@@ -286,6 +283,7 @@ int main(int argc, char **argv){
     	recorde_file = fopen("recorde.txt", "r");
 		fscanf(recorde_file, "%d", &recorde);
 		fclose(recorde_file);
+
 
 		FILE *update_record;
 		update_record = fopen("recorde.txt", "w");
@@ -377,12 +375,15 @@ int main(int argc, char **argv){
 		//modo de jogo final
 		else if(gameMode == 'e')
 		{
+			// criacao da tela
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				al_clear_to_color(al_map_rgb(0,0,0));
+				// carrega a imagem de fundo
 				al_draw_bitmap(end_game, 0, 0, 0);
 				al_draw_text(splashFont, al_map_rgb(255, 022, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
-				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 326, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 570, 435, 0, recorde_char);
+				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 326, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
+
 				
 
 				al_flip_display();
@@ -661,6 +662,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 		for (j = 0; j < colunas; j++)
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
+				atualizaMoedas(moedas_file, points);
 				if(points >= recorde){
 					gameMode = 'r';
 					printf("\n declaracao de derrota");
@@ -710,5 +712,14 @@ void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 	altura = 0;
 	criaMatrizAliens(linhas, colunas, alien);
 	}
+
+}
+
+void atualizaMoedas(FILE *moedas_file, int pontos){
+	moedas_file = fopen("moedas.txt", "r");
+	fscanf(moedas_file, "%d", &moedas);
+	fclose(moedas_file);
+	moedas_file = fopen("moedas.txt", "w");
+	fprintf(moedas_file, "%d", moedas + pontos);
 
 }
