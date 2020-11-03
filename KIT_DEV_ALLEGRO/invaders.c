@@ -257,13 +257,21 @@ int main(int argc, char **argv){
 	printf("\n static images were uploaded");
 
 	
-	//audios
+	/* ----------> audios <----------- */
+	//audio samples carregados
 	 ALLEGRO_SAMPLE *tiro_sound = al_load_sample("soundtrack/tiro.ogg");
   	 ALLEGRO_SAMPLE *hit_sound = al_load_sample("soundtrack/hit.ogg");
   	 ALLEGRO_SAMPLE *begin_sound = al_load_sample("soundtrack/developers.ogg");
  	 ALLEGRO_SAMPLE *record_sound = al_load_sample("soundtrack/tiro.mp3");
-	 ALLEGRO_SAMPLE *theme = NULL;
-
+	
+	//background music
+	 ALLEGRO_SAMPLES *theme_song = al_load_sample("soundtrack/game_theme.mp3")
+	 ALLEGRO_SAMPLE_INSTANCE *theme_instance = al_create_sample_instance(theme_song);
+	 al_set_sample_instance_playmode(theme_instance, ALLEGRO_PLAYMODE_LOOP);
+	 al_set_sample_instance_gain(theme_instance, 0.4);
+	 al_attach_sample_instance_to_mixer(theme_instance, al_get_default_mixer()); 
+	al_play_sample_instance(theme_instance);
+	//number of channels playing simoutainously
 	 al_reserve_samples(5);
 	
 
@@ -301,6 +309,8 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
+				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+
 				
 			}
 
@@ -378,6 +388,7 @@ int main(int argc, char **argv){
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
 				points = 0;
+				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
 
 
@@ -572,7 +583,7 @@ int bateu(ALIEN *alien, TIRO *tiro){
 	int vertical_hit = 0;
 	int horizontal_hit = 0;
 	int existance = 0;
-	if(tiro -> y + tiro -> raio - (alien -> canto_y + ALIEN_H) <= 6 ){
+	if(tiro -> y - tiro -> raio - (alien -> canto_y + ALIEN_H) <= 2 ){
 		horizontal_hit = 1;
 	}
 
