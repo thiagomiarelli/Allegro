@@ -116,7 +116,7 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo);
 void drawLoja(ALLEGRO_BITMAP *background);
 void getPowerupData(FILE *powerups);
 int compraPowerup(FILE *powerups, char tipo);
-int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
 void preenchePowerUp();
 
 
@@ -489,7 +489,7 @@ int main(int argc, char **argv){
 				preenchePowerUp();
 				if(moedas >= POWERUP_PRICE){
 					al_draw_bitmap(purchase_button, 986, 329, 0);
-					if(buttonClick(ev, 984, 327, 1098, 327, 1098, 378, 984, 378)){
+					if(buttonClick(ev.mouse.x,  ev.mouse.y, 984, 327, 1098, 327, 1098, 378, 984, 378)){
 						compraPowerup(powerup_file, 'h');
 					}
 					al_draw_bitmap(purchase_button, 986, 543, 0);
@@ -832,7 +832,7 @@ int compraPowerup(FILE *powerups, char tipo){
 	return 1;
 }
 
-int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
+int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
 	int mouse_x = clique.mouse.x;
 	int mouse_y = clique.mouse.y;
 	if(mouse_x > x1 && mouse_x > x4 && mouse_x < x2 && mouse_x < x3 && mouse_y > y1 && mouse_y > y2 && mouse_y < y3 &&mouse_y < y4){
