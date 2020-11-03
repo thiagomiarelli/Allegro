@@ -249,7 +249,7 @@ int main(int argc, char **argv){
 
 
 	//imagens
-	ALLEGRO_BITMAP *splashImage, *background;
+	ALLEGRO_BITMAP *splashImage, *background, *new_record;
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
 	new_record = al_load_bitmap("images/endscreen.jpg");
@@ -395,7 +395,7 @@ int main(int argc, char **argv){
 
 				
 			}
-		}
+		
 
 	} //fim do while
      
@@ -626,7 +626,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 	{
 		for (j = 0; j < colunas; j++)
 		{
-			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
+			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				gameMode = 'e';
 				return;
 			}
