@@ -80,17 +80,6 @@ typedef struct TIRO
 	//game screen
 	char gameMode = 's';
 
-//audios declaration
-  ALLEGRO_SAMPLE_INSTANCE *tiro = NULL;
-  ALLEGRO_SAMPLE_INSTANCE *hit = NULL;
-  ALLEGRO_SAMPLE_INSTANCE *lost = NULL;
-  ALLEGRO_SAMPLE_INSTANCE *record = NULL;
-  ALLEGRO_SAMPLE *tiro_sound = NULL;
-  ALLEGRO_SAMPLE *hit_sound = NULL;
-  ALLEGRO_SAMPLE *lost_sound = NULL;
-  ALLEGRO_SAMPLE *record_sound = NULL;
-
-
 
 //function prototypes
 void drawSpace(ALLEGRO_BITMAP *background);
@@ -103,7 +92,7 @@ int testaCanto(ALIEN *alien);
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
 void criaAlien(ALIEN *alien, float x, float y);
 void updateTiro(TIRO *tiro);
-void atirar(TIRO *tiro, NAVE *nave);
+void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro);
 void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
@@ -178,6 +167,22 @@ int main(int argc, char **argv){
 		return -1;
 	}
 	
+	// Inicializa o audio //
+    if (!al_install_audio()){
+    fprintf(stderr, "Falha ao inicializar áudio.\n");
+    return false;
+  }
+
+    if (!al_init_acodec_addon()){
+    fprintf(stderr, "Falha ao inicializar codecs de áudio.\n");
+    return false;
+  }
+
+    if (!al_reserve_samples(1)){
+    fprintf(stderr, "Falha ao alocar canais de áudio.\n");
+    return false;
+  }
+
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
     ALLEGRO_FONT *splashFont = al_load_font("fonts/ethnocentricrg.ttf", 32, 1);
 	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 25, 1);
@@ -236,7 +241,7 @@ int main(int argc, char **argv){
 	int linhas = 4;
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
-	printf("\n SUCESSO");
+ 	printf("\n SUCESSO");
 
 
 	//cria tiro
@@ -253,9 +258,13 @@ int main(int argc, char **argv){
 
 	
 	//audios
-	ALLEGRO_SAMPLE *theme = NULL;
-    theme = al_load_sample("soundtrack/themesong.mp3"); 
-	al_play_sample(theme, 0.8, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+	 ALLEGRO_SAMPLE *tiro_sound = al_load_sample("soundtrack/tiro.mp3");
+  	 ALLEGRO_SAMPLE *hit_sound = al_load_sample("soundtrack/hit.mp3");
+  	 ALLEGRO_SAMPLE *begin_sound = al_load_sample("soundtrack/developers.mp3");
+ 	 ALLEGRO_SAMPLE *record_sound = al_load_sample("soundtrack/tiro.mp3");
+	 ALLEGRO_SAMPLE *theme = NULL;
+
+	 al_reserve_samples(4);
 
 
 	while(playing) {
@@ -344,7 +353,7 @@ int main(int argc, char **argv){
 	
 			// atira espaco
 			else if(ev.keyboard.keycode == 75){
-				atirar(&tiro, &nave);
+				atirar(&tiro, &nave, tiro_sound);
 				
 			}
 
@@ -378,13 +387,29 @@ int main(int argc, char **argv){
 
 	} //fim do while
      
+
 	//procedimentos de fim de jogo (fecha a tela, limpa a memoria, etc)
-	
- 
 	al_destroy_timer(timer);
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
+
+	// destroy bitmaps
+	al_destroy_bitmap(splashImage);
+	al_destroy_bitmap(background);
+	for (int i = 0; i < 3; i++)
+	{
+		al_destroy_bitmap(nave.nave_animation[i]);
+	}
+	for (int i = 0; i < 7; i++)
+	{
+		al_destroy_bitmap(alien.alien_options[i]);
+	}
    
+   //destroy samples
+   al_destroy_sample(hit_sound);
+   al_destroy_sample(lost_sound);
+   al_destroy_sample(record_sound);
+   al_destroy_sample(theme);
  
 	return 0;
 }
@@ -492,7 +517,7 @@ void drawTiro(TIRO *tiro){
 	al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, tiro->cor);
 }
 
-void atirar(TIRO *tiro, NAVE *nave){
+void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro){
 	//se houver outro tiro no ar, nao atire
 	if(tiro -> exist == 1){
 		printf("\n tiro bloqueado");
@@ -504,6 +529,7 @@ void atirar(TIRO *tiro, NAVE *nave){
 	tiro -> x = nave -> ponta_x;
 	tiro -> y = (SCREEN_H - FLUTACAO_NAVE);
 	tiro -> raio = raio_tiro; 
+	al_play_sample(tiro, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
 
 void updateTiro(TIRO *tiro){
