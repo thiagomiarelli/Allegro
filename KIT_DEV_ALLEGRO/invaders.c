@@ -265,12 +265,12 @@ int main(int argc, char **argv){
  	 ALLEGRO_SAMPLE *record_sound = al_load_sample("soundtrack/tiro.mp3");
 	
 	//background music
-	 ALLEGRO_SAMPLE *theme_song = al_load_sample("soundtrack/game_theme.mp3");
+	 ALLEGRO_SAMPLE *theme_song = al_load_sample("soundtrack/game_theme.ogg");
 	 ALLEGRO_SAMPLE_INSTANCE *theme_instance = al_create_sample_instance(theme_song);
 	 al_set_sample_instance_playmode(theme_instance, ALLEGRO_PLAYMODE_LOOP);
 	 al_set_sample_instance_gain(theme_instance, 0.4);
 	 al_attach_sample_instance_to_mixer(theme_instance, al_get_default_mixer()); 
-	al_play_sample_instance(theme_instance);
+	 al_play_sample_instance(theme_instance);
 	//number of channels playing simoutainously
 	 al_reserve_samples(5);
 	
@@ -583,7 +583,7 @@ int bateu(ALIEN *alien, TIRO *tiro){
 	int vertical_hit = 0;
 	int horizontal_hit = 0;
 	int existance = 0;
-	if(tiro -> y - tiro -> raio - (alien -> canto_y + ALIEN_H) <= 2 ){
+	if(abs((tiro -> y - tiro -> raio) - (alien -> canto_y + ALIEN_H)) <= 2 ){
 		horizontal_hit = 1;
 	}
 
