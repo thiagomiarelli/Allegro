@@ -484,6 +484,7 @@ int main(int argc, char **argv){
 				if(moedas >= POWERUP_PRICE){
 					al_draw_bitmap(purchase_button, 300, 220, 0);
 				}
+				al_flip_display();
 			}
 	
 		}
