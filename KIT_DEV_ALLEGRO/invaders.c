@@ -26,7 +26,7 @@ const int MARGIN_H = 40;
 const int QUEDA = 60;
 
 
-
+//VERSAO CHECKPOINT
 //type definitions
 typedef struct NAVE{
 	ALLEGRO_COLOR cor;
@@ -456,7 +456,6 @@ void drawNave(NAVE *nave, int frame){
 void criaAlien(ALIEN *alien, float x, float y){
 	alien -> canto_x = x;
 	alien -> canto_y = y;
-	alien -> cor = al_map_rgb(randInt(0,255), randInt(0,255), randInt(0,255));
 	alien -> exist = 1;
 	alien -> alien_options[0] = al_load_bitmap("images/fb_ship.png");
 	alien -> alien_options[1] = al_load_bitmap("images/am_ship.png");
@@ -583,7 +582,7 @@ int bateu(ALIEN *alien, TIRO *tiro){
 	int vertical_hit = 0;
 	int horizontal_hit = 0;
 	int existance = 0;
-	if((tiro -> y - tiro -> raio) <= (alien -> canto_y + ALIEN_H) && ((tiro -> y + tiro -> raio) > (alien -> canto_y + 3*ALIEN_H/4))){
+	if((tiro -> y - tiro -> raio) <= (alien -> canto_y + ALIEN_H) && ((tiro -> y + tiro -> raio) > (alien -> canto_y + 2*ALIEN_H/3))){
 		horizontal_hit = 1;
 	}
 
@@ -624,7 +623,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 	{
 		for (j = 0; j < colunas; j++)
 		{
-			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H - (float)(GROUND_H-4)) && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
+			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave)){
 				gameMode = 'e';
 				return;
 			}
