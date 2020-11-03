@@ -375,9 +375,9 @@ int main(int argc, char **argv){
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
 				al_draw_bitmap(new_record, 0, 0, 0);
-				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/2 - 50, 200, 0, pontos);
-				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, pontos);
-				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 120, 0, recorde_char);
+				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 618, 220, 0, pontos);
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 755, 444, 0, pontos);
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 558, 444, 0, recorde_char);
 				
 
 				al_flip_display();
