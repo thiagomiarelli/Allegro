@@ -400,10 +400,6 @@ int main(int argc, char **argv){
 	{
 		al_destroy_bitmap(nave.nave_animation[i]);
 	}
-	for (int i = 0; i < 7; i++)
-	{
-		al_destroy_bitmap(aliens.alien_options[i]);
-	}
    
    //destroy samples
    al_destroy_sample(hit_sound);
