@@ -381,7 +381,7 @@ int main(int argc, char **argv){
 				al_clear_to_color(al_map_rgb(0,0,0));
 				al_draw_bitmap(end_game, 0, 0, 0);
 				al_draw_text(splashFont, al_map_rgb(255, 022, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
-				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 270, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
+				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 326, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 570, 435, 0, recorde_char);
 				
 
