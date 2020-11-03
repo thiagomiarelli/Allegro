@@ -583,7 +583,7 @@ int bateu(ALIEN *alien, TIRO *tiro){
 	int vertical_hit = 0;
 	int horizontal_hit = 0;
 	int existance = 0;
-	if((tiro -> y - tiro -> raio) <= (alien -> canto_y + ALIEN_H) && ((tiro -> y + tiro -> raio) > (alien -> canto_y + 3*ALIEN_H/4)){
+	if((tiro -> y - tiro -> raio) <= (alien -> canto_y + ALIEN_H) && ((tiro -> y + tiro -> raio) > (alien -> canto_y + 3*ALIEN_H/4))){
 		horizontal_hit = 1;
 	}
 
