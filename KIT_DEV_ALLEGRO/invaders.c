@@ -84,9 +84,10 @@ typedef struct TIRO
 	//loja
 	int moedas = 0;
 	FILE *moedas_file = NULL;
+	FILE *powerup_file;
 	char moedas_char[7];
-	int horizontal_powerup = 2;
-	int tiro_powerup = 3;
+	int horizontal_powerup = 1;
+	int tiro_powerup = 1;
 
 
 //function prototypes
@@ -482,12 +483,19 @@ int main(int argc, char **argv){
 		else if(gameMode == 'p')
 		{	
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
+				getPowerupData(powerup_file);
 				drawLoja(fundo_loja);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 1074, 122, 0, moedas_char);
 				preenchePowerUp();
 				if(moedas >= POWERUP_PRICE){
 					al_draw_bitmap(purchase_button, 986, 329, 0);
+					if(buttonClick(ev, 984, 327, 1098, 327, 1098, 378, 984, 378)){
+						compraPowerup(powerup_file, 'h');
+					}
 					al_draw_bitmap(purchase_button, 986, 543, 0);
+				} else {
+					al_draw_bitmap(purchase_not_available, 986, 329, 0);
+					al_draw_bitmap(purchase_not_available, 986, 543, 0);
 				}
 				al_flip_display();
 			}
@@ -836,7 +844,7 @@ int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, in
 void preenchePowerUp(){
 	for (int i = 0; i < horizontal_powerup - 1; i++)
 	{
-		al_draw_filled_rectangle(610 + (62*i), 323, 670 + (62*i), 361,
+		al_draw_filled_rectangle(610 + (62*i), 324, 670 + (62*i), 360,
 		al_map_rgb(255, 255, 255));
 	}
 
