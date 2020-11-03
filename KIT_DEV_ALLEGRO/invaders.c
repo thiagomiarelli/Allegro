@@ -95,7 +95,7 @@ void updateTiro(TIRO *tiro);
 void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro_sound);
 void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
-void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], ALLEGRO_SAMPLE *hit_audio);
 int bateu(ALIEN *alien, TIRO *tiro);
 void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave);
 int perdeu_nave(ALIEN *alien, NAVE *nave);
@@ -318,7 +318,7 @@ int main(int argc, char **argv){
 				drawNave(&nave, (int)(al_get_timer_count(timer)));
 				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
-				colisao(&tiro, linhas, colunas, aliens);
+				colisao(&tiro, linhas, colunas, aliens, hit_sound);
 				repopulate(linhas, colunas, aliens);
 				perdeu(linhas, colunas, aliens, &nave);
 				al_flip_display();
@@ -542,7 +542,7 @@ void criaTiro(TIRO *tiro){
 	tiro -> exist = 0;
 }
 
-void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
+void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], ALLEGRO_SAMPLE *hit_audio){
 	//se bater no topo da tela
 	if(tiro -> y < 0){
 		tiro -> exist = 0;
@@ -558,6 +558,8 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]){
 				points++;
 				//quebra o loop
 				i = j = i + j;
+				al_play_sample(hit_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+
 				
 			}
 		}
