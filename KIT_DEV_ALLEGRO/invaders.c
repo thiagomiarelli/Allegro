@@ -96,7 +96,7 @@ void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], ALLEGRO_SAMPLE *hit_audio);
 int bateu(ALIEN *alien, TIRO *tiro);
-void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave);
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde);
 int perdeu_nave(ALIEN *alien, NAVE *nave);
 void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
@@ -283,14 +283,13 @@ int main(int argc, char **argv){
 		FILE *recorde_file;
     	recorde_file = fopen("recorde.txt", "r");
 		fscanf(recorde_file, "%d", &recorde);
-		printf("\n recorde: %d", recorde);
 		fclose(recorde_file);
 
 		FILE *update_record;
 		update_record = fopen("recorde.txt", "w");
 		testRecord(update_record, recorde, points);
 		fclose(update_record);
-		printf("\n recorde2: %d", recorde);
+	
 
 		char recorde_char[10];
 		itoa(recorde, recorde_char, 10);
@@ -337,7 +336,7 @@ int main(int argc, char **argv){
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens, hit_sound);
 				repopulate(linhas, colunas, aliens);
-				perdeu(linhas, colunas, aliens, &nave);
+				perdeu(linhas, colunas, aliens, &nave, recorde);
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -654,7 +653,7 @@ int perdeu_nave(ALIEN *alien, NAVE *nave){
 	
 }
 
-void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde){
 	//se bater na base
 	int i, j;
 	for (i = 0; i < linhas; i++)
@@ -663,7 +662,6 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				if(points >= recorde){
-					printf("pontos %d, record %d", points, recorde);
 					gameMode = 'r';
 					return;
 				} else {
