@@ -92,7 +92,7 @@ int testaCanto(ALIEN *alien);
 void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
 void criaAlien(ALIEN *alien, float x, float y);
 void updateTiro(TIRO *tiro);
-void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro);
+void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro_sound);
 void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas]);
@@ -402,12 +402,12 @@ int main(int argc, char **argv){
 	}
 	for (int i = 0; i < 7; i++)
 	{
-		al_destroy_bitmap(alien.alien_options[i]);
+		al_destroy_bitmap(aliens.alien_options[i]);
 	}
    
    //destroy samples
    al_destroy_sample(hit_sound);
-   al_destroy_sample(lost_sound);
+   al_destroy_sample(tiro_sound);
    al_destroy_sample(record_sound);
    al_destroy_sample(theme);
  
@@ -517,7 +517,7 @@ void drawTiro(TIRO *tiro){
 	al_draw_filled_circle(tiro -> x, tiro -> y, tiro -> raio, tiro->cor);
 }
 
-void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro){
+void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro_sound){
 	//se houver outro tiro no ar, nao atire
 	if(tiro -> exist == 1){
 		printf("\n tiro bloqueado");
@@ -529,7 +529,7 @@ void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro){
 	tiro -> x = nave -> ponta_x;
 	tiro -> y = (SCREEN_H - FLUTACAO_NAVE);
 	tiro -> raio = raio_tiro; 
-	al_play_sample(tiro, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+	al_play_sample(tiro_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
 
 void updateTiro(TIRO *tiro){
