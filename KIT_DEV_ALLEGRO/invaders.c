@@ -82,6 +82,7 @@ typedef struct TIRO
 	//loja
 	int moedas = 0;
 	FILE *moedas_file = NULL;
+	char moedas_char[7];
 
 
 //function prototypes
@@ -106,7 +107,7 @@ void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
-void atualizaMoedas(FILE *moedas_file, int pontos);
+void atualizaMoedas(FILE *moedas_file, int valor, char modo);
 
 
 int main(int argc, char **argv){
@@ -187,19 +188,7 @@ int main(int argc, char **argv){
     return false;
   }
 
-	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
-    ALLEGRO_FONT *splashFont = al_load_font("fonts/8bit.ttf", 40, 1);
-	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 28, 1);
-	ALLEGRO_FONT *message = al_load_font("fonts/mensager.ttf", 16, 1);
-
-	if(splashFont == NULL) {
-		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
-	}
-	if(comunication == NULL) {
-		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
-	}
-
- 	//cria a fila de eventos
+	//cria a fila de eventos
 	event_queue = al_create_event_queue();
 	if(!event_queue) {
 		fprintf(stderr, "failed to create event_queue!\n");
@@ -217,35 +206,51 @@ int main(int argc, char **argv){
 	//registra na fila os eventos de teclado (ex: pressionar uma tecla)
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	//registra na fila os eventos de mouse (ex: clicar em um botao do mouse)
-	al_register_event_source(event_queue, al_get_mouse_event_source());  	
+	al_register_event_source(event_queue, al_get_mouse_event_source());  
+
+
+
+
+
+
+
+
+
+
+	//----------------------- FONTES ---------------------------------------
+
+	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
+    ALLEGRO_FONT *splashFont = al_load_font("fonts/8bit.ttf", 40, 1);
+	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 28, 1);
+	ALLEGRO_FONT *message = al_load_font("fonts/mensager.ttf", 16, 1);
+
+	if(splashFont == NULL) {
+		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
+	}
+	if(comunication == NULL) {
+		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
+	}
 	
-	int playing = 1;
-	//inicia o temporizador
-	al_start_timer(timer);
 	
-	printf("\n trying to create images in NAVE...");
+	
+	//----------------------- CRIANDO VARIAVEIS DE JOGO ---------------------------------------
 
 	//cria a nave;
 	NAVE nave;
 	criaNave(&nave);
-
-
-	printf("\n SUCESS");
-	printf("\n trying to create images in ALIENS...");
-
 
 	//cria aliens
 	int colunas = 5;
 	int linhas = 4;
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
- 	printf("\n SUCESSO");
-
 
 	//cria tiro
 	TIRO tiro;
 	criaTiro(&tiro);
 
+	
+	//----------------------- IMAGENS ---------------------------------------
 
 	//imagens
 	ALLEGRO_BITMAP *splashImage, *background, *new_record, *end_game;
@@ -257,7 +262,9 @@ int main(int argc, char **argv){
 	printf("\n static images were uploaded");
 
 	
-	/* ----------> audios <----------- */
+
+
+	//----------------------- AUDIOS ---------------------------------------
 	//audio samples carregados
 	 ALLEGRO_SAMPLE *tiro_sound = al_load_sample("soundtrack/tiro.ogg");
   	 ALLEGRO_SAMPLE *hit_sound = al_load_sample("soundtrack/hit.ogg");
@@ -275,10 +282,21 @@ int main(int argc, char **argv){
 	 al_reserve_samples(5);
 	
 
+
+
+
+	//----------------------- LOOP PRINCIPAL ---------------------------------------
+
+
+	int playing = 1;
+	//inicia o temporizador
+	al_start_timer(timer);
+
 	while(playing) {
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 
+		/* ---------------> ARQUIVOS DE RECORDE E ATUALIZACAO <--------------- */
 		FILE *recorde_file;
     	recorde_file = fopen("recorde.txt", "r");
 		fscanf(recorde_file, "%d", &recorde);
@@ -293,17 +311,23 @@ int main(int argc, char **argv){
 
 		char recorde_char[10];
 		itoa(recorde, recorde_char, 10);
+		itoa(moedas, moedas_char, 10);
+
+
+		/* ---------------> pega cliques de mouse - debbuging <--------------- */
 
 		if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 				printf("\nmouse clicado em: %d, %d", ev.mouse.x, ev.mouse.y);
 			}
 
-		//se o tipo de evento for o fechamento da tela (clique no x da janela)
+
+		/* ---------------> FECHAR JANELA <--------------- */
 
 		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			playing = 0;
 		}
-		//modo de jogo splashscreen
+
+		/* ---------------> SPLASH SCREEN <--------------- */
 		else if(gameMode == 's'){
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -322,7 +346,9 @@ int main(int argc, char **argv){
 
 		
 		}
-		// modo de jogo "jogando"
+		
+
+		/* ---------------> JOGATINA <--------------- */
 		else if(gameMode == 'g')
 		{
 
@@ -372,7 +398,8 @@ int main(int argc, char **argv){
 			}
 
 		} 
-		//modo de jogo final
+		
+		/* ---------------> TELA FINAL SEM RECORDE <--------------- */
 		else if(gameMode == 'e')
 		{
 			// criacao da tela
@@ -382,6 +409,8 @@ int main(int argc, char **argv){
 				al_draw_bitmap(end_game, 0, 0, 0);
 				al_draw_text(splashFont, al_map_rgb(255, 022, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 570, 435, 0, recorde_char);
+				al_draw_text(comunication, al_map_rgb(255, 255, 255), 720, 435, 0, moedas_char);
+
 				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 326, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
 
 				
@@ -403,6 +432,7 @@ int main(int argc, char **argv){
 			}
 		}
 
+		/* ---------------> TELA FINAL RECORDE <--------------- */
 		else if(gameMode == 'r')
 		{
 
@@ -411,7 +441,7 @@ int main(int argc, char **argv){
 				al_clear_to_color(al_map_rgb(0,0,0));
 				al_draw_bitmap(new_record, 0, 0, 0);
 				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
-				al_draw_text(comunication, al_map_rgb(15, 15, 15), 730, 430, 0, pontos);
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 730, 430, 0, moedas_char);
 				al_draw_text(comunication, al_map_rgb(15, 15, 15), 558, 430, 0, recorde_char);
 				
 
@@ -662,7 +692,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 		for (j = 0; j < colunas; j++)
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
-				atualizaMoedas(moedas_file, points);
+				atualizaMoedas(moedas_file, points, 'e');
 
 				if(points > recorde){
 					gameMode = 'r';
@@ -716,12 +746,18 @@ void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]){
 
 }
 
-void atualizaMoedas(FILE *moedas_file, int pontos){
+void atualizaMoedas(FILE *moedas_file, int valor, char modo){
 	moedas_file = fopen("moedas.txt", "r");
 	fscanf(moedas_file, "%d", &moedas);
 	fclose(moedas_file);
-	moedas_file = fopen("moedas.txt", "w");
-	fprintf(moedas_file, "%d", moedas + pontos);
-	fclose(moedas_file);
+	if(modo == 'e'){
+		moedas_file = fopen("moedas.txt", "w");
+		fprintf(moedas_file, "%d", moedas + valor);
+		close(moedas_file);
+	} else {
+		moedas_file = fopen("moedas.txt", "w");
+		fprintf(moedas_file, "%d", moedas - valor);
+		close(moedas_file);
+	}
 
 }
