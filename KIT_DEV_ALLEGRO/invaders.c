@@ -26,7 +26,6 @@ const int MARGIN_H = 40;
 const int QUEDA = 60;
 
 
-//VERSAO CHECKPOINT
 //type definitions
 typedef struct NAVE{
 	ALLEGRO_COLOR cor;
@@ -184,8 +183,8 @@ int main(int argc, char **argv){
   }
 
 	//carrega o arquivo arial.ttf da fonte Arial e define que sera usado o tamanho 32 (segundo parametro)
-    ALLEGRO_FONT *splashFont = al_load_font("fonts/ethnocentricrg.ttf", 32, 1);
-	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 25, 1);
+    ALLEGRO_FONT *splashFont = al_load_font("fonts/8bit", 40, 1);
+	ALLEGRO_FONT *comunication = al_load_font("fonts/mensager.ttf", 28, 1);
 	if(splashFont == NULL) {
 		fprintf(stderr, "font file does not exist or cannot be accessed!\n");
 	}
@@ -253,6 +252,7 @@ int main(int argc, char **argv){
 	ALLEGRO_BITMAP *splashImage, *background;
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
+	new_record = al_load_bitmap("images/endscreen.jpg");
 
 	printf("\n static images were uploaded");
 
@@ -374,7 +374,8 @@ int main(int argc, char **argv){
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
-				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2, 0, "Looser");
+				al_draw_bitmap(splashImage, 0, 0, 0);
+				al_draw_text(splashFont, al_map_rgb(200, 0, 30), SCREEN_W/2, 300, 0, pontos);
 				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 80, 0, pontos);
 				al_draw_text(comunication, al_map_rgb(200, 0, 30), SCREEN_W/3, SCREEN_H/2 + 120, 0, recorde_char);
 				
@@ -407,6 +408,8 @@ int main(int argc, char **argv){
 	// destroy bitmaps
 	al_destroy_bitmap(splashImage);
 	al_destroy_bitmap(background);
+	al_destroy_bitmap(new_record);
+
 	for (int i = 0; i < 3; i++)
 	{
 		al_destroy_bitmap(nave.nave_animation[i]);
