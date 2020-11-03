@@ -116,7 +116,7 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo);
 void drawLoja(ALLEGRO_BITMAP *background);
 void getPowerupData(FILE *powerups);
 int compraPowerup(FILE *powerups, char tipo);
-int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
 void preenchePowerUp();
 
 
@@ -483,22 +483,14 @@ int main(int argc, char **argv){
 		else if(gameMode == 'p')
 		{	
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
-				printf("\n trying to get powerup file");
 				getPowerupData(powerup_file);
-				printf("\n sucess");
 				drawLoja(fundo_loja);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 1074, 122, 0, moedas_char);
-				printf("\n trying to drawpowerups");
 				preenchePowerUp();
-				printf("\n sucess");
 				if(moedas >= POWERUP_PRICE){
 					al_draw_bitmap(purchase_button, 986, 329, 0);
-					printf("trying button click");
-					if(buttonClick(ev.mouse.x,  ev.mouse.y, 984, 327, 1098, 327, 1098, 378, 984, 378)){
-						printf("\n click detected");
+					if(buttonClick(ev, 984, 327, 1098, 327, 1098, 378, 984, 378)){
 						compraPowerup(powerup_file, 'h');
-						printf("\n powerupfile top");
-
 					}
 					al_draw_bitmap(purchase_button, 986, 543, 0);
 				} else {
@@ -824,6 +816,7 @@ void getPowerupData(FILE *powerups){
 	fscanf(powerups, "%d", horizontal_powerup);
 	//quantidade de velocidade de tiro vertical comprado 
 	fscanf(powerups, "%d", tiro_powerup);
+	fclose(powerups);
 }
 
 int compraPowerup(FILE *powerups, char tipo){
@@ -835,13 +828,14 @@ int compraPowerup(FILE *powerups, char tipo){
 	else if(tipo == 't')
 		fprintf(powerups, "%d", horizontal_powerup, tiro_powerup + 1);
 	
-	return 0;
 	}
+	fclose(powerups);
 	return 1;
 }
 
-int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
-
+int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
+	int mouse_x = clique.mouse.x;
+	int mouse_y = clique.mouse.y;
 	if(mouse_x > x1 && mouse_x > x4 && mouse_x < x2 && mouse_x < x3 && mouse_y > y1 && mouse_y > y2 && mouse_y < y3 &&mouse_y < y4){
 		return 1;
 	}
