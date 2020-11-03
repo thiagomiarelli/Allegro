@@ -558,7 +558,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], 
 				points++;
 				//quebra o loop
 				i = j = i + j;
-				al_play_sample(hit_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+				al_play_sample(hit_audio, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 
 				
 			}
