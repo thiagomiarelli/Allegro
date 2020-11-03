@@ -258,14 +258,14 @@ int main(int argc, char **argv){
 
 	
 	//audios
-	 ALLEGRO_SAMPLE *tiro_sound = al_load_sample("soundtrack/tiro.mp3");
-  	 ALLEGRO_SAMPLE *hit_sound = al_load_sample("soundtrack/hit.mp3");
-  	 ALLEGRO_SAMPLE *begin_sound = al_load_sample("soundtrack/developers.mp3");
+	 ALLEGRO_SAMPLE *tiro_sound = al_load_sample("soundtrack/tiro.ogg");
+  	 ALLEGRO_SAMPLE *hit_sound = al_load_sample("soundtrack/hit.ogg");
+  	 ALLEGRO_SAMPLE *begin_sound = al_load_sample("soundtrack/developers.ogg");
  	 ALLEGRO_SAMPLE *record_sound = al_load_sample("soundtrack/tiro.mp3");
 	 ALLEGRO_SAMPLE *theme = NULL;
 
-	 al_reserve_samples(4);
-
+	 al_reserve_samples(1);
+	
 
 	while(playing) {
 		ALLEGRO_EVENT ev;
