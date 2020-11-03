@@ -357,6 +357,7 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 16){
 				gameMode = 'p';
+				printf("\ngamemode was swiched");
 				
 			}
 
@@ -480,7 +481,8 @@ int main(int argc, char **argv){
 
 		/* ---------------> TELA LOJA POWERUPS <--------------- */
 		else if(gameMode == 'p')
-		{
+		{	
+			printf("\n store gamemode");
 			drawLoja(fundo_loja);
 			if(moedas >= POWERUP_PRICE){
 				al_draw_bitmap(purchase_button, 300, 220, 0);
