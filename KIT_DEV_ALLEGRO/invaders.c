@@ -660,6 +660,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				if(points >= recorde){
+					printf("pontos %d, record %d", pontos, recorde);
 					gameMode = 'r';
 					return;
 				} else {
