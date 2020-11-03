@@ -481,8 +481,10 @@ int main(int argc, char **argv){
 		{	
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				drawLoja(fundo_loja);
+				al_draw_text(comunication, al_map_rgb(255, 255, 255), 1074, 122, 0, moedas_char);
 				if(moedas >= POWERUP_PRICE){
-					al_draw_bitmap(purchase_button, 300, 220, 0);
+					al_draw_bitmap(purchase_button, 986, 329, 0);
+					al_draw_bitmap(purchase_button, 986, 543, 0);
 				}
 				al_flip_display();
 			}
