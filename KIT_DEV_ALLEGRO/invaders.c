@@ -24,6 +24,8 @@ const int ALIEN_H = 54;
 const int MARGIN_W = 30;
 const int MARGIN_H = 40;
 const int QUEDA = 60;
+const int POWERUP_PRICE = 250;
+const int HORIZONTAL_POWERUP_VALUE = 5;
 
 
 //type definitions
@@ -83,8 +85,8 @@ typedef struct TIRO
 	int moedas = 0;
 	FILE *moedas_file = NULL;
 	char moedas_char[7];
-	int horizontal_powerup = 0;
-	int tiro_powerup = 0;
+	int horizontal_powerup = 1;
+	int tiro_powerup = 1;
 
 
 //function prototypes
@@ -259,12 +261,14 @@ int main(int argc, char **argv){
 	//----------------------- IMAGENS ---------------------------------------
 
 	//imagens
-	ALLEGRO_BITMAP *splashImage, *background, *new_record, *end_game, *fundo_loja;
+	ALLEGRO_BITMAP *splashImage, *background, *new_record, *end_game, *fundo_loja, *purchase_button, *purchase_not_available;
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
 	new_record = al_load_bitmap("images/endscreen.jpg");
 	end_game = al_load_bitmap("images/endscreen_nr.jpg");
 	fundo_loja = al_load_bitmap("images/LOJA.jpg");
+	purchase_button = al_load_bitmap("images/pricing.png");
+	purchase_not_available = al_load_bitmap("images/no-money.png");
 
 	printf("\n static images were uploaded");
 
@@ -351,6 +355,11 @@ int main(int argc, char **argv){
 				
 			}
 
+			else if(ev.keyboard.keycode == 16){
+				gameMode = 'p';
+				
+			}
+
 		
 		}
 		
@@ -385,7 +394,7 @@ int main(int argc, char **argv){
 			// faz nave andar para direita
 			else if(ev.keyboard.keycode == 83){
 				if(nave.ponta_x + velocidadeNave <= (SCREEN_W - NAVE_W/2)){
-					nave.ponta_x += velocidadeNave;
+					nave.ponta_x += (velocidadeNave + (HORIZONTAL_POWERUP_VALUE * horizontal_powerup)) ;
 				}
 				
 			}
@@ -468,6 +477,16 @@ int main(int argc, char **argv){
 				
 			}
 		}
+
+		/* ---------------> TELA LOJA POWERUPS <--------------- */
+		else if(gameMode == 'p')
+		{
+			drawLoja(fundo_loja);
+			if(moedas >= POWERUP_PRICE){
+				al_draw_bitmap(purchase_button, 300, 220, 0);
+			}
+		}
+		
 	} //fim do while
      
 
@@ -774,7 +793,6 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo){
 void drawLoja(ALLEGRO_BITMAP *background){
 	atualizaMoedas(moedas_file, 0, 'e');
 	al_draw_bitmap(background, 0, 0, 0);
-	IF
 }
 
 void getPowerupData(FILE *powerups){
@@ -786,9 +804,9 @@ void getPowerupData(FILE *powerups){
 }
 
 int compraPowerup(FILE *powerups, char tipo){
-	if(moedas >= 250){
+	if(moedas >= POWERUP_PRICE){
 	powerups = fopen("powerups.txt", "w");
-	atualizaMoedas(moedas_file, 250, 's');
+	atualizaMoedas(moedas_file, POWERUP_PRICE, 's');
 	if(tipo == 'h')
 		fprintf(powerups, "%d %d", horizontal_powerup + 1, tiro_powerup);
 	else if(tipo == 't')
