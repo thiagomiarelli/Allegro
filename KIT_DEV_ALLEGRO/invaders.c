@@ -290,6 +290,8 @@ int main(int argc, char **argv){
 		update_record = fopen("recorde.txt", "w");
 		testRecord(update_record, recorde, points);
 		fclose(update_record);
+		printf("\n recorde2: %d", recorde);
+
 		char recorde_char[10];
 		itoa(recorde, recorde_char, 10);
 
