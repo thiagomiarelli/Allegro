@@ -253,6 +253,7 @@ int main(int argc, char **argv){
 	splashImage = al_load_bitmap("images/splashscreen.jpg");
 	background = al_load_bitmap("images/background1.jpg");
 	new_record = al_load_bitmap("images/endscreen.jpg");
+	end_game = al_load_bitmap("images/endscreen_nr.jpg.jpg");
 
 	printf("\n static images were uploaded");
 
@@ -300,6 +301,7 @@ int main(int argc, char **argv){
 		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			playing = 0;
 		}
+		//modo de jogo splashscreen
 		else if(gameMode == 's'){
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
@@ -368,16 +370,17 @@ int main(int argc, char **argv){
 			}
 
 		} 
+		//modo de jogo final
 		else if(gameMode == 'e')
 		{
 
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
-				al_draw_bitmap(new_record, 0, 0, 0);
-				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 618, 175, 0, pontos);
-				al_draw_text(comunication, al_map_rgb(15, 15, 15), 730, 455, 0, pontos);
-				al_draw_text(comunication, al_map_rgb(15, 15, 15), 558, 455, 0, recorde_char);
+				al_draw_bitmap(end_game, 0, 0, 0);
+				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 642, 194, ALLEGRO_ALIGN_CENTER, pontos);
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 730, 435, 0, pontos);
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 558, 435, 0, recorde_char);
 				
 
 				al_flip_display();
@@ -397,6 +400,34 @@ int main(int argc, char **argv){
 			}
 		}
 
+		else if(gameMode == 'r')
+		{
+
+			if(ev.type == ALLEGRO_EVENT_TIMER) {
+				
+				al_clear_to_color(al_map_rgb(0,0,0));
+				al_draw_bitmap(new_record, 0, 0, 0);
+				al_draw_text(splashFont, al_map_rgb(255, 157, 0), 642, 194, ALLEGRO_ALIGN_CENTER, pontos);
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 730, 435, 0, pontos);
+				al_draw_text(comunication, al_map_rgb(15, 15, 15), 558, 435, 0, recorde_char);
+				
+
+				al_flip_display();
+
+				if(al_get_timer_count(timer)%(int)FPS == 0)
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
+			}
+
+			else if(ev.keyboard.keycode == 19){
+				gameMode = 'g';
+				points = 0;
+				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+				reinicia(linhas, colunas, aliens);
+
+
+				
+			}
+		}
 	} //fim do while
      
 
@@ -409,6 +440,7 @@ int main(int argc, char **argv){
 	al_destroy_bitmap(splashImage);
 	al_destroy_bitmap(background);
 	al_destroy_bitmap(new_record);
+	al_destroy_bitmap(end_game);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -627,8 +659,13 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave){
 		for (j = 0; j < colunas; j++)
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
-				gameMode = 'e';
-				return;
+				if(points >= recorde){
+					gameMode = 'r';
+					return;
+				} else {
+					gameMode = 'e';
+					return;
+				}
 			}
 		}
 		
