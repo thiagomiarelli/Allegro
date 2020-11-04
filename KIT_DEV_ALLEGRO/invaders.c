@@ -837,10 +837,10 @@ int compraPowerup(FILE *powerups, char tipo){
 }
 
 int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2){
-	if(mouse_x > x1 && mouse_x < x2 && mouse_y > y1 && mouse_x < y2){
+	if(mouse_y < y2){
 		return 1;
 	}
-	}
+	
 	return 0;
 }
 
@@ -851,7 +851,7 @@ void preenchePowerUp(){
 		al_map_rgb(255, 255, 255));
 	}
 
-	for (int i = 0; i < horizontal_powerup; i++)
+	for (int i = 0; i < tiro_powerup - 1; i++)
 	{
 		al_draw_filled_rectangle(604+ (62*i), 545, 664 + (62*i), 581,
 		al_map_rgb(255, 255, 255));
