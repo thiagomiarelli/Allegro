@@ -10,24 +10,6 @@
 #include <math.h>
 
 
-const float FPS = 60;  
-
-const int SCREEN_W = 1280;
-const int SCREEN_H = 720;
-const int GROUND_H = 60;
-const int NAVE_W = 80;
-const int FLUTACAO_NAVE = 110;
-const int DIST_NAVES_H = 30;
-const int DIST_NAVES_W = 30;
-const int ALIEN_W = 90;
-const int ALIEN_H = 54;
-const int MARGIN_W = 30;
-const int MARGIN_H = 40;
-const int QUEDA = 60;
-const int POWERUP_PRICE = 250;
-const int HORIZONTAL_POWERUP_VALUE = 5;
-
-
 //type definitions
 typedef struct NAVE{
 	ALLEGRO_COLOR cor;
@@ -56,6 +38,56 @@ typedef struct TIRO
 	int raio;
 
 } TIRO;
+
+
+
+//function prototypes
+void drawSpace(ALLEGRO_BITMAP *background);
+void criaNave(NAVE *nave);
+void drawNave(NAVE *nave, int frame);
+int randInt(int min, int max);
+void drawAlien(ALIEN *alien);
+void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds);
+int testaCanto(ALIEN *alien);
+void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
+void criaAlien(ALIEN *alien, float x, float y);
+void updateTiro(TIRO *tiro);
+void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro_sound);
+void drawTiro(TIRO *tiro);
+void criaTiro(TIRO *tiro);
+void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], ALLEGRO_SAMPLE *hit_audio);
+int bateu(ALIEN *alien, TIRO *tiro);
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde);
+int perdeu_nave(ALIEN *alien, NAVE *nave);
+void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void testRecord(FILE *file, int recorde, int pontos);
+void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
+void atualizaMoedas(FILE *moedas_file, int valor, char modo);
+void drawLoja(ALLEGRO_BITMAP *background);
+void getPowerupData(FILE *powerups);
+int compraPowerup(FILE *powerups, char tipo);
+int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2);
+void preenchePowerUp();
+
+// constants
+
+const float FPS = 60;  
+
+const int SCREEN_W = 1280;
+const int SCREEN_H = 720;
+const int GROUND_H = 60;
+const int NAVE_W = 80;
+const int FLUTACAO_NAVE = 110;
+const int DIST_NAVES_H = 30;
+const int DIST_NAVES_W = 30;
+const int ALIEN_W = 90;
+const int ALIEN_H = 54;
+const int MARGIN_W = 30;
+const int MARGIN_H = 40;
+const int QUEDA = 60;
+const int POWERUP_PRICE = 250;
+const int HORIZONTAL_POWERUP_VALUE = 5;
 
 //Global variables
 	// a altura da array de aliens
@@ -92,36 +124,6 @@ typedef struct TIRO
 	//frases finais
 	const char *frases_finais[10] = {"Em Deus nós acreditamos, todos os outros devem trazer dados.", "É... Todo mundo já teve um nude vazado né...", "Eu começaria a pesquisar essas coisas na aba anônima", "Não é nada que o Snowden não tenha visto antes", "Da próxima vez bate na porta.", "Você ia postar isso no twitter de qualquer jeito"};
 	int frase_sorteada = randInt(0, 5);
-
-
-//function prototypes
-void drawSpace(ALLEGRO_BITMAP *background);
-void criaNave(NAVE *nave);
-void drawNave(NAVE *nave, int frame);
-int randInt(int min, int max);
-void drawAlien(ALIEN *alien);
-void BuildAlienGrid(int linhas, int colunas, ALIEN alien[linhas][colunas], int seconds);
-int testaCanto(ALIEN *alien);
-void criaMatrizAliens(int linhas, int colunas, ALIEN aliens[linhas][colunas]);
-void criaAlien(ALIEN *alien, float x, float y);
-void updateTiro(TIRO *tiro);
-void atirar(TIRO *tiro, NAVE *nave, ALLEGRO_SAMPLE *tiro_sound);
-void drawTiro(TIRO *tiro);
-void criaTiro(TIRO *tiro);
-void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], ALLEGRO_SAMPLE *hit_audio);
-int bateu(ALIEN *alien, TIRO *tiro);
-void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde);
-int perdeu_nave(ALIEN *alien, NAVE *nave);
-void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-void testRecord(FILE *file, int recorde, int pontos);
-void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
-void atualizaMoedas(FILE *moedas_file, int valor, char modo);
-void drawLoja(ALLEGRO_BITMAP *background);
-void getPowerupData(FILE *powerups);
-int compraPowerup(FILE *powerups, char tipo);
-int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2);
-void preenchePowerUp();
 
 
 
