@@ -837,7 +837,6 @@ int compraPowerup(FILE *powerups, char tipo){
 }
 
 int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2){
-	if(clique.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 	if(mouse_x > x1 && mouse_x < x2 && mouse_y > y1 && mouse_x < y2){
 		return 1;
 	}
