@@ -89,6 +89,9 @@ typedef struct TIRO
 	int horizontal_powerup = 1;
 	int tiro_powerup = 1;
 
+	//frases finais
+	const char *frases_finais[10] = {"Em Deus nós acreditamos, todos os outros devem trazer dados.", "É... Todo mundo já teve um nude vazado né...", "Eu começaria a pesquisar essas coisas na aba anônima", "Não é nada que o Snowden não tenha visto antes", "Da próxima vez bate na porta.", "Você ia postar isso no twitter de qualquer jeito"};
+
 
 //function prototypes
 void drawSpace(ALLEGRO_BITMAP *background);
@@ -428,8 +431,8 @@ int main(int argc, char **argv){
 				al_draw_text(splashFont, al_map_rgb(255, 022, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 570, 435, 0, recorde_char);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 720, 435, 0, moedas_char);
-
-				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 326, ALLEGRO_ALIGN_CENTER, "Em Deus nos acreditamos, todos outros devem trazer dados");
+				randInt(0, 5);
+				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 326, ALLEGRO_ALIGN_CENTER, frases_finais[randInt]);
 
 				
 
