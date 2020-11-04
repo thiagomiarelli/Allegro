@@ -278,6 +278,7 @@ int main(int argc, char **argv){
 	criaTiro(&tiro);
 
 	TIRO tiro_alien;
+	tiro_alien.exist = 1;
 	criaTiroAlien(&tiro_alien);
 
 	//numero sorteado
@@ -941,10 +942,13 @@ void updateTiroAlien(TIRO *tiro){
 }
 
 void criaTiroAlien(TIRO *tiro){
-	tiro -> x = 0;
-	tiro -> y = 0;
-	tiro -> cor = al_map_rgb(255, 100, 0);
-	tiro -> exist = 0;
+	if(tiro-> exist = 0){
+		tiro -> x = 0;
+		tiro -> y = 0;
+		tiro -> cor = al_map_rgb(255, 100, 0);
+		tiro -> exist = 0;
+	}
+	
 }
 
 void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada){
