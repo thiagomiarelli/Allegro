@@ -79,6 +79,8 @@ void criaTiroAlien(TIRO *tiro);
 void alienAtira(TIRO *tiro, ALIEN *alien);
 void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer);
 void updateTiroAlien(TIRO *tiro);
+void colisaoTiroAlien(TIRO *tiro, NAVE *nave, *frase_sorteada);
+
 
 // constants
 
@@ -408,6 +410,8 @@ int main(int argc, char **argv){
 				//mecanismo de tiro do alien
 				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer));
 				updateTiroAlien(&tiro_alien);
+				colisaoTiroAlien(&tiro_alien, &nave, &frase_sorteada);
+
 
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
@@ -931,6 +935,8 @@ void updateTiroAlien(TIRO *tiro){
 	if(tiro -> exist == 1){
 		drawTiro(tiro);
 	}
+	if(tiro ->y > SCREEN_H)
+		tiro -> exist = 1;
 }
 
 void criaTiroAlien(TIRO *tiro){
@@ -938,4 +944,31 @@ void criaTiroAlien(TIRO *tiro){
 	tiro -> y = 0;
 	tiro -> cor = al_map_rgb(255, 100, 0);
 	tiro -> exist = 0;
+}
+
+void colisaoTiroAlien(TIRO *tiro, NAVE *nave, *frase_sorteada){
+	//se bater no topo da tela
+	if(tiro -> y < 0){
+		tiro -> exist = 0;
+	}
+	
+	if(tiro -> y > FLUTACAO_NAVE && (tiro -> x > (nave -> ponta_x - NAVE_W/2) && tiro -> x < (nave -> ponta_x + NAVE_W/2)){
+
+		atualizaMoedas(moedas_file, points, 'e');
+				srand(points);
+				*frase_sorteada = randInt(0, 5);
+				printf("\nfrase sorteada %d ", *frase_sorteada);
+
+
+				if(points >= recorde){
+					gameMode = 'r';
+					printf("\n declaracao de derrota");
+					return;
+				} else {
+					gameMode = 'e';
+					return;
+				}
+
+	}
+	
 }
