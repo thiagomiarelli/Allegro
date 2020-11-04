@@ -498,12 +498,12 @@ int main(int argc, char **argv){
 			}
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 				if(buttonClick(ev.mouse.x, ev.mouse.y, 984, 327, 1098, 378) && (horizontal_powerup <= 6)){
-						printf("botao clicado");
+						printf("\n botao superior clicado");
 						compraPowerup(powerup_file, 'h');
 				}
 
 				if(buttonClick(ev.mouse.x, ev.mouse.y, 984, 529, 1098, 620) && (tiro_powerup <= 6)){
-						printf("botao clicado");
+						printf("\n botao superior clicado");
 						compraPowerup(powerup_file, 't');
 				}
 			}
@@ -834,7 +834,7 @@ int compraPowerup(FILE *powerups, char tipo){
 	if(tipo == 'h')
 		fprintf(powerups, "%d %d", horizontal_powerup + 1, tiro_powerup);
 	else if(tipo == 't')
-		fprintf(powerups, "%d", horizontal_powerup, tiro_powerup + 1);
+		fprintf(powerups, "%d %d", horizontal_powerup, tiro_powerup + 1);
 	
 	}
 	fclose(powerups);
