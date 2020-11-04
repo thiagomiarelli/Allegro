@@ -279,7 +279,7 @@ int main(int argc, char **argv){
 
 	TIRO tiro_alien;
 	criaTiroAlien(&tiro_alien);
-	tiro_alien.exist = 1;
+	
 
 	//numero sorteado
 	int frase_sorteada = randInt(0, 5);
@@ -912,10 +912,6 @@ void preenchePowerUp(){
 
 void alienAtira(TIRO *tiro, ALIEN *alien){
 	//se houver outro tiro no ar, nao atire
-	if(tiro -> exist == 1){
-		printf("\n tiro bloqueado");
-		return;
-	}
 	tiro -> exist = 1;
 	tiro -> x = alien -> canto_x + ALIEN_W/2;
 	tiro -> y = alien -> canto_y + ALIEN_H;
@@ -927,7 +923,7 @@ void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][coluna
 	srand(points);
 	int i = randInt(0, linhas - 1);
 	int j = randInt(0, colunas - 1);
-	if(aliens[i][j].exist && (timer%(int)(1.5*FPS) == 0)){
+	if(aliens[i][j].exist && tiro ->exist && (timer%(int)(1.5*FPS) == 0)){
 		alienAtira(tiro, &aliens[i][j]);
 	}
 }
@@ -937,17 +933,15 @@ void updateTiroAlien(TIRO *tiro){
 	if(tiro -> exist == 1){
 		drawTiro(tiro);
 	}
-	if(tiro ->y > SCREEN_H)
-		tiro -> exist = 1;
+	if(tiro -> y > SCREEN_H)
+		tiro -> exist = 0;
 }
 
 void criaTiroAlien(TIRO *tiro){
-	if(tiro-> exist = 0){
-		tiro -> x = 0;
+		tiro -> x = -20;
 		tiro -> y = 0;
 		tiro -> cor = al_map_rgb(255, 100, 0);
 		tiro -> exist = 0;
-	}
 	
 }
 
