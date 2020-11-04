@@ -548,11 +548,14 @@ int main(int argc, char **argv){
 	al_destroy_bitmap(new_record);
 	al_destroy_bitmap(end_game);
 	al_destroy_bitmap(fundo_loja);
+	al_destroy_bitmap(purchase_button);
+	al_destroy_bitmap(purchase_not_available);
 
 	for (int i = 0; i < 3; i++)
 	{
 		al_destroy_bitmap(nave.nave_animation[i]);
 	}
+
    
    //destroy samples
    al_destroy_sample(hit_sound);
@@ -560,6 +563,12 @@ int main(int argc, char **argv){
    al_destroy_sample(record_sound);
    al_destroy_sample(theme_song);
    al_destroy_sample_instance(theme_instance);
+
+
+   //destroy fonts
+   al_destroy_font(splashFont);
+   al_destroy_font(comunication);
+   al_destroy_font(message);
  
 	return 0;
 }
