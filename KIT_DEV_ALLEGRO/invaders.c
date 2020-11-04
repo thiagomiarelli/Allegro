@@ -77,7 +77,7 @@ int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2);
 void preenchePowerUp();
 void criaTiroAlien(TIRO *tiro);
 void alienAtira(TIRO *tiro, ALIEN *alien);
-void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer);
+void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer, int timer_jogo);
 void updateTiroAlien(TIRO *tiro);
 void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada);
 
@@ -143,6 +143,7 @@ int main(int argc, char **argv){
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_TIMER *timer_game = NULL
    
 	//----------------------- rotinas de inicializacao ---------------------------------------
     
@@ -170,7 +171,10 @@ int main(int argc, char **argv){
 		fprintf(stderr, "failed to create timer!\n");
 		return -1;
 	}
- 
+	
+	//MARCA TEMPO DE JOGO
+	timer_game = al_create_timer(1.0);
+
 	//cria uma tela com dimensoes de SCREEN_W, SCREEN_H pixels
 	display = al_create_display(SCREEN_W, SCREEN_H);
 	if(!display) {
@@ -377,8 +381,10 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
+				al_destroy_timer(timer_game);
+				timer_game = al_create_timer(1.0);
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
-				criaTiroAlien(tiro);
+				criaTiroAlien(&tiro);
 
 
 				
@@ -411,7 +417,7 @@ int main(int argc, char **argv){
 				perdeu(linhas, colunas, aliens, &nave, recorde, &frase_sorteada);
 
 				//mecanismo de tiro do alien
-				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer));
+				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer), al_get_timer_count(timer_game));
 				updateTiroAlien(&tiro_alien);
 				colisaoTiroAlien(&tiro_alien, &nave, &frase_sorteada);
 
@@ -473,10 +479,12 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
+				al_destroy_timer(timer_game);
+				timer_game = al_create_timer(1.0);
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
-				criaTiroAlien(tiro);
+				criaTiroAlien(&tiro);
 
 
 
@@ -509,10 +517,12 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
+				al_destroy_timer(timer_game);
+				timer_game = al_create_timer(1.0);
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
-				criaTiroAlien(tiro);
+				criaTiroAlien(&tiro);
 
 			}
 
@@ -550,6 +560,8 @@ int main(int argc, char **argv){
 			}
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
+				al_destroy_timer(timer_game);
+				timer_game = al_create_timer(1.0);
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
@@ -923,12 +935,12 @@ void alienAtira(TIRO *tiro, ALIEN *alien){
 	tiro -> raio = raio_tiro; 
 }
 
-void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer){
+void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer, int timer_jogo){
 
 	srand(points);
 	int i = randInt(0, linhas - 1);
 	int j = randInt(0, colunas - 1);
-	if(aliens[i][j].exist && (timer%(int)(1.5*FPS) == 0)){
+	if(aliens[i][j].exist && (timer%(int)(1.5*FPS) == 0) && timer_jogo > 3){
 		alienAtira(tiro, &aliens[i][j]);
 		tiro -> exist = 1;
 	}
