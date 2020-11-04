@@ -278,8 +278,8 @@ int main(int argc, char **argv){
 	criaTiro(&tiro);
 
 	TIRO tiro_alien;
-	tiro_alien.exist = 1;
 	criaTiroAlien(&tiro_alien);
+	tiro_alien.exist = 1;
 
 	//numero sorteado
 	int frase_sorteada = randInt(0, 5);
