@@ -384,7 +384,7 @@ int main(int argc, char **argv){
 				al_destroy_timer(timer_game);
 				timer_game = al_create_timer(1.0);
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
-				criaTiroAlien(&tiro);
+				criaTiroAlien(&tiro_alien);
 
 
 				
@@ -484,7 +484,7 @@ int main(int argc, char **argv){
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
-				criaTiroAlien(&tiro);
+				criaTiroAlien(&tiro_alien);
 
 
 
@@ -522,7 +522,7 @@ int main(int argc, char **argv){
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
-				criaTiroAlien(&tiro);
+				criaTiroAlien(&tiro_alien);
 
 			}
 
