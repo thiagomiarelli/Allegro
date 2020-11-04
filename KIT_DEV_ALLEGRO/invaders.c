@@ -918,14 +918,11 @@ void alienAtira(TIRO *tiro, ALIEN *alien){
 
 void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer){
 
-	for(int i = 0; i < linhas; i++){
-		for (int j = 0; j < colunas; j++)
-		{
-			if(aliens[i][j].exist && (timer%(int)(2*FPS) == 0)){
-				alienAtira(tiro, &aliens[i][j]);
-			}
-		}
-		
+	srand(points);
+	int i = randInt(0, linhas - 1);
+	int j = randInt(0, colunas - 1);
+	if(aliens[i][j].exist && (timer%(int)(1.5*FPS) == 0)){
+		alienAtira(tiro, &aliens[i][j]);
 	}
 }
 
