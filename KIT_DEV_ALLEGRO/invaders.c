@@ -430,8 +430,6 @@ int main(int argc, char **argv){
 				
 			}
 
-		} 
-		
 		/* ---------------> TELA FINAL SEM RECORDE <--------------- */
 		else if(gameMode == 'e')
 		{
@@ -495,6 +493,9 @@ int main(int argc, char **argv){
 
 
 				
+			}
+			else if(ev.keyboard.keycode == 16){
+				gameMode = 'p';				
 			}
 		}
 		/* ---------------> TELA LOJA POWERUPS <--------------- */
