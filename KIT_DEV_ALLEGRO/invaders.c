@@ -417,7 +417,7 @@ int main(int argc, char **argv){
 				perdeu(linhas, colunas, aliens, &nave, recorde, &frase_sorteada);
 
 				//mecanismo de tiro do alien
-				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer), al_get_timer_count(timer_game));
+				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer), (int)(al_get_timer_count(timer_game));
 				updateTiroAlien(&tiro_alien);
 				colisaoTiroAlien(&tiro_alien, &nave, &frase_sorteada);
 
