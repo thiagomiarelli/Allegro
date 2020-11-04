@@ -763,6 +763,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				atualizaMoedas(moedas_file, points, 'e');
+				srand(points);
 				*frase_sorteada = randInt(0, 5);
 				printf("\nfrase sorteada %d ", *frase_sorteada);
 
