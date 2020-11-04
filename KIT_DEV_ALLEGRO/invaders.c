@@ -411,6 +411,7 @@ int main(int argc, char **argv){
 				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer));
 				updateTiroAlien(&tiro_alien);
 				colisaoTiroAlien(&tiro_alien, &nave, &frase_sorteada);
+				criaTiroAlien(tiro_alien);
 
 
 				al_flip_display();
