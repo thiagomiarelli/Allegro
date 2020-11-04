@@ -378,6 +378,8 @@ int main(int argc, char **argv){
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+				criaTiroAlien(tiro);
+
 
 				
 			}
@@ -474,6 +476,8 @@ int main(int argc, char **argv){
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
+				criaTiroAlien(tiro);
+
 
 
 				
@@ -508,6 +512,8 @@ int main(int argc, char **argv){
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
+				criaTiroAlien(tiro);
+
 			}
 
 			else if(ev.keyboard.keycode == 16){
@@ -953,7 +959,6 @@ void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada){
 	
 	if(((tiro -> y > FLUTACAO_NAVE && tiro -> y < SCREEN_H) && (tiro -> x > (nave -> ponta_x - NAVE_W/2) && tiro -> x < (nave -> ponta_x + NAVE_W/2))) && tiro ->exist){
 
-		criaTiroAlien(tiro);
 		atualizaMoedas(moedas_file, points, 'e');
 				srand(points);
 				*frase_sorteada = randInt(0, 5);
