@@ -276,7 +276,7 @@ int main(int argc, char **argv){
 	criaTiro(&tiro);
 
 	TIRO tiro_alien;
-	criaTiroAlien(tiro_alien);
+	criaTiroAlien(&tiro_alien);
 
 	//numero sorteado
 	int frase_sorteada = randInt(0, 5);
@@ -917,10 +917,11 @@ void alienAtira(TIRO *tiro, ALIEN *alien){
 }
 
 void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer){
+
 	for(int i = 0, i < linhas, i++){
 		for (int j = 0; j < colunas; j++)
 		{
-			if(aliens[i][j].exist && timer%(2*FPS) == 0){
+			if(aliens[i][j].exist && (timer%(2*FPS) == 0)){
 				alienAtira(tiro, alien[i][j]);
 			}
 		}
