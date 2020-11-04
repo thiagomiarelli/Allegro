@@ -32,6 +32,7 @@ typedef struct ALIEN{
 	ALLEGRO_BITMAP *skin;
 	ALLEGRO_BITMAP *alien_options[7];
 	int velocidadeTiro;
+	int pontuacao_value;
 
 } ALIEN;
 
@@ -617,6 +618,7 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> alien_options[5] = al_load_bitmap("images/tk_ship.png");
 	alien -> alien_options[6] = al_load_bitmap("images/tt_ship.png");
 	int skin_number = randInt(0, 6);
+	alien -> pontuacao_value = skin_number + 1;
 	alien -> skin = alien -> alien_options[skin_number];
 
 }
@@ -717,7 +719,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], 
 			if(bateu(&alien[i][j], tiro)){
 				alien[i][j].exist = 0;
 				tiro -> exist = 0;
-				points++;
+				points += alien[i][j].pontuacao_value;
 				//quebra o loop
 				i = j = i + j;
 				al_play_sample(hit_audio, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
