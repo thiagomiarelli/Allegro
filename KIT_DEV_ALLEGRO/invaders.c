@@ -489,16 +489,18 @@ int main(int argc, char **argv){
 				preenchePowerUp();
 				if(moedas >= POWERUP_PRICE){
 					al_draw_bitmap(purchase_button, 986, 329, 0);
-					if(buttonClick(ev, 984, 327, 1098, 378)){
-						printf("botao clicado");
-						compraPowerup(powerup_file, 'h');
-					}
 					al_draw_bitmap(purchase_button, 986, 543, 0);
 				} else {
 					al_draw_bitmap(purchase_not_available, 986, 329, 0);
 					al_draw_bitmap(purchase_not_available, 986, 543, 0);
 				}
 				al_flip_display();
+			}
+			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+				if(buttonClick(ev, 984, 327, 1098, 378)){
+						printf("botao clicado");
+						compraPowerup(powerup_file, 'h');
+				}
 			}
 	
 		}
@@ -838,7 +840,6 @@ int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2){
 	if(clique.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
 	int mouse_x = clique.mouse.x;
 	int mouse_y = clique.mouse.y;
-	printf("\nx=%d y=%d", mouse_x, mouse_y);
 	if(mouse_x > x1 && mouse_x < x2 && mouse_y > y1 && mouse_x < y2){
 		return 1;
 	}
