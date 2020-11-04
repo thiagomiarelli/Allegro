@@ -116,7 +116,7 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo);
 void drawLoja(ALLEGRO_BITMAP *background);
 void getPowerupData(FILE *powerups);
 int compraPowerup(FILE *powerups, char tipo);
-int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2);
+int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2);
 void preenchePowerUp();
 
 
@@ -497,7 +497,7 @@ int main(int argc, char **argv){
 				al_flip_display();
 			}
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
-				if(buttonClick(ev, 984, 327, 1098, 378)){
+				if(buttonClick(ev.mouse.x, ev.mouse.y, 984, 327, 1098, 378)){
 						printf("botao clicado");
 						compraPowerup(powerup_file, 'h');
 				}
@@ -836,10 +836,8 @@ int compraPowerup(FILE *powerups, char tipo){
 	return 1;
 }
 
-int buttonClick(ALLEGRO_EVENT clique, int x1, int y1, int x2, int y2){
+int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2){
 	if(clique.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
-	int mouse_x = clique.mouse.x;
-	int mouse_y = clique.mouse.y;
 	if(mouse_x > x1 && mouse_x < x2 && mouse_y > y1 && mouse_x < y2){
 		return 1;
 	}
