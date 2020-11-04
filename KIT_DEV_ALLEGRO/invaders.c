@@ -476,7 +476,7 @@ int main(int argc, char **argv){
 				al_flip_display();
 
 				if(al_get_timer_count(timer)%(int)FPS == 0)
-					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer_game);
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer_game)));
 			}
 
 			else if(ev.keyboard.keycode == 19){
