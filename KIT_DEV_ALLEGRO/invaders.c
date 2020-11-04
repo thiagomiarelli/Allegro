@@ -235,6 +235,8 @@ int main(int argc, char **argv){
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	//registra na fila os eventos de tempo: quando o tempo altera de t para t+1
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
+	al_register_event_source(event_queue, al_get_timer_event_source(timer_game));
+
 	//registra na fila os eventos de teclado (ex: pressionar uma tecla)
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	//registra na fila os eventos de mouse (ex: clicar em um botao do mouse)
@@ -383,6 +385,8 @@ int main(int argc, char **argv){
 				gameMode = 'g';
 				al_destroy_timer(timer_game);
 				timer_game = al_create_timer(1.0);
+				al_register_event_source(event_queue, al_get_timer_event_source(timer_game));
+
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				criaTiroAlien(&tiro_alien);
 
@@ -481,6 +485,8 @@ int main(int argc, char **argv){
 				gameMode = 'g';
 				al_destroy_timer(timer_game);
 				timer_game = al_create_timer(1.0);
+				al_register_event_source(event_queue, al_get_timer_event_source(timer_game));
+
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
