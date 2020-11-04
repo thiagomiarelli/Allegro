@@ -417,14 +417,14 @@ int main(int argc, char **argv){
 				perdeu(linhas, colunas, aliens, &nave, recorde, &frase_sorteada);
 
 				//mecanismo de tiro do alien
-				algumAtira(&tiro_alien, linhas, colunas, aliens, (int)al_get_timer_count(timer), (int)(al_get_timer_count(timer_game));
+				algumAtira(&tiro_alien, linhas, colunas, aliens, (int)al_get_timer_count(timer), (int)(al_get_timer_count(timer_game)));
 				updateTiroAlien(&tiro_alien);
 				colisaoTiroAlien(&tiro_alien, &nave, &frase_sorteada);
 
 
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
-					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer_game)));
 			}
 
 			//se o tipo de evento for um pressionar de uma tecla
