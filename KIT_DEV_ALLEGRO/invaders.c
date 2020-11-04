@@ -91,6 +91,7 @@ typedef struct TIRO
 
 	//frases finais
 	const char *frases_finais[10] = {"Em Deus nós acreditamos, todos os outros devem trazer dados.", "É... Todo mundo já teve um nude vazado né...", "Eu começaria a pesquisar essas coisas na aba anônima", "Não é nada que o Snowden não tenha visto antes", "Da próxima vez bate na porta.", "Você ia postar isso no twitter de qualquer jeito"};
+	int frase_sorteada = randInt(0, 5);
 
 
 //function prototypes
@@ -431,7 +432,6 @@ int main(int argc, char **argv){
 				al_draw_text(splashFont, al_map_rgb(255, 022, 0), 642, 185, ALLEGRO_ALIGN_CENTER, pontos);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 570, 435, 0, recorde_char);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 720, 435, 0, moedas_char);
-				int frase_sorteada = randInt(0, 5);
 				al_draw_text(message, al_map_rgb(15, 15, 15), 642, 326, ALLEGRO_ALIGN_CENTER, frases_finais[frase_sorteada]);
 
 				
@@ -758,6 +758,8 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				atualizaMoedas(moedas_file, points, 'e');
+				frase_sorteada = randInt(0, 5);
+
 
 				if(points >= recorde){
 					gameMode = 'r';
