@@ -400,8 +400,6 @@ int main(int argc, char **argv){
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
 
-			//se o tipo de evento for um clique de mouse
-			
 			//se o tipo de evento for um pressionar de uma tecla
 			else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 				//imprime qual tecla foi
@@ -491,9 +489,10 @@ int main(int argc, char **argv){
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
+			}
 
-
-				
+			else if(ev.keyboard.keycode == 16){
+				gameMode = 'p';				
 			}
 		}
 		/* ---------------> TELA LOJA POWERUPS <--------------- */
@@ -765,6 +764,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				atualizaMoedas(moedas_file, points, 'e');
 				*frase_sorteada = randInt(0, 5);
+				printf("\nfrase sorteada %d ", *frase_sorteada);
 
 
 				if(points >= recorde){
