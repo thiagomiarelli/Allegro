@@ -430,6 +430,8 @@ int main(int argc, char **argv){
 				
 			}
 
+		} 
+		
 		/* ---------------> TELA FINAL SEM RECORDE <--------------- */
 		else if(gameMode == 'e')
 		{
@@ -490,9 +492,6 @@ int main(int argc, char **argv){
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
-
-
-				
 			}
 			else if(ev.keyboard.keycode == 16){
 				gameMode = 'p';				
