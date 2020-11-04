@@ -32,6 +32,7 @@ typedef struct ALIEN{
 	ALLEGRO_BITMAP *skin;
 	ALLEGRO_BITMAP *alien_options[7];
 	int velocidadeTiro;
+	int pontuacao_equivalente;
 
 } ALIEN;
 
@@ -68,7 +69,6 @@ int perdeu_nave(ALIEN *alien, NAVE *nave);
 void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
-void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
 void atualizaMoedas(FILE *moedas_file, int valor, char modo);
 void drawLoja(ALLEGRO_BITMAP *background);
 void getPowerupData(FILE *powerups);
@@ -564,11 +564,6 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background){
-	// background jogo
-	splashImage = al_load_bitmap("images/splashscreen.jpg");
-	background = al_load_bitmap("images/background1.jpg");
-}
 
 void drawSpace(ALLEGRO_BITMAP *background){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -608,6 +603,7 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> alien_options[5] = al_load_bitmap("images/tk_ship.png");
 	alien -> alien_options[6] = al_load_bitmap("images/tt_ship.png");
 	int skin_number = randInt(0, 6);
+	alien -> pontuacao_equivalente = skin_number;
 	alien -> skin = alien -> alien_options[skin_number];
 
 }
@@ -708,7 +704,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], 
 			if(bateu(&alien[i][j], tiro)){
 				alien[i][j].exist = 0;
 				tiro -> exist = 0;
-				points++;
+				points += alien[i][j].pontuacao_equivalente;
 				//quebra o loop
 				i = j = i + j;
 				al_play_sample(hit_audio, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
@@ -836,6 +832,10 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo){
 		fprintf(moedas_file, "%d", moedas - valor);
 		fclose(moedas_file);
 	}
+
+	moedas_file = fopen("moedas.txt", "r");
+	fscanf(moedas_file, "%d", &moedas);
+	fclose(moedas_file);
 
 }
 
