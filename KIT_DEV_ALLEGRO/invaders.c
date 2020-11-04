@@ -922,7 +922,7 @@ void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][coluna
 		for (int j = 0; j < colunas; j++)
 		{
 			if(aliens[i][j].exist && (timer%(2*FPS) == 0)){
-				alienAtira(tiro, alien[i][j]);
+				alienAtira(&tiro, alien[i][j]);
 			}
 		}
 		
