@@ -918,7 +918,7 @@ void alienAtira(TIRO *tiro, ALIEN *alien){
 
 void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer){
 
-	for(int i = 0, i < linhas, i++){
+	for(int i = 0; i < linhas; i++){
 		for (int j = 0; j < colunas; j++)
 		{
 			if(aliens[i][j].exist && (timer%(2*FPS) == 0)){
