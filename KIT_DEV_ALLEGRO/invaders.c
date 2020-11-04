@@ -459,7 +459,7 @@ int main(int argc, char **argv){
 		/* ---------------> TELA FINAL SEM RECORDE <--------------- */
 		else if(gameMode == 'e')
 		{
-		al_stop_timer(ALLEGRO_TIMER *timer);
+		al_stop_timer(timer_game);
 			// criacao da tela
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				al_clear_to_color(al_map_rgb(0,0,0));
