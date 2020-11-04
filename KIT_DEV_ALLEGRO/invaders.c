@@ -32,7 +32,6 @@ typedef struct ALIEN{
 	ALLEGRO_BITMAP *skin;
 	ALLEGRO_BITMAP *alien_options[7];
 	int velocidadeTiro;
-	int pontuacao_equivalente;
 
 } ALIEN;
 
@@ -69,18 +68,13 @@ int perdeu_nave(ALIEN *alien, NAVE *nave);
 void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
 void repopulate(int linhas, int colunas, ALIEN alien[linhas][colunas]);
+void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background);
 void atualizaMoedas(FILE *moedas_file, int valor, char modo);
 void drawLoja(ALLEGRO_BITMAP *background);
 void getPowerupData(FILE *powerups);
 int compraPowerup(FILE *powerups, char tipo);
 int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2);
 void preenchePowerUp();
-void criaTiroAlien(TIRO *tiro);
-void alienAtira(TIRO *tiro, ALIEN *alien);
-void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer, int timer_jogo);
-void updateTiroAlien(TIRO *tiro);
-void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada);
-
 
 // constants
 
@@ -143,7 +137,6 @@ int main(int argc, char **argv){
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
-	ALLEGRO_TIMER *timer_game = NULL;
    
 	//----------------------- rotinas de inicializacao ---------------------------------------
     
@@ -171,10 +164,7 @@ int main(int argc, char **argv){
 		fprintf(stderr, "failed to create timer!\n");
 		return -1;
 	}
-	
-	//MARCA TEMPO DE JOGO
-	timer_game = al_create_timer(1.0);
-
+ 
 	//cria uma tela com dimensoes de SCREEN_W, SCREEN_H pixels
 	display = al_create_display(SCREEN_W, SCREEN_H);
 	if(!display) {
@@ -235,7 +225,6 @@ int main(int argc, char **argv){
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	//registra na fila os eventos de tempo: quando o tempo altera de t para t+1
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
-	al_register_event_source(event_queue, al_get_timer_event_source(timer_game));
 	//registra na fila os eventos de teclado (ex: pressionar uma tecla)
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	//registra na fila os eventos de mouse (ex: clicar em um botao do mouse)
@@ -278,13 +267,9 @@ int main(int argc, char **argv){
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
 
-	//cria tiros
+	//cria tiro
 	TIRO tiro;
 	criaTiro(&tiro);
-
-	TIRO tiro_alien;
-	criaTiroAlien(&tiro_alien);
-	
 
 	//numero sorteado
 	int frase_sorteada = randInt(0, 5);
@@ -382,10 +367,7 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-				al_start_timer(timer_game);
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
-				criaTiroAlien(&tiro_alien);
-
 
 				
 			}
@@ -408,25 +390,18 @@ int main(int argc, char **argv){
 				drawSpace(background);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
 				drawNave(&nave, (int)(al_get_timer_count(timer)));
-				BuildAlienGrid(linhas, colunas, aliens, al_get_timer_count(timer));
+				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
 				updateTiro(&tiro);
-
-				//checagem de colisao
 				colisao(&tiro, linhas, colunas, aliens, hit_sound);
 				repopulate(linhas, colunas, aliens);
 				perdeu(linhas, colunas, aliens, &nave, recorde, &frase_sorteada);
-
-				//mecanismo de tiro do alien
-				algumAtira(&tiro_alien, linhas, colunas, aliens, (int)al_get_timer_count(timer), (int)(al_get_timer_count(timer_game)));
-				updateTiroAlien(&tiro_alien);
-				colisaoTiroAlien(&tiro_alien, &nave, &frase_sorteada);
-
-
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
-					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer_game)));
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
 
+			//se o tipo de evento for um clique de mouse
+			
 			//se o tipo de evento for um pressionar de uma tecla
 			else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
 				//imprime qual tecla foi
@@ -459,8 +434,6 @@ int main(int argc, char **argv){
 		/* ---------------> TELA FINAL SEM RECORDE <--------------- */
 		else if(gameMode == 'e')
 		{
-			al_stop_timer(timer_game);
-
 			// criacao da tela
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				al_clear_to_color(al_map_rgb(0,0,0));
@@ -476,17 +449,14 @@ int main(int argc, char **argv){
 				al_flip_display();
 
 				if(al_get_timer_count(timer)%(int)FPS == 0)
-					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer_game)));
+					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
 			}
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-				al_start_timer(timer_game);
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
-				criaTiroAlien(&tiro_alien);
-
 
 
 				
@@ -499,8 +469,8 @@ int main(int argc, char **argv){
 
 		/* ---------------> TELA FINAL RECORDE <--------------- */
 		else if(gameMode == 'r')
-		{	
-			al_stop_timer(timer_game);
+		{
+
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
@@ -519,15 +489,11 @@ int main(int argc, char **argv){
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
 				points = 0;
-				al_start_timer(timer_game);
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
-				criaTiroAlien(&tiro_alien);
 
-			}
 
-			else if(ev.keyboard.keycode == 16){
-				gameMode = 'p';				
+				
 			}
 		}
 		/* ---------------> TELA LOJA POWERUPS <--------------- */
@@ -560,7 +526,6 @@ int main(int argc, char **argv){
 			}
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-				al_start_timer(timer_game);
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
@@ -599,6 +564,11 @@ int main(int argc, char **argv){
 	return 0;
 }
 
+void abreImagens(ALLEGRO_BITMAP *splashImage, ALLEGRO_BITMAP *background){
+	// background jogo
+	splashImage = al_load_bitmap("images/splashscreen.jpg");
+	background = al_load_bitmap("images/background1.jpg");
+}
 
 void drawSpace(ALLEGRO_BITMAP *background){
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -638,7 +608,6 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> alien_options[5] = al_load_bitmap("images/tk_ship.png");
 	alien -> alien_options[6] = al_load_bitmap("images/tt_ship.png");
 	int skin_number = randInt(0, 6);
-	alien -> pontuacao_equivalente = skin_number + 1;
 	alien -> skin = alien -> alien_options[skin_number];
 
 }
@@ -739,7 +708,7 @@ void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], 
 			if(bateu(&alien[i][j], tiro)){
 				alien[i][j].exist = 0;
 				tiro -> exist = 0;
-				points += alien[i][j].pontuacao_equivalente;
+				points++;
 				//quebra o loop
 				i = j = i + j;
 				al_play_sample(hit_audio, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
@@ -799,9 +768,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				atualizaMoedas(moedas_file, points, 'e');
-				srand(points);
 				*frase_sorteada = randInt(0, 5);
-				printf("\nfrase sorteada %d ", *frase_sorteada);
 
 
 				if(points >= recorde){
@@ -870,10 +837,6 @@ void atualizaMoedas(FILE *moedas_file, int valor, char modo){
 		fclose(moedas_file);
 	}
 
-	moedas_file = fopen("moedas.txt", "r");
-	fscanf(moedas_file, "%d", &moedas);
-	fclose(moedas_file);
-
 }
 
 void drawLoja(ALLEGRO_BITMAP *background){
@@ -924,67 +887,4 @@ void preenchePowerUp(){
 		al_draw_filled_rectangle(604+ (62*i), 545, 664 + (62*i), 581,
 		al_map_rgb(255, 255, 255));
 	}
-}
-
-void alienAtira(TIRO *tiro, ALIEN *alien){
-	//se houver outro tiro no ar, nao atire
-	tiro -> exist = 1;
-	tiro -> x = alien -> canto_x + ALIEN_W/2;
-	tiro -> y = alien -> canto_y + ALIEN_H;
-	tiro -> raio = raio_tiro; 
-}
-
-void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer, int timer_jogo){
-
-	srand(points);
-	int i = randInt(0, linhas - 1);
-	int j = randInt(0, colunas - 1);
-	if(aliens[i][j].exist && (timer%(int)(1.5*FPS) == 0) && timer_jogo > 3){
-		alienAtira(tiro, &aliens[i][j]);
-		tiro -> exist = 1;
-	}
-}
-
-void updateTiroAlien(TIRO *tiro){
-	tiro -> y += vel_tiro*0.5;
-	if(tiro -> exist == 1){
-		drawTiro(tiro);
-	}
-	if(tiro -> y > SCREEN_H)
-		tiro -> exist = 0;
-}
-
-void criaTiroAlien(TIRO *tiro){
-		tiro -> x = -20;
-		tiro -> y = 0;
-		tiro -> cor = al_map_rgb(255, 100, 0);
-		tiro -> exist = 0;
-	
-}
-
-void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada){
-	//se bater no topo da tela
-	if(tiro -> y < 0){
-		tiro -> exist = 0;
-	}
-	
-	if(((tiro -> y > FLUTACAO_NAVE && tiro -> y < SCREEN_H) && (tiro -> x > (nave -> ponta_x - NAVE_W/2) && tiro -> x < (nave -> ponta_x + NAVE_W/2))) && tiro ->exist){
-
-		atualizaMoedas(moedas_file, points, 'e');
-				srand(points);
-				*frase_sorteada = randInt(0, 5);
-				printf("\nfrase sorteada %d ", *frase_sorteada);
-
-
-				if(points >= recorde){
-					gameMode = 'r';
-					printf("\n declaracao de derrota");
-					return;
-				} else {
-					gameMode = 'e';
-					return;
-				}
-
-	}
-	
 }
