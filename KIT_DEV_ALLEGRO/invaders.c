@@ -397,7 +397,7 @@ int main(int argc, char **argv){
 				drawSpace(background);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
 				drawNave(&nave, (int)(al_get_timer_count(timer)));
-				BuildAlienGrid(linhas, colunas, aliens, al_get_timer_count(timer)));
+				BuildAlienGrid(linhas, colunas, aliens, al_get_timer_count(timer));
 				updateTiro(&tiro);
 
 				//checagem de colisao
@@ -406,8 +406,8 @@ int main(int argc, char **argv){
 				perdeu(linhas, colunas, aliens, &nave, recorde, &frase_sorteada);
 
 				//mecanismo de tiro do alien
-				algumAtira(tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer));
-				updateTiroAlien(tiro_alien);
+				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer));
+				updateTiroAlien(&tiro_alien);
 
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
