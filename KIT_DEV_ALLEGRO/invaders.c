@@ -236,7 +236,6 @@ int main(int argc, char **argv){
 	//registra na fila os eventos de tempo: quando o tempo altera de t para t+1
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer_game));
-
 	//registra na fila os eventos de teclado (ex: pressionar uma tecla)
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	//registra na fila os eventos de mouse (ex: clicar em um botao do mouse)
@@ -383,10 +382,7 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-				al_destroy_timer(timer_game);
-				timer_game = al_create_timer(1.0);
-				al_register_event_source(event_queue, al_get_timer_event_source(timer_game));
-
+				al_start_timer(timer_game);
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				criaTiroAlien(&tiro_alien);
 
@@ -463,7 +459,7 @@ int main(int argc, char **argv){
 		/* ---------------> TELA FINAL SEM RECORDE <--------------- */
 		else if(gameMode == 'e')
 		{
-			// criacao da tela
+al_stop_timer(ALLEGRO_TIMER *timer)			// criacao da tela
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				al_clear_to_color(al_map_rgb(0,0,0));
 				// carrega a imagem de fundo
@@ -483,9 +479,6 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-				al_destroy_timer(timer_game);
-				timer_game = al_create_timer(1.0);
-				al_register_event_source(event_queue, al_get_timer_event_source(timer_game));
 
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
@@ -504,8 +497,8 @@ int main(int argc, char **argv){
 
 		/* ---------------> TELA FINAL RECORDE <--------------- */
 		else if(gameMode == 'r')
-		{
-
+		{	
+			al_stop_timer(timer_game);
 			if(ev.type == ALLEGRO_EVENT_TIMER) {
 				
 				al_clear_to_color(al_map_rgb(0,0,0));
@@ -523,9 +516,8 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-				al_destroy_timer(timer_game);
-				timer_game = al_create_timer(1.0);
 				points = 0;
+				al_start_timer(timer_game);
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
 				criaTiroAlien(&tiro_alien);
@@ -566,8 +558,7 @@ int main(int argc, char **argv){
 			}
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-				al_destroy_timer(timer_game);
-				timer_game = al_create_timer(1.0);
+				al_start_timer(timer_game);
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
