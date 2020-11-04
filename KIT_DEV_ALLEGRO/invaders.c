@@ -480,7 +480,7 @@ int main(int argc, char **argv){
 
 			else if(ev.keyboard.keycode == 19){
 				gameMode = 'g';
-
+				al_start_timer(timer_game);
 				points = 0;
 				al_play_sample(begin_sound, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 				reinicia(linhas, colunas, aliens);
