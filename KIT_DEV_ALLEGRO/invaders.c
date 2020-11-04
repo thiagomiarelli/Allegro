@@ -957,7 +957,7 @@ void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada){
 		tiro -> exist = 0;
 	}
 	
-	if(tiro -> y > FLUTACAO_NAVE && (tiro -> x > (nave -> ponta_x - NAVE_W/2) && tiro -> x < (nave -> ponta_x + NAVE_W/2))){
+	if((tiro -> y > FLUTACAO_NAVE && (tiro -> x > (nave -> ponta_x - NAVE_W/2) && tiro -> x < (nave -> ponta_x + NAVE_W/2))) && tiro ->exist){
 
 		atualizaMoedas(moedas_file, points, 'e');
 				srand(points);
