@@ -75,6 +75,10 @@ void getPowerupData(FILE *powerups);
 int compraPowerup(FILE *powerups, char tipo);
 int buttonClick(int mouse_x, int mouse_y, int x1, int y1, int x2, int y2);
 void preenchePowerUp();
+void criaTiroAlien(TIRO *tiro);
+void alienAtira(TIRO *tiro, ALIEN *alien);
+void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer);
+void updateTiroAlien(TIRO *tiro);
 
 // constants
 
@@ -267,9 +271,12 @@ int main(int argc, char **argv){
 	ALIEN aliens[linhas][colunas];
 	criaMatrizAliens(linhas, colunas, aliens);
 
-	//cria tiro
+	//cria tiros
 	TIRO tiro;
 	criaTiro(&tiro);
+
+	TIRO tiro_alien;
+	criaTiroAlien(tiro_alien);
 
 	//numero sorteado
 	int frase_sorteada = randInt(0, 5);
@@ -390,11 +397,18 @@ int main(int argc, char **argv){
 				drawSpace(background);
 				al_draw_text(comunication, al_map_rgb(255, 255, 255), 50, SCREEN_H - 35, 0, pontos);
 				drawNave(&nave, (int)(al_get_timer_count(timer)));
-				BuildAlienGrid(linhas, colunas, aliens, (int)(al_get_timer_count(timer)/2));
+				BuildAlienGrid(linhas, colunas, aliens, al_get_timer_count(timer)));
 				updateTiro(&tiro);
+
+				//checagem de colisao
 				colisao(&tiro, linhas, colunas, aliens, hit_sound);
 				repopulate(linhas, colunas, aliens);
 				perdeu(linhas, colunas, aliens, &nave, recorde, &frase_sorteada);
+
+				//mecanismo de tiro do alien
+				algumAtira(tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer));
+				updateTiroAlien(tiro_alien);
+
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -602,7 +616,7 @@ void criaAlien(ALIEN *alien, float x, float y){
 	alien -> alien_options[5] = al_load_bitmap("images/tk_ship.png");
 	alien -> alien_options[6] = al_load_bitmap("images/tt_ship.png");
 	int skin_number = randInt(0, 6);
-	alien -> pontuacao_equivalente = skin_number;
+	alien -> pontuacao_equivalente = skin_number + 1;
 	alien -> skin = alien -> alien_options[skin_number];
 
 }
@@ -888,4 +902,42 @@ void preenchePowerUp(){
 		al_draw_filled_rectangle(604+ (62*i), 545, 664 + (62*i), 581,
 		al_map_rgb(255, 255, 255));
 	}
+}
+
+void alienAtira(TIRO *tiro, ALIEN *alien){
+	//se houver outro tiro no ar, nao atire
+	if(tiro -> exist == 1){
+		printf("\n tiro bloqueado");
+		return;
+	}
+	tiro -> exist = 1;
+	tiro -> x = alien -> canto_x + ALIEN_W/2;
+	tiro -> y = alien -> canto_y + ALIEN_H;
+	tiro -> raio = raio_tiro; 
+}
+
+void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer){
+	for(int i = 0, i < linhas, i++){
+		for (int j = 0; j < colunas; j++)
+		{
+			if(aliens[i][j].exist && timer%(2*FPS) == 0){
+				alienAtira(tiro, alien[i][j]);
+			}
+		}
+		
+	}
+}
+
+void updateTiroAlien(TIRO *tiro){
+	tiro -> y += vel_tiro*0.5;
+	if(tiro -> exist == 1){
+		drawTiro(tiro);
+	}
+}
+
+void criaTiroAlien(TIRO *tiro){
+	tiro -> x = 0;
+	tiro -> y = 0;
+	tiro -> cor = al_map_rgb(255, 100, 0);
+	tiro -> exist = 0;
 }
