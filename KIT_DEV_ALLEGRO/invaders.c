@@ -79,7 +79,7 @@ void criaTiroAlien(TIRO *tiro);
 void alienAtira(TIRO *tiro, ALIEN *alien);
 void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][colunas], int timer);
 void updateTiroAlien(TIRO *tiro);
-void colisaoTiroAlien(TIRO *tiro, NAVE *nave, *frase_sorteada);
+void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada);
 
 
 // constants
@@ -946,7 +946,7 @@ void criaTiroAlien(TIRO *tiro){
 	tiro -> exist = 0;
 }
 
-void colisaoTiroAlien(TIRO *tiro, NAVE *nave, *frase_sorteada){
+void colisaoTiroAlien(TIRO *tiro, NAVE *nave, int *frase_sorteada){
 	//se bater no topo da tela
 	if(tiro -> y < 0){
 		tiro -> exist = 0;
