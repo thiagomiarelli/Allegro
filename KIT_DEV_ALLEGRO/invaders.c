@@ -143,7 +143,7 @@ int main(int argc, char **argv){
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
-	ALLEGRO_TIMER *timer_game = NULL
+	ALLEGRO_TIMER *timer_game = NULL;
    
 	//----------------------- rotinas de inicializacao ---------------------------------------
     
