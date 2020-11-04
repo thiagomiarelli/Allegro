@@ -416,6 +416,21 @@ int main(int argc, char **argv){
 				
 			}
 
+			else if(ev.keyboard.keycode == 13){
+				for (int i = 0; i < linhas; i++)
+				{
+					for (int j = 0; j < colunas; j++)
+					{
+						int mudanca_skin = randInt(0, 6);
+						aliens[i][j].skin = aliens[i][j].alien_options[mudanca_skin];
+					}
+					
+				}
+				
+				
+				
+			}
+
 			// faz nave andar para esquerda
 			else if(ev.keyboard.keycode == 82){
 				if(nave.ponta_x - velocidadeNave >= (NAVE_W/2)){
