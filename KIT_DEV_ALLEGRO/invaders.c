@@ -57,7 +57,7 @@ void drawTiro(TIRO *tiro);
 void criaTiro(TIRO *tiro);
 void colisao(TIRO *tiro, int linhas, int colunas, ALIEN alien[linhas][colunas], ALLEGRO_SAMPLE *hit_audio);
 int bateu(ALIEN *alien, TIRO *tiro);
-void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde);
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde, int *frase_sorteada);
 int perdeu_nave(ALIEN *alien, NAVE *nave);
 void reinicia(int linhas, int colunas, ALIEN alien[linhas][colunas]);
 void testRecord(FILE *file, int recorde, int pontos);
@@ -123,7 +123,6 @@ const int HORIZONTAL_POWERUP_VALUE = 5;
 
 	//frases finais
 	const char *frases_finais[10] = {"Em Deus nós acreditamos, todos os outros devem trazer dados.", "É... Todo mundo já teve um nude vazado né...", "Eu começaria a pesquisar essas coisas na aba anônima", "Não é nada que o Snowden não tenha visto antes", "Da próxima vez bate na porta.", "Você ia postar isso no twitter de qualquer jeito"};
-	int frase_sorteada = randInt(0, 5);
 
 
 
@@ -266,6 +265,9 @@ int main(int argc, char **argv){
 	TIRO tiro;
 	criaTiro(&tiro);
 
+	//numero sorteado
+	int frase_sorteada = randInt(0, 5);
+
 	
 	//----------------------- IMAGENS ---------------------------------------
 
@@ -386,7 +388,7 @@ int main(int argc, char **argv){
 				updateTiro(&tiro);
 				colisao(&tiro, linhas, colunas, aliens, hit_sound);
 				repopulate(linhas, colunas, aliens);
-				perdeu(linhas, colunas, aliens, &nave, recorde);
+				perdeu(linhas, colunas, aliens, &nave, recorde, &frase_sorteada);
 				al_flip_display();
 				if(al_get_timer_count(timer)%(int)FPS == 0)
 					printf("\n%d segundos se passaram...", (int)(al_get_timer_count(timer)/FPS));
@@ -751,7 +753,7 @@ int perdeu_nave(ALIEN *alien, NAVE *nave){
 	
 }
 
-void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde){
+void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, int recorde, int *frase_sorteada){
 	//se bater na base
 	int i, j;
 	for (i = 0; i < linhas; i++)
@@ -760,7 +762,7 @@ void perdeu(int linhas, int colunas, ALIEN alien[linhas][colunas], NAVE *nave, i
 		{
 			if(((alien[i][j].canto_y + ALIEN_H > SCREEN_H && alien[i][j].exist) || perdeu_nave(&alien[i][j], nave))){
 				atualizaMoedas(moedas_file, points, 'e');
-				frase_sorteada = randInt(0, 5);
+				*frase_sorteada = randInt(0, 5);
 
 
 				if(points >= recorde){
