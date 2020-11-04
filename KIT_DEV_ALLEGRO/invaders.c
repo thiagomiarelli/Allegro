@@ -412,7 +412,6 @@ int main(int argc, char **argv){
 				algumAtira(&tiro_alien, linhas, colunas, aliens, al_get_timer_count(timer));
 				updateTiroAlien(&tiro_alien);
 				colisaoTiroAlien(&tiro_alien, &nave, &frase_sorteada);
-				criaTiroAlien(&tiro_alien);
 
 
 				al_flip_display();
@@ -923,8 +922,9 @@ void algumAtira(TIRO *tiro, int linhas, int colunas, ALIEN aliens[linhas][coluna
 	srand(points);
 	int i = randInt(0, linhas - 1);
 	int j = randInt(0, colunas - 1);
-	if(aliens[i][j].exist && tiro ->exist && (timer%(int)(1.5*FPS) == 0)){
+	if(aliens[i][j].exist && (timer%(int)(1.5*FPS) == 0)){
 		alienAtira(tiro, &aliens[i][j]);
+		tiro -> exist = 1;
 	}
 }
 
