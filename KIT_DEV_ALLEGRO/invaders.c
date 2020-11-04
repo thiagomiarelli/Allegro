@@ -1,3 +1,9 @@
+/* --------------
+       THIS COMMIT IS THE FINAL VERSION WITH STORE. EVERYTHING IS WORKING
+	   													----------------------- */
+
+
+
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
