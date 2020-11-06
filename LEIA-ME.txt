@@ -1,0 +1,5 @@
+Bom dia!
+Para compilar o jogo Data Invaders, no terminal, digite
+"make invaders.exe";
+
+Para executar, no diretório do arquivo, digite, "invaders"
